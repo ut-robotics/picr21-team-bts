@@ -9,7 +9,7 @@
 ### picr21-team-bts
 To this day nobody knows what B T S<sup>TM</sup> is or what means... 
 <sub>but maybe it means: break the solution? who knows!</sub>
-All we do is: Let's maek tha robit do The Thing!<sup>TM</sup>
+##### All we do is: Let's maek tha robit do The Thing!<sup>TM</sup>
 
 
 #### Team Logo:
