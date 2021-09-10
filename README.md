@@ -1,10 +1,10 @@
 # picr21-team-bts
 
 ## Repo Structure Overview:
-> Mechanics TBA
-> Electronics TBA
-> Programming TBA
-> Readme TBA
+- > Mechanics TBA
+- > Electronics TBA
+- > Programming TBA
+- > Readme TBA
 
 ### picr21-team-bts
 To this day nobody knows what B T S<sup>TM</sup> is or what means... 
