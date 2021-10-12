@@ -1,9 +1,9 @@
 # picr21-team-bts
 ###### ![image](https://user-images.githubusercontent.com/30321314/132842864-88c2c4f2-6b53-4bf2-b4de-b94aaf28764a.png)
 ## Repo Structure Overview:
-- > Mechanics TBA
-- > Electronics TBA
-- > Programming TBA
+- > Mechanics [https://a360.co/3uxbIpR Fusion 360]
+- > Electronics [https://github.com/ut-robotics/picr21-team-bts/tree/main/Electronics]
+- > Programming (https://github.com/ut-robotics/picr21-team-bts)
 - > Readme TBA
 
 ### picr21-team-bts
