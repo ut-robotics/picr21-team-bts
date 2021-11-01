@@ -79,7 +79,7 @@ try:
 		#sleep(1.05)
 		count += 1
 		#print('loop iteration =  ',count)
-	
+
 	print('Loop finished!')
 except Exception as e:
 	print(e)
