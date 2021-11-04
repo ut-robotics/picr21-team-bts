@@ -7,12 +7,13 @@ import time
 import numpy as np
 import cv2
 
+###camera???
 filters = {
    "min": [18, 131, 45], # HSV minimum values
    "max": [85, 255, 157]
 }
 
-
+###movement???
 def send_ms(ser,speeds): #unpack motorspeeds
     return send_motorspeeds(ser,speeds[0],speeds[1],speeds[2],speeds[3]) #returns motor data
 
@@ -37,6 +38,7 @@ thrower_speed = 0
 
 speeds = [5, 5, 5, 0]
 
+###Mainboard communication???
 ser = None
 try:
 	port='/dev/ttyACM1'
@@ -59,7 +61,7 @@ try:
 		#cv2.imshow("mask", mask)
 		mask = (mask > 128).reshape(12,40,16,40).sum(axis=(1,3))//8
 		print(mask.shape)
-		res = np.array(np.where(mask > 0))  
+		res = np.array(np.where(mask > 0))
 		print(res)
 		if(res.size<1):
 		    speeds = [5, 5, 5, 0]
@@ -69,7 +71,7 @@ try:
 		        speeds = [15, 0,-15, 0]
 		        print("Move forward")
 		    else:
-		        speeds = [5, 5, 5, 0]          
+		        speeds = [5, 5, 5, 0]
 		        print("Throw")
 		elif(np.max(res[1])<7 and np.max(res[0])<10):
 		    speeds = [3, 3, 3, 0]
@@ -78,7 +80,7 @@ try:
 		    speeds = [-3, -3, -3, 0]
 		    print("Rotate right")
 		else:
-		    speeds = [5, 5, 5, 0] 
+		    speeds = [5, 5, 5, 0]
 		motor_data = send_ms(ser,speeds)
 		time.sleep(0.05)
 		count += 1
@@ -87,4 +89,3 @@ except Exception as e:
 	print(e)
 if ser != None:
 	ser.close()
-
