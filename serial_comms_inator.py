@@ -19,13 +19,17 @@ def port_check():
         except Exception as e:
             print(e)
         finally:
+
             test_ser.close() # this was test comms to check which port worked so this channel needs to be closed after testing...
     print("Mainboard communication established successfully on port: ", the_port)
     return the_port
 
+
 data_size = struct.calcsize('<hhhH')
 
+
 mainboardPort = port_check()
+
 
 # class instance that handles mainboard communication neatly
 class Comm_Mainboard():
