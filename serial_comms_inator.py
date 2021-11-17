@@ -34,9 +34,6 @@ class MainboardComms():
         # communication established, keep channel open
         print("Mainboard communication established successfully on port: ", self.thePort)
 
-################################################################################################################################################
-################################################################################################################################################
-
     def SendCmd2Mbd(self, speed1, speed2, speed3, thrower_speed, disable_failsafe):
     
         try: # despite already having checked if the port is accessible, use try in case of HW failures
