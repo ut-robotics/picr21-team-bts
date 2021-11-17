@@ -2,11 +2,19 @@ import serial_comms_inator
 import maneuver_inator as move
 import math
 
-com = serial_comms_inator.Comm_Mainboard()
+
+
+'''
+This is the Thrower Management module for the B T S test robot.
+'''
+
+com = serial_comms_inator.MainboardComms()
+
 ### at thrower speed 120, it throws the ball for thrower distance
 ### at thrower speed ~80 it acts as ball holder
 
-########################################################################
+################################################################################################################################################
+################################################################################################################################################
 
 def Baller(robotSpeed, throwerRelativeRPM, failsafe):
     failsafe = 1
@@ -14,7 +22,8 @@ def Baller(robotSpeed, throwerRelativeRPM, failsafe):
     allMotorSpeeds = [robotSpeed, -robotSpeed, 0, throwerRelativeRPM] # forward
     com.SendCmd2Mbd(allMotorSpeeds[0], allMotorSpeeds[1], allMotorSpeeds[2], allMotorSpeeds[3], failsafe)
 
-########################################################################
+################################################################################################################################################
+################################################################################################################################################
 
 def MoveHoldBall(robotSpeed, failsafe):
     failsafe = 1
@@ -22,7 +31,8 @@ def MoveHoldBall(robotSpeed, failsafe):
     allMotorSpeeds = [robotSpeed, -robotSpeed, 0, 80] # index 0 = motor 1, index 1 = m2, 2 = m3, 3 = thrower motor
     com.SendCmd2Mbd(allMotorSpeeds[0], allMotorSpeeds[1], allMotorSpeeds[2], allMotorSpeeds[3], failsafe)
 
-########################################################################
+################################################################################################################################################
+################################################################################################################################################
 
 # function that takes distance to basket as input and returns thrower speed
 # 800 ... 39% ... ~1,5m
@@ -30,7 +40,7 @@ def MoveHoldBall(robotSpeed, failsafe):
 # 1200 ... 58,6% ... ~3m
 # 1800 ... 87,9% ... ~4,5m
 
-def speedFromDistanceToBasket(distanceToBasket): # single input variable: distanceToBasket [m], float
+def throwerSpeedFromDistanceToBasket(distanceToBasket): # single input variable: distanceToBasket [m], float
     
     # distance to basket values range from 0 to 5m
     throwerSpeed = 0 # default to zero [unitless], int
@@ -52,7 +62,8 @@ def speedFromDistanceToBasket(distanceToBasket): # single input variable: distan
     # return computed thrower speed integer
     return throwerSpeed # bon voyage, little green ball!
 
-########################################################################
+################################################################################################################################################
+################################################################################################################################################
 
 '''
 Allan: 

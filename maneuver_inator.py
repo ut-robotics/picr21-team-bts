@@ -2,9 +2,16 @@ import serial_comms_inator
 import math
 import numpy as np
 
-com = serial_comms_inator.Comm_Mainboard()
 
-########################################################################
+'''
+This is the Maneuever Processing module for the B T S test robot.
+'''
+
+
+com = serial_comms_inator.MainboardComms()
+
+################################################################################################################################################
+################################################################################################################################################
 
 def wheelLinearVelocity(robotSpeed, robotDirectionAngle, wheelAngle, wheelDistanceFromCenter, robotAngularVelocity):
 
@@ -12,48 +19,67 @@ def wheelLinearVelocity(robotSpeed, robotDirectionAngle, wheelAngle, wheelDistan
 
     wheelLinearVelocity = int(wheelLinearVelocity)
 
-    return wheelLinearVelocity #integer, [m/s]
+    return wheelLinearVelocity # mainboard units [~ m/s ~]
 
-########################################################################
+
+
+################################################################################################################################################
+################################################################################################################################################
+
+def calculateRelativeSpeed(deltaFactor, maxDeltaVal, minDeltaVal, maxDeltaSpeed, minAllowedSpeed, maxAllowedSpeed):
+    
+    absoluteDelta = abs(deltaFactor)
+    
+    if absoluteDelta < minDeltaVal:
+        return 0
+    
+    deltaFrac = deltaFactor / maxDeltaVal
+    absoluteDeltaFrac = abs(deltaFrac)
+    
+    sign = np.sign(deltaFrac)
+    normalizedDeltaFrac = sign * np.power(absoluteDeltaFrac, 2)
+    
+    relativeSpeed = int(normalizedDeltaFrac * maxDeltaSpeed)    
+    absoluteSpeed = abs(relativeSpeed)
+    
+    if absoluteSpeed >= minAllowedSpeed and absoluteSpeed <= maxAllowedSpeed: 
+        return relativeSpeed
+    
+    else:
+        return maxAllowedSpeed * sign 
+
+    if relativeSpeed > maxAllowedSpeed:
+        return relativeSpeed
+    
+    else:
+        return minAllowedSpeed * sign
+
+################################################################################################################################################
+################################################################################################################################################
 
 def allStop():
+    
     allMotorSpeeds = [0,0,0,0] # index 0 = motor 1, index 1 = m2, 2 = m3, 3 = thrower motor
+    
     com.SendCmd2Mbd(allMotorSpeeds[0], allMotorSpeeds[1], allMotorSpeeds[2], allMotorSpeeds[3], 0)
 
-########################################################################
+################################################################################################################################################
+################################################################################################################################################
 
-def forward(robotSpeed, failsafe):
-    allMotorSpeeds = [robotSpeed, -robotSpeed, 0, 0] # index 0 = motor 1, index 1 = m2, 2 = m3, 3 = thrower motor
-    com.SendCmd2Mbd(allMotorSpeeds[0], allMotorSpeeds[1], allMotorSpeeds[2], allMotorSpeeds[3], failsafe)
+# omni motion function that takes x and y robot speeds and computes robot speed and direction
+def omniPlanar(robotSpeedX, robotSpeedY, robotAngularVelocity, throwerRelativeRPM, failsafe):
+    
+    robotSpeed = np.hypot(robotSpeedX, robotSpeedY) # hypotenuse of x and y speeds
 
-def left(robotSpeed, failsafe):
-    allMotorSpeeds = [-0.5*robotSpeed, -0.5*robotSpeed, robotSpeed, 0] # index 0 = motor 1, index 1 = m2, 2 = m3, 3 = thrower motor
-    com.SendCmd2Mbd(allMotorSpeeds[0], allMotorSpeeds[1], allMotorSpeeds[2], allMotorSpeeds[3], failsafe)
-
-
-def right(robotSpeed, failsafe):
-    allMotorSpeeds = [0.5*robotSpeed, 0.5*robotSpeed, -robotSpeed, 0] # index 0 = motor 1, index 1 = m2, 2 = m3, 3 = thrower motor
-    com.SendCmd2Mbd(allMotorSpeeds[0], allMotorSpeeds[1], allMotorSpeeds[2], allMotorSpeeds[3], failsafe)
-
-########################################################################
-
-def backward(robotSpeed, failsafe):
-    allMotorSpeeds = [-robotSpeed, robotSpeed, 0, 0] # index 0 = motor 1, index 1 = m2, 2 = m3, 3 = thrower motor
-    com.SendCmd2Mbd(allMotorSpeeds[0], allMotorSpeeds[1], allMotorSpeeds[2], allMotorSpeeds[3], failsafe)
-
-########################################################################
-
-def omni_run(robotSpeedX, robotSpeedY, robotAngularVelocity, throwerRelativeRPM, failsafe):
-    robotSpeed = np.sqrt(robotSpeedX * robotSpeedX + robotSpeedY * robotSpeedY)
-
-    robotDirectionAngle = np.arctan2(robotSpeedY, robotSpeedX)
+    robotDirectionAngle = np.arctan2(robotSpeedY, robotSpeedX) # arc tangens of x and y speed is the desired travel direction
 
     allMotorSpeeds = [0, 0, 0, 0] # index 0 = motor 1, index 1 = m2, 2 = m3, 3 = thrower motor
-    wheelAngle = [240, 0, 120]
-    wheelDistanceFromCenter = 0.3 # [m]
+    
+    # physical constants wheel angle & distance from centre of robot
+    wheelAngle = [120, 240, 0]
+    wheelDistanceFromCenter = 0.28 # [m]
 
-    # next calculate linear velocities for each of the motors and save to allMotorSpeeds
-
+    # calculate linear velocities for each of the motors and save to allMotorSpeeds
     # MOTOR 1
     allMotorSpeeds[0] = wheelLinearVelocity(robotSpeed, robotDirectionAngle, wheelAngle[0], wheelDistanceFromCenter, robotAngularVelocity)
 
@@ -69,19 +95,17 @@ def omni_run(robotSpeedX, robotSpeedY, robotAngularVelocity, throwerRelativeRPM,
     # send allMotorSpeeds to new class instance that writes motor speeds to mainboard to execute
     com.SendCmd2Mbd(allMotorSpeeds[0], allMotorSpeeds[1], allMotorSpeeds[2], allMotorSpeeds[3], failsafe)
 
-########################################################################
+################################################################################################################################################
+################################################################################################################################################
 
-def omni(robotSpeed, robotDirectionAngle, robotAngularVelocity, throwerRelativeRPM, failsafe):
-    #robotSpeed = np.sqrt(robotSpeedX * robotSpeedX + robotSpeedY * robotSpeedY)
-
-    #robotDirectionAngle = np.arctan2(robotSpeedY, robotSpeedX)
+# omni motion function that takes preset robot speed and direction angles
+def omniDirect(robotSpeed, robotDirectionAngle, robotAngularVelocity, throwerRelativeRPM, failsafe):
 
     allMotorSpeeds = [0, 0, 0, 0] # index 0 = motor 1, index 1 = m2, 2 = m3, 3 = thrower motor
     wheelAngle = [120, 240, 0]
     wheelDistanceFromCenter = 0.28 # [m]
 
-    # next calculate linear velocities for each of the motors and save to allMotorSpeeds
-
+    # calculate linear velocities for each of the motors and save to allMotorSpeeds
     # MOTOR 1
     allMotorSpeeds[0] = wheelLinearVelocity(robotSpeed, robotDirectionAngle, wheelAngle[0], wheelDistanceFromCenter, robotAngularVelocity)
 
@@ -93,67 +117,10 @@ def omni(robotSpeed, robotDirectionAngle, robotAngularVelocity, throwerRelativeR
 
     # set thrower speed
     allMotorSpeeds[3] = int(throwerRelativeRPM)
-    #print(allMotorSpeeds)
+    
     # send allMotorSpeeds to new class instance that writes motor speeds to mainboard to execute
     com.SendCmd2Mbd(allMotorSpeeds[0], allMotorSpeeds[1], allMotorSpeeds[2], allMotorSpeeds[3], failsafe)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# function for sideaways movement
-def sideways():
-    #robotSpeed = sqrt(pow(sideSpeed, 2) + pow(fowardSpeed, 2))
-    #dir = atan2(sideSpeed, forwardspeed)
-    # side movement = (x - x3)/frameX*allMotorSpeeds
-    
-    #motorSpeed1 = robotSpeed * cos(dir - motorDir1)
-    #motorSpeed2 = robotSpeed * cos(dir - motorDir2)
-    #motorSpeed3 = robotSpeed * cos(dir - motorDir3)
-
-    com.SendCmd2Mbd(allMotorSpeeds[0], allMotorSpeeds[1], allMotorSpeeds[2], allMotorSpeeds[3], 0)
-
-# function for forward movement
-def forward():
-    #robotSpeed = sqrt(pow(sideSpeed, 2) + pow(fowardSpeed, 2))
-    #dir = atan2(sideSpeed, forwardspeed)
-    # forward movement = (y-y2)/frameY*allMotorSpeeds
-    
-    #motorSpeed1 = robotSpeed * cos(dir - motorDir1)
-    #motorSpeed2 = robotSpeed * cos(dir - motorDir2)
-    #motorSpeed3 = robotSpeed * cos(dir - motorDir3)
-
-    com.SendCmd2Mbd(allMotorSpeeds[0], allMotorSpeeds[1], allMotorSpeeds[2], allMotorSpeeds[3], 0)
-
-# function for stationary rotation
-def rotation():
-    #robotSpeed = sqrt(pow(sideSpeed, 2) + pow(fowardSpeed, 2))
-    #dir = atan2(sideSpeed, forwardspeed)
-    # rotation = (x-x2)/frameX*allMotorSpeeds
-    #motorSpeed1 = robotSpeed * cos(dir - motorDir1)
-    #motorSpeed2 = robotSpeed * cos(dir - motorDir2)
-    #motorSpeed3 = robotSpeed * cos(dir - motorDir3)
-
-    com.SendCmd2Mbd(allMotorSpeeds[0], allMotorSpeeds[1], allMotorSpeeds[2], allMotorSpeeds[3], 0)
+################################################################################################################################################
+################################################################################################################################################
