@@ -15,6 +15,14 @@ When run, a window is created featuring instructions, buttons and a text log of 
 
 ################################################################################################################################################
 ################################################################################################################################################
+def keyExitCaseInput(event):
+    delayTime = 0.01
+    throwerRelativeRPM = 0
+    robotSpeed = 30
+
+    keyPress = event.keysym.lower()
+    if keyPress == 'x':
+        closeAll()
 
 def keyInput(event):
     delayTime = 0.01
@@ -64,7 +72,7 @@ def keyInput(event):
         cmdLog.insert(0.0, msg)
         robotSpeed = 0
         robotDirectionAngle = 0
-        robotAngularVelocity = -30
+        robotAngularVelocity = -50
             
         move.omniDirect(robotSpeed, robotDirectionAngle, robotAngularVelocity, throwerRelativeRPM, failsafe)
         time.sleep(delayTime)
@@ -74,7 +82,7 @@ def keyInput(event):
         cmdLog.insert(0.0, msg)
         robotSpeed = 0
         robotDirectionAngle = 0
-        robotAngularVelocity = 30
+        robotAngularVelocity = 50
             
         move.omniDirect(robotSpeed, robotDirectionAngle, robotAngularVelocity, throwerRelativeRPM, failsafe)
         time.sleep(delayTime)
@@ -138,7 +146,7 @@ def toggleFailsafe():
         failsafeButton.config(relief="raised")
         failsafe = 0
     else:
-        failsafeButton.config(relief="sunken", background="red")
+        failsafeButton.config(relief="sunken")
         failsafe = 1
 
 gameLogicStart = False
@@ -151,17 +159,16 @@ def toggleGameLogic():
         gameLogicButton.config(relief="raised")
         gameLogicStart = False # game logic off, key inputs enabled
         disableButtonsToggle()
+
     else:
         gameLogicButton.config(relief="sunken")
         gameLogicStart = True # game logic on, disables other key inputs
         disableButtonsToggle()
+    print(f"\nGame Logic Start variable from GUI: {gameLogicStart}\n")
 
 targetColor = "magenta" # using magenta because pink is not available here: https://anzeljg.github.io/rin2/book2/2405/docs/tkinter/colors.html
 # 'pink' basket as default basket (setTarget variable in other modules)
 
-def getGameState():
-    global targetColor, gameLogicStart
-    return targetColor, gameLogicStart
 
 def toggleTargetBasket():
     
@@ -171,39 +178,41 @@ def toggleTargetBasket():
         targetBasketButton.config(relief="raised")
         targetColor = "magenta" # target pink basket
         targetBasketButton["text"] = targetColor
-        targetBasketButton["background"] = targetColor
+        #targetBasketButton["background"] = targetColor
         basketColor(targetColor)
     else:
         targetBasketButton.config(relief="sunken")
         targetColor = "blue" # target blue basket
         targetBasketButton["text"] = targetColor
-        targetBasketButton["background"] = targetColor
+        #targetBasketButton["background"] = targetColor
         basketColor(targetColor)
-
-
-def disableButtonsToggle():
-    if failsafeButton["state"] == "normal" and gameLogicStart == True:
-        failsafeButton["state"] = "disabled"
-        targetBasketButton["state"] = "disabled"
-        gameLogicButton["text"] = "Game Logic Enabled"
-        gameLogicButton["background"] = "green"
-    else:
-        failsafeButton["state"] = "enabled"
-        targetBasketButton["state"] = "enabled"
-        gameLogicButton["text"] = "Game Logic Disabled"
-        gameLogicButton["background"] = "red"
-
 
 def basketColor(targetColor): # https://anzeljg.github.io/rin2/book2/2405/docs/tkinter/create_rectangle.html
     basketCanvas.create_rectangle(20, 20, 80, 80, width=0, fill=targetColor)
     cmdLog.insert(0.0, targetColor+"\n")
+
+def disableButtonsToggle():
+    
+    global gameLogicStart, failsafe
+
+    if failsafeButton["state"] == "normal" and gameLogicStart == True:
+        failsafeButton.config(relief="raised")
+        failsafe = 0
+        failsafeButton["state"] = "disabled"
+        targetBasketButton["state"] = "disabled"
+        gameLogicButton["text"] = "Game Logic Enabled"
+        #gameLogicButton["background"] = "green"
+    else:
+        failsafeButton["state"] = "active"
+        targetBasketButton["state"] = "active"
+        gameLogicButton["text"] = "Game Logic Disabled"
+        #gameLogicButton["background"] = "red"
 
 # Function for closing window
 def closeAll():
     msg = "Shutting down.\n"
     cmdLog.insert(0.0, msg)
     print(msg)
-    toggleGameLogic()
     gameLogicStart = False
     move.allStop()
     time.sleep(0.05)
@@ -223,10 +232,8 @@ rootWindow.wm_title("B T S Control Panel")
 if gameLogicStart == False: # if game logic not toggled on, listen for manual commands
     rootWindow.bind_all('<Key>', keyInput) # this calls the key input loop for cmds
 
-
-pressedKeyCheck = event.keysym.lower()
-if pressedKeyCheck == 'x': # additional safety feature that listens for key x even when game logic is running
-    closeAll() # if x pressed, emergency stop
+elif gameLogicStart == True: # additional safety feature that listens for key x even when game logic is running
+    rootWindow.bind_all('<Key>', keyExitCaseInput)
 
 rootWindow.config(background="#35a0de")
 instructions = "\n w = forward \n d = right \n a = left \n s = back \n q = spin left \n e = spin right \n t = thrower \n space = stop \n f = toggle failsafe \n x = kill programme \n"
@@ -259,7 +266,7 @@ cmdLog.grid(row=2, column=0, padx=10, pady=2)
 btnFrame = Frame(rightFrame, width=200, height = 200)
 btnFrame.grid(row=1, column=0, padx=10, pady=2)
 
-exitBtn = Button(btnFrame, text="Exit", command=closeAll, font='bold')
+exitBtn = Button(btnFrame, text="Close & run game logic", command=closeAll, font='bold')
 exitBtn.grid(row=1, column=0, padx=10, pady=2)
 
 failsafeButton = Button(btnFrame, text="Toggle Failsafe", relief="raised", command=toggleFailsafe, font='bold')
@@ -268,9 +275,10 @@ failsafeButton.grid(row=1, column=1, padx=10, pady=2)
 gameLogicButton = Button(btnFrame, text="Game Logic Disabled", relief="raised", command=toggleGameLogic, font='bold')
 gameLogicButton.grid(row=1, column=2, padx=10, pady=2)
 
+basketColor(targetColor)
 targetBasketButton = Button(btnFrame, text="magenta", relief="raised", command=toggleTargetBasket, font='bold')
 #targetBasketButton = Button(btnFrame, text="Toggle Target", relief="raised", command=toggleTargetBasket, font='bold')
-targetBasketButton.grid(row=1, column=2, padx=10, pady=2)
+targetBasketButton.grid(row=1, column=3, padx=10, pady=2)
 
 ################################################################################################################################################
 ################################################################################################################################################
@@ -279,3 +287,7 @@ rootWindow.mainloop()
 
 ################################################################################################################################################
 ################################################################################################################################################
+#def getGameState():
+#    global targetColor, gameLogicStart
+#    return targetColor, gameLogicStart
+#getGameState()

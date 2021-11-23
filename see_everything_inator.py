@@ -44,11 +44,9 @@ class frameProcessor():
 
         self.lowerLimitHue, self.lowerLimitSaturation, self.lowerLimitValue, self.upperLimitHue, self.upperLimitSaturation, self.upperLimitValue = readThresholdValues("ballDefault.txt")
         
-        if self.setTarget == "blue":
-            self.lowerLimitHueBlue, self.lowerLimitSaturationBlue, self.lowerLimitValueBlue, self.upperLimitHueBlue, self.upperLimitSaturationBlue, self.upperLimitValueBlue = readThresholdValues("blueBasket.txt")
+        self.lowerLimitHueBlue, self.lowerLimitSaturationBlue, self.lowerLimitValueBlue, self.upperLimitHueBlue, self.upperLimitSaturationBlue, self.upperLimitValueBlue = readThresholdValues("blueBasket.txt")
         
-        else self.setTarget == "magenta":
-            self.lowerLimitHueMagenta, self.lowerLimitSaturationMagenta, self.lowerLimitValueMagenta, self.upperLimitHueMagenta, self.upperLimitSaturationMagenta, self.upperLimitValueMagenta = readThresholdValues("magentaBasket.txt")
+        self.lowerLimitHueMagenta, self.lowerLimitSaturationMagenta, self.lowerLimitValueMagenta, self.upperLimitHueMagenta, self.upperLimitSaturationMagenta, self.upperLimitValueMagenta = readThresholdValues("magentaBasket.txt")
 
         self.kernel = np.ones((5,5),np.uint8)
         
@@ -57,10 +55,9 @@ class frameProcessor():
         self.frame = None
 
 
-    def selectTarget(self, setTarget):
+    def selectTarget(self, getTarget):
         
-        self.setTarget = setTarget
-
+        self.setTarget = getTarget
 
     def ProcessFrame(self, pipeline, cameraX, cameraY):
         
@@ -94,7 +91,7 @@ class frameProcessor():
         ballThreshold = cv2.bitwise_not(ballThreshold)
         
         ballThreshold = cv2.erode(ballThreshold,self.kernel, iterations=1)
-        
+
         # blue basket threshold set up
         if self.setTarget == "blue": 
             basketlowerLimits = np.array([self.lowerLimitHueBlue, self.lowerLimitSaturationBlue, self.lowerLimitValueBlue])
@@ -126,10 +123,11 @@ class frameProcessor():
                 basketCenterY = int(y1 + (h/2))
                 
                 basketDistance = depthFrame.get_distance(basketCenterX, basketCenterY)
+                print(f"Distance to basket: {basketDistance}\n")
 
-        #cv2.imshow("ball", ballThreshold)
-        #cv2.imshow('ballThreshold', frame)
-        #cv2.imshow('test', basketWithThreshold)
+        cv2.imshow("Ball Threshold", ballThreshold)
+        cv2.imshow('Frame', frame)
+        cv2.imshow('Basket with Threshold', basketWithThreshold)
 
         keypoints = self.detector.detect(ballThreshold)
         
@@ -174,7 +172,7 @@ class RealSenseCameraManager():
         self.color_sensor.set_option(rs.option.enable_auto_white_balance, False)
         self.color_sensor.set_option(rs.option.white_balance, 3500)
         self.color_sensor.set_option(rs.option.exposure, 50)
-
+        print("\nCamera successfully initialized!\n")
     def stopAllStreams(self):
         # https://intelrealsense.github.io/librealsense/doxygen/classrs2_1_1pipeline.html#a142ee1adb798f9a03f86eb90895dd8a5
         self.pipeline.stop() # stop delivering samples
@@ -222,6 +220,7 @@ def readThresholdValues(filename):
                 upperLimitHue = int(thresholdValues[3])
                 upperLimitSaturation = int(thresholdValues[4])
                 upperLimitValue = int(thresholdValues[5])
+                print(f"\nSuccessfully read threshold values from {filename}\n")
                 return lowerLimitHue, lowerLimitSaturation, lowerLimitValue, upperLimitHue, upperLimitSaturation, upperLimitValue
             
             elif len(thresholdValues) != 6:

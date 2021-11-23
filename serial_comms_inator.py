@@ -7,10 +7,9 @@ import serial.tools.list_ports
 This is the Serial Communication Management module for the B T S test robot.
 '''
 
-
 ################################################################################################################################################
 ################################################################################################################################################
-
+'''
 # class instance that handles mainboard communication neatly
 class MainboardComms():
 
@@ -29,6 +28,7 @@ class MainboardComms():
                 self.receivedTestData = self.ser.read(self.dataSize)
                 self.testData = struct.unpack('<hhhH', self.receivedTestData)
                 self.thePort = self.testPort
+            
             except Exception as e:
                 print(e)
         # communication established, keep channel open
@@ -48,11 +48,11 @@ class MainboardComms():
     
         except Exception as e:
             raise e() # if HW failure happens, will likely raise this error at this point
-
-################################################################################################################################################
-################################################################################################################################################
-
 '''
+################################################################################################################################################
+################################################################################################################################################
+
+
 ### find all available ports, check which works for mainboard comms, return that port 
 def port_check():
     speed1 = speed2 = speed3 = thrower_speed = disable_failsafe = 0
@@ -78,4 +78,26 @@ def port_check():
 dataSize = struct.calcsize('<hhhH')
 
 mainboardPort = port_check()
-'''
+
+
+# class instance that handles mainboard communication neatly
+class MainboardComms():
+
+    def __init__(self): # using class constructor to iterate thru all ports and establish connection on correct port or raise error
+        
+        self.ser = serial.Serial(mainboardPort, baudrate = 115200, timeout = 2) # test serial port with provided port from list of ports available
+
+    def SendCmd2Mbd(self, speed1, speed2, speed3, thrower_speed, disable_failsafe):
+    
+        try: # despite already having checked if the port is accessible, use try in case of HW failures
+    
+            data = struct.pack('<hhhHBH', speed1, speed2, speed3, thrower_speed, disable_failsafe, 0xAAAA)
+    
+            self.ser.write(data)
+    
+            receivedData = self.ser.read(dataSize)
+    
+            data = struct.unpack('<hhhH', receivedData)
+    
+        except Exception as e:
+            raise e() # if HW failure happens, will likely raise this error at this point
