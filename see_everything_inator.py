@@ -59,7 +59,7 @@ class frameProcessor():
         
         self.setTarget = getTarget
 
-    def ProcessFrame(self, pipeline, cameraX, cameraY):
+    def ProcessFrame(self, pipeline, cameraX, cameraY, show):
         
         keypointCount = None
         ballY = None
@@ -124,10 +124,10 @@ class frameProcessor():
                 
                 basketDistance = depthFrame.get_distance(basketCenterX, basketCenterY)
                 print(f"Distance to basket: {basketDistance}\n")
-
-        cv2.imshow("Ball Threshold", ballThreshold)
-        cv2.imshow('Frame', frame)
-        cv2.imshow('Basket with Threshold', basketWithThreshold)
+        if show == True:
+            cv2.imshow("Ball Threshold", ballThreshold)
+            cv2.imshow('Frame', frame)
+            cv2.imshow('Basket with Threshold', basketWithThreshold)
 
         keypoints = self.detector.detect(ballThreshold)
         
