@@ -1,4 +1,4 @@
-import serial_comms_inator
+import serial_comms_inator as serial
 import math
 import numpy as np
 
@@ -8,7 +8,7 @@ This is the Maneuever Processing module for the B T S test robot.
 '''
 
 
-com = serial_comms_inator.MainboardComms()
+com = serial.MainboardComms()
 
 ################################################################################################################################################
 ################################################################################################################################################
