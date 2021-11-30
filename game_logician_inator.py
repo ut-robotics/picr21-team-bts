@@ -24,8 +24,8 @@ class State(Enum):
     AIM = 4 # orbit/rotate until aligned with basket centre
     THROW = 5 # execute throw (if hold used, may need 2 throws)
 
-eyeCam = eyes.RealSenseCameraManager() # fully preconfigures camera
-setTarget = "magenta" #set target basket "blue" or "magenta" (default)
+eyeCam = eyes.RealSenseCameraManager() # fully preconfigures camera using the class constructor call
+setTarget = "magenta" #set target basket "blue" or "magenta" (default value)
 sight = eyes.frameProcessor(setTarget) # create image core processing instance
 currentState = State.IDLE # default starting state
 FrameX = eyeCam.cameraX
@@ -58,33 +58,35 @@ def Hold(keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistan
 ################################################################################################################################################
 ################################################################################################################################################
 
+'''
+have memory of recent ball positions & confirm they existed
+could use up to 10 frames        
+relative motion straight towards the ball
+side movement: ((ballX - basketCenterX)/FrameX)*speed
+forward movement: ((ballY - midCamFrameY)/FrameY)*speed
+rotating movement: ((ballX - midCamFrameX)/FrameX)*speed
+'''
 def Drive(keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistance):
-        
+    
     if keypointCount > 0:
-        
-        # relative motion straight towards the ball
-
-        '''
-        side movement: ((ballX - basketCenterX)/FrameX)*speed
-        forward movement: ((ballY - midCamFrameY)/FrameY)*speed
-        rotating movement: ((ballX - midCamFrameX)/FrameX)*speed
-        '''
-
         speed = 30
         throwerRelativeRPM = 0
         failsafe = 0
-
-        forwardSpeed = ((ballY - FrameY/2)/FrameY)*speed
-        rotationSpeed = ((ballX - FrameX/2)/FrameX)*speed
+        # go to ball
+        forwardSpeed = (((ballY - FrameY))/FrameY)*speed
+        rotationSpeed = (((ballX - FrameX))/FrameX)*speed
+        #forwardSpeed = 0
         sideSpeed = 0 # robotSpeedX, robotSpeedY, robotAngularVelocity
 
         move.omniPlanar(sideSpeed, forwardSpeed, -rotationSpeed, throwerRelativeRPM, failsafe)
         
-        if 450 > ballY > 300 : # distance to ball condition for aim to start
-    
+        if 480 > ballY > 350 : # distance to ball condition for aim to start
+            #print("\t\t\t\t\t\t\tTHIS IS EXECUTING")
+            Aim(keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistance)
+            #move.allStop()
             return State.AIM
     
-    if keypointCount <= 0 or None:
+    elif keypointCount <= 0 or None:
     
         return State.FIND
 
@@ -96,18 +98,24 @@ def Drive(keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDista
 def Find(keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistance):
     
     # rotate left around robot central axis
-
+    '''
+    if you dont find ball in a few rotations, 
+    try moving towards a basket
+    then repeat rotations
+    '''
     robotSpeed = 0
     robotDirectionAngle = 0
-    robotAngularVelocity = 30
+    robotAngularVelocity = 50
     throwerRelativeRPM = 0
     failsafe = 0 
-
+    #print("\t\tSTATE FIND")
     move.omniDirect(robotSpeed, robotDirectionAngle, robotAngularVelocity, throwerRelativeRPM, failsafe)
     
     # if any balls found, set state DRIVE
 
-    if keypointCount >= 1:
+    #if keypointCount >= 1:
+    if ballX is not None and keypointCount >= 1:
+        #print("\t\t\tGO TO STATE DRIVE")
         Drive(keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistance)
         return State.DRIVE
     
@@ -123,39 +131,36 @@ def Aim(keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistanc
     forward movement: ((ballY - midCamFrameY)/FrameY)*speed
     rotating movement: ((ballX - midCamFrameX)/FrameX)*speed
     '''
-    basketInFrame = basketCenterX is not None
+    basketInFrame = basketCenterX is not 'NoneType'
+    #print("\t\tSTATE AIM ", basketInFrame)
 
-    if ballX is None :
-        return State.FIND
+    #if ballX is None :
+    #    return State.FIND
 
     speed = 30
-    if not basketInFrame: # orbit around ball until basket found
-        forwardSpeed = ((ballY - FrameY/2)/FrameY)*speed
-        sideSpeed = ((ballX - basketCenterX/2)/FrameX)*speed
-        rotationSpeed = ((ballX - FrameX/2)/FrameX)*speed
-        print("Basket not found, searching.\n")
+
+    if basketInFrame: # orbit around ball until basket found
+        forwardSpeed = ((ballY - FrameY)/FrameY)*speed
+        #sideSpeed = ((ballX - basketCenterX)/FrameX)*speed
+        sideSpeed = 0
+        rotationSpeed = ((ballX - FrameX)/FrameX)*speed
+        print("\t\tBasket not found, searching for basket.\n")
+        throwerRelativeRPM = 0
+        failsafe = 0
+        move.omniPlanar(sideSpeed, forwardSpeed, rotationSpeed, throwerRelativeRPM, failsafe)
     
     else: # basket is there, align with basket centre
-
-        print("Basket found, aiming.\n")
-        forwardSpeed = ((ballY - FrameY/2)/FrameY)*speed
-        sideSpeed = ((ballX - basketCenterX/2)/FrameX)*speed
-        rotationSpeed = ((ballX - FrameX/2)/FrameX)*speed
-    
-    throwerRelativeRPM = 0
-    failsafe = 0
-    
-     
-    move.omniPlanar(sideSpeed, forwardSpeed, rotationSpeed, throwerRelativeRPM, failsafe)
-    
-    # if ball is close to the robot and if the basket is centered to eyeCam x view, stop then throw the ball at basket 
-    
-    if basketInFrame and 315 <= basketCenterX <= 325 and ballY >= 410: 
-       
-       move.allStop()
-       
-       return State.THROW
-
+        print("\t\tBasket found, aiming.\n")
+        forwardSpeed = ((ballY - FrameY)/FrameY)*speed
+        sideSpeed = ((ballX - basketCenterX)/FrameX)*speed
+        rotationSpeed = ((ballX - FrameX)/FrameX)*speed
+        throwerRelativeRPM = 0
+        failsafe = 0
+        move.omniPlanar(sideSpeed, forwardSpeed, rotationSpeed, throwerRelativeRPM, failsafe)
+        # if ball is close to the robot and if the basket is centered to eyeCam x view, stop then throw the ball at basket 
+        if basketInFrame and 315 <= basketCenterX <= 325 and ballY >= 410: 
+            move.allStop()
+            return State.THROW
     return State.AIM
 
 ################################################################################################################################################
@@ -192,7 +197,7 @@ def Throw(keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDista
     if throwIterand >= 15: # revert to state find ball after throwing
         throwIterand = 0
         return State.FIND
-    
+    '''
     if keypointCount >= 1: # if balls are found, align with basket again
         
         basketInFrame = basketCenterX is not None
@@ -210,7 +215,7 @@ def Throw(keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDista
             rotationSpeed = ((ballX - FrameX/2)/FrameX)*speed
 
         move.omniPlanar(sideSpeed, forwardSpeed, rotationSpeed, throwerRelativeRPM, failsafe)
-    
+    '''
     if keypointCount <= 0:
 
         throwerRelativeRPM = throw.throwerSpeedFromDistanceToBasket(basketDistance)
@@ -232,7 +237,12 @@ def Idle(keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistan
 
 ################################################################################################################################################
 ################################################################################################################################################
+'''
+# utility functions: 
+# >>manual override ==> get gamestart from gui and/or from referree server
+# >>sanityBuffer ==> rolling buffer that return image processing output on each call
 
+'''
 def ManualOverride(): # use GUI to manually start/stop game logic using toggle button
 
     global sight, currentState
@@ -259,6 +269,38 @@ def ManualOverride(): # use GUI to manually start/stop game logic using toggle b
         
         print(e)
 
+bufferSize = 10 # this controls how many variable the buffer stores
+bufferDict = {
+    "keypointCount": [],
+    "ballX": [],
+    "ballY": [],
+    "basketCenterX": [],
+    "basketCenterY": [],
+    "basketDistance": []
+} # buffer dictionary
+# if you add output values from image processing, don't forget to add them to either dict as well!
+def sanityBuffer(keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistance):
+    outputDict = {
+    "keypointCount": keypointCount,
+    "ballX": ballX,
+    "ballY": ballY,
+    "basketCenterX": basketCenterX,
+    "basketCenterY": basketCenterY,
+    "basketDistance": basketDistance
+    } # output dictionary
+    for key in bufferDict.keys():
+        bufferDict[key].append(outputDict[key])            
+        if len(bufferDict[key]) > bufferSize:
+            del bufferDict[key][0]
+        summaErrata = []
+        for val in bufferDict[key]:
+            if val != 'TypeNone':
+                summaErrata.append(val)
+        if len(summaErrata) > 0:
+            outputDict[key] = summaErrata[-1]
+        else:
+            outputDict[key] = 'TypeNone'
+    return outputDict['keypointCount'], outputDict['ballX'], outputDict['ballY'], outputDict['basketCenterX'], outputDict['basketCenterY'], outputDict['basketDistance']
 ################################################################################################################################################
 ################################################################################################################################################
 
@@ -289,8 +331,23 @@ def GameLogic(stateSwitch):
             #print("GameLogicRunning")
             ManualOverride()
 
-            keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistance = sight.ProcessFrame(eyeCam.pipeline, eyeCam.cameraX, eyeCam.cameraY, show=True)
+            #keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistance = sight.ProcessFrame(eyeCam.pipeline, eyeCam.cameraX, eyeCam.cameraY, show=True)
+            #keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistance = sanityBuffer(keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistance)
             
+            # test this solution: ...if it fails, use the above code... if buffer fcn fails, bypass it until fixed
+            keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistance = sanityBuffer(sight.ProcessFrame(eyeCam.pipeline, eyeCam.cameraX, eyeCam.cameraY, show=True))
+            
+            '''
+            # may perhaps consider adding an encapsulation layer for the returned values to neatify the code a bit...
+            gameVals = [keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistance]
+            keypointCount = gameVals[0]
+            ballX = gameVals[1]
+            ballY = gameVals[2]
+            basketCenterX = gameVals[3]
+            basketCenterY = gameVals[4]
+            basketDistance = gameVals[5]
+            fieldLine = gameVals[6]
+            '''
             #print(f"\nHow many balls? {keypointCount}\n")
             #print(f"\nRobot state: {currentState}\n")
             

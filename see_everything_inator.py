@@ -90,7 +90,7 @@ class frameProcessor():
         # https://stackoverflow.com/questions/42410390/blob-detection-not-working
         ballThreshold = cv2.bitwise_not(ballThreshold)
         
-        ballThreshold = cv2.erode(ballThreshold,self.kernel, iterations=1)
+        #ballThreshold = cv2.erode(ballThreshold,self.kernel, iterations=1)
 
         # blue basket threshold set up
         if self.setTarget == "blue": 
@@ -110,37 +110,28 @@ class frameProcessor():
         
         if len(contours) > 0:
             contour = max(contours, key= cv2.contourArea)
-            
             if cv2.contourArea(contour) > 200:
-
                 cv2.drawContours(frame, contour, -1, 255, -1)
-                
                 x1, y1, w, h = cv2.boundingRect(contour)
-                
                 cv2.rectangle(frame,(x1,y1),(x1+w,y1+h),(0,255,0),3)
-                
                 basketCenterX = int(x1 + (w/2))
                 basketCenterY = int(y1 + (h/2))
-                
                 basketDistance = depthFrame.get_distance(basketCenterX, basketCenterY)
                 print(f"Distance to basket: {basketDistance}\n")
+        
         if show == True:
             cv2.imshow("Ball Threshold", ballThreshold)
             cv2.imshow('Frame', frame)
             cv2.imshow('Basket with Threshold', basketWithThreshold)
 
         keypoints = self.detector.detect(ballThreshold)
-        
         keypoints = sorted(keypoints, key=lambda kp:kp.size, reverse=True)
         
         if len(keypoints) >= 1:
-            
             ballX = keypoints[0].pt[0]
-            
             ballY = keypoints[0].pt[1]
-
+        
         keypointCount = len(keypoints)
-
         return keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistance
 
 ################################################################################################################################################

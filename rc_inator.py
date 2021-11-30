@@ -26,9 +26,9 @@ def BTSControlPanel():
     global gameLogicStart, failsafe, targetColor
 
     def keyInput(event):
-        delayTime = 0.01
+        delayTime = 0.005
         throwerRelativeRPM = 0
-        robotSpeed = 30
+        robotSpeed = 20
 
         keyPress = event.keysym.lower()
         if gameLogicStart == False:
@@ -260,7 +260,7 @@ def BTSControlPanel():
     ################################################################################################################################################
     ################################################################################################################################################
     
-    instructions = "\n Select target basket then click toggle game logic. \n Press exit to run game logic.\nw = forward \n d = right \n a = left \n s = back \n q = spin left \n e = spin right \n t = thrower \n space = stop \n f = toggle failsafe \n x = kill programme \n"
+    instructions = "\n Select target basket then click toggle game logic. \n Press Run game logic.\nw = forward \n d = right \n a = left \n s = back \n q = spin left \n e = spin right \n t = thrower \n space = stop \n f = toggle failsafe \n x = kill programme \n"
 
     #Left Frame and its contents
     leftFrame = Frame(rootWindow, width=200, height = 600)
