@@ -37,30 +37,30 @@ class Color(Enum):
 ################################################################################################################################################
 
 class frameProcessor():
-    
+
     def __init__(self, setTarget): # class constructor, initialization on instance creation
 
         self.setTarget = setTarget # magenta or blue
 
         self.lowerLimitHue, self.lowerLimitSaturation, self.lowerLimitValue, self.upperLimitHue, self.upperLimitSaturation, self.upperLimitValue = readThresholdValues("ballDefault.txt")
-        
+
         self.lowerLimitHueBlue, self.lowerLimitSaturationBlue, self.lowerLimitValueBlue, self.upperLimitHueBlue, self.upperLimitSaturationBlue, self.upperLimitValueBlue = readThresholdValues("blueBasket.txt")
-        
+
         self.lowerLimitHueMagenta, self.lowerLimitSaturationMagenta, self.lowerLimitValueMagenta, self.upperLimitHueMagenta, self.upperLimitSaturationMagenta, self.upperLimitValueMagenta = readThresholdValues("magentaBasket.txt")
 
         self.kernel = np.ones((5,5),np.uint8)
-        
+
         self.detector = createBlobDetector()
-        
+
         self.frame = None
 
 
     def selectTarget(self, getTarget):
-        
+
         self.setTarget = getTarget
 
     def ProcessFrame(self, pipeline, cameraX, cameraY, show):
-        
+
         keypointCount = None
         ballY = None
         ballX = None
@@ -73,7 +73,7 @@ class frameProcessor():
 
         # https://intelrealsense.github.io/librealsense/doxygen/classrs2_1_1align.html
         alignedFrame = rs.align(rs.stream.color).process(frames)
-        
+
         colorFrame = alignedFrame.get_color_frame()
         frame = np.asanyarray(colorFrame.get_data()) # using asanyarray from numpy to create save frame correctly every time
         depthFrame = alignedFrame.get_depth_frame()
@@ -89,17 +89,17 @@ class frameProcessor():
 
         # https://stackoverflow.com/questions/42410390/blob-detection-not-working
         ballThreshold = cv2.bitwise_not(ballThreshold)
-        
+
         #ballThreshold = cv2.erode(ballThreshold,self.kernel, iterations=1)
 
         # blue basket threshold set up
-        if self.setTarget == "blue": 
+        if self.setTarget == "blue":
             basketlowerLimits = np.array([self.lowerLimitHueBlue, self.lowerLimitSaturationBlue, self.lowerLimitValueBlue])
             basketupperLimits = np.array([self.upperLimitHueBlue, self.upperLimitSaturationBlue, self.upperLimitValueBlue])
 
             basketWithThreshold = cv2.inRange(hsv, basketlowerLimits, basketupperLimits)
             contours, hierarchy = cv2.findContours(basketWithThreshold, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-        
+
         # magenta basket threshold set up
         if self.setTarget == "magenta":
             basketlowerLimits = np.array([self.lowerLimitHueMagenta, self.lowerLimitSaturationMagenta, self.lowerLimitValueMagenta])
@@ -107,7 +107,7 @@ class frameProcessor():
 
             basketWithThreshold = cv2.inRange(hsv, basketlowerLimits, basketupperLimits)
             contours, hierarchy = cv2.findContours(basketWithThreshold, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-        
+
         if len(contours) > 0:
             contour = max(contours, key= cv2.contourArea)
             if cv2.contourArea(contour) > 200:
@@ -117,19 +117,19 @@ class frameProcessor():
                 basketCenterX = int(x1 + (w/2))
                 basketCenterY = int(y1 + (h/2))
                 basketDistance = depthFrame.get_distance(basketCenterX, basketCenterY)
-                        
+
         if show == True:
-            cv2.imshow("Ball Threshold", ballThreshold)
+            #cv2.imshow("Ball Threshold", ballThreshold)
             cv2.imshow('Frame', frame)
-            cv2.imshow('Basket with Threshold', basketWithThreshold)
+            #cv2.imshow('Basket with Threshold', basketWithThreshold)
 
         keypoints = self.detector.detect(ballThreshold)
         keypoints = sorted(keypoints, key=lambda kp:kp.size, reverse=True)
-        
+
         if len(keypoints) >= 1:
             ballX = keypoints[0].pt[0]
             ballY = keypoints[0].pt[1]
-        
+
         keypointCount = len(keypoints)
         return keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistance
 
@@ -137,15 +137,15 @@ class frameProcessor():
 ################################################################################################################################################
 
 class RealSenseCameraManager():
-    
+
     def __init__(self): # class constructor, initialization on instance call
-        
+
         self.cameraX = 640 # camera ballX px size
         self.cameraY = 480 # camera ballY px size
-        
+
         self.pipeline = rs.pipeline() # create realsense pipeline
         self.config = rs.config() # https://intelrealsense.github.io/librealsense/doxygen/classrs2_1_1config.html
-        
+
         # https://intelrealsense.github.io/librealsense/doxygen/classrs2_1_1config.html#a7eac7c16b12a10f70ca93db62779ec1e
         # stream color and depth attributes
         # https://intelrealsense.github.io/librealsense/python_docs/_generated/pyrealsense2.stream.html
@@ -155,7 +155,7 @@ class RealSenseCameraManager():
 
         # https://intelrealsense.github.io/librealsense/doxygen/classrs2_1_1pipeline.html#a858f263affc80f76c5b7c9f062309ede
         self.profile = self.pipeline.start(self.config)
-                
+
         # https://github.com/Akustav/image_processing_testing/blob/master/camera.py
         self.color_sensor = self.profile.get_device().query_sensors()[1]
         self.color_sensor.set_option(rs.option.enable_auto_exposure, False)
@@ -182,13 +182,13 @@ def createBlobDetector(): # https://learnopencv.com/blob-detection-using-opencv-
     params.maxArea = 100000000 # set max area to a large value
 
     params.minDistBetweenBlobs = 50
-    
+
     params.filterByCircularity = False # dont filter by how circular samples are
-    
+
     params.filterByInertia = False # cant filter by circularity or elipsoidicity as aspect views are not constant
-    
+
     params.filterByConvexity = False # Area of the Blob / Area of it’s convex hull
-    
+
     detector = cv2.SimpleBlobDetector_create(params) # create object detector with the above blob detector parameters
     return detector
 
@@ -203,7 +203,7 @@ def readThresholdValues(filename):
 
             thresholdValues = reader.readline().split(",")
 
-            if len(thresholdValues) == 6: 
+            if len(thresholdValues) == 6:
                 lowerLimitHue = int(thresholdValues[0])
                 lowerLimitSaturation = int(thresholdValues[1])
                 lowerLimitValue = int(thresholdValues[2])
@@ -212,7 +212,7 @@ def readThresholdValues(filename):
                 upperLimitValue = int(thresholdValues[5])
                 print(f"\nSuccessfully read threshold values from {filename}\n")
                 return lowerLimitHue, lowerLimitSaturation, lowerLimitValue, upperLimitHue, upperLimitSaturation, upperLimitValue
-            
+
             elif len(thresholdValues) != 6:
                 raise ("File formatting incorrect!")
     except Exception as e:

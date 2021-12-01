@@ -23,13 +23,13 @@ This is the Thrower Management module for the B T S test robot.
 # 1800 ... 87,9% ... ~4,5m
 
 def throwerSpeedFromDistanceToBasket(distanceToBasket): # single input variable: distanceToBasket [m], float
-    
+
     # distance to basket values range from 0 to 5m
     throwerSpeed = 0 # default to zero [unitless], int
     dutyCycle = 0 # default to zero [%], float
-    
+
     ########################################################################
-    maxRampRange100DC = 5 # derived from testing installed ramp geometry at max thrower speed, [m], float
+    maxRampRange100DC = 2.8 # derived from testing installed ramp geometry at max thrower speed, [m], float
     ########################################################################
 
     maxDutyCycle = 100 # constant [%], float
@@ -48,7 +48,7 @@ def throwerSpeedFromDistanceToBasket(distanceToBasket): # single input variable:
 ################################################################################################################################################
 
 '''
-Allan: 
+Allan:
 A single unified function can be done but it will have a ton of arguments.
 Overall the rate of acceleration per state differs also, driving to the ball can be done rapidly, with little care to precision, while aiming should be done with care and acceleration can not be as rough
 If I had to make a function, I would do something like this:
