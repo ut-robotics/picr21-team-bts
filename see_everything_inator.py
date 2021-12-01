@@ -117,8 +117,7 @@ class frameProcessor():
                 basketCenterX = int(x1 + (w/2))
                 basketCenterY = int(y1 + (h/2))
                 basketDistance = depthFrame.get_distance(basketCenterX, basketCenterY)
-                print(f"Distance to basket: {basketDistance}\n")
-        
+                        
         if show == True:
             cv2.imshow("Ball Threshold", ballThreshold)
             cv2.imshow('Frame', frame)

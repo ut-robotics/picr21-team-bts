@@ -1,5 +1,5 @@
 import maneuver_inator as move
-import thrower_inator as throw
+#import thrower_inator as throw
 import game_logician_inator as game
 import cv2
 import numpy as np
@@ -101,14 +101,14 @@ def BTSControlPanel():
                 cmdLog.insert(0.0, msg)
                 throwerRelativeRPM = 1050
 
-                throw.Baller(robotSpeed, throwerRelativeRPM, failsafe)
+                move.Baller(robotSpeed, throwerRelativeRPM, failsafe)
                 time.sleep(delayTime)
 
             elif keyPress == 'h':
                 msg = "Collecting ball.\n"
                 cmdLog.insert(0.0, msg)
 
-                throw.MoveHoldBall(robotSpeed, failsafe)
+                move.MoveHoldBall(robotSpeed, failsafe)
                 time.sleep(delayTime)
             elif keyPress == 'f':
                 msg = "Failsafe toggled.\n"

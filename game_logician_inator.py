@@ -30,7 +30,7 @@ sight = eyes.frameProcessor(setTarget) # create image core processing instance
 currentState = State.IDLE # default starting state
 FrameX = eyeCam.cameraX
 FrameY = eyeCam.cameraY
-
+delayTime = 0.005
 ################################################################################################################################################
 ################################################################################################################################################
 
@@ -58,66 +58,25 @@ def Hold(keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistan
 ################################################################################################################################################
 ################################################################################################################################################
 
-'''
-have memory of recent ball positions & confirm they existed
-could use up to 10 frames        
-relative motion straight towards the ball
-side movement: ((ballX - basketCenterX)/FrameX)*speed
-forward movement: ((ballY - midCamFrameY)/FrameY)*speed
-rotating movement: ((ballX - midCamFrameX)/FrameX)*speed
-'''
-def Drive(keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistance):
-    
-    if keypointCount > 0:
-        speed = 30
-        throwerRelativeRPM = 0
-        failsafe = 0
-        # go to ball
-        forwardSpeed = (((ballY - FrameY))/FrameY)*speed
-        rotationSpeed = (((ballX - FrameX))/FrameX)*speed
-        #forwardSpeed = 0
-        sideSpeed = 0 # robotSpeedX, robotSpeedY, robotAngularVelocity
-
-        move.omniPlanar(sideSpeed, forwardSpeed, -rotationSpeed, throwerRelativeRPM, failsafe)
-        
-        if 480 > ballY > 350 : # distance to ball condition for aim to start
-            #print("\t\t\t\t\t\t\tTHIS IS EXECUTING")
-            Aim(keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistance)
-            #move.allStop()
-            return State.AIM
-    
-    elif keypointCount <= 0 or None:
-    
-        return State.FIND
-
-    return State.DRIVE
-
-################################################################################################################################################
-################################################################################################################################################
-
 def Find(keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistance):
+
+
+    #if keypointCount >= 1:
+    if ballY is not None and keypointCount >= 1:
+        #print("\t\t\tGO TO STATE DRIVE")
+        #move.allStop()
+        Drive(keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistance)
+        return State.DRIVE
     
-    # rotate left around robot central axis
-    '''
-    if you dont find ball in a few rotations, 
-    try moving towards a basket
-    then repeat rotations
-    '''
     robotSpeed = 0
     robotDirectionAngle = 0
     robotAngularVelocity = 50
     throwerRelativeRPM = 0
     failsafe = 0 
-    #print("\t\tSTATE FIND")
+
     move.omniDirect(robotSpeed, robotDirectionAngle, robotAngularVelocity, throwerRelativeRPM, failsafe)
     
     # if any balls found, set state DRIVE
-
-    #if keypointCount >= 1:
-    if ballX is not None and keypointCount >= 1:
-        #print("\t\t\tGO TO STATE DRIVE")
-        Drive(keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistance)
-        return State.DRIVE
     
     # or set state FIND
     return State.FIND
@@ -125,32 +84,87 @@ def Find(keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistan
 ################################################################################################################################################
 ################################################################################################################################################
 
-def Aim(keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistance):
-    '''
-    side movement: ((ballX - basketCenterX)/FrameX)*speed
-    forward movement: ((ballY - midCamFrameY)/FrameY)*speed
-    rotating movement: ((ballX - midCamFrameX)/FrameX)*speed
-    '''
-    basketInFrame = basketCenterX is not 'NoneType'
-    #print("\t\tSTATE AIM ", basketInFrame)
-
-    #if ballX is None :
-    #    return State.FIND
-
+def Drive(keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistance):
+    
     speed = 30
+    throwerRelativeRPM = 0
+    failsafe = 0
 
+    if keypointCount > 0:
+        if (310 <= ballX <= 360) and (480 > ballY > 300): # distance to ball condition for aim to start
+            # if conditions for aim already met, go straight to aiming
+            #print(f"aligned with ball, going to aim")
+            #print("\t\t\t\t\t\t\tSTARTING AIM")
+            Aim(keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistance)
+            #move.allStop()
+            return State.AIM
+
+        elif (200 <= ballX <= 400):
+            # when aligned, go to ball
+            #print(f"aligned with ball, moving towards it! {ballX}")
+            speed = 40
+            robotDirectionAngle = 90
+            robotAngularVelocity = 0
+            throwerRelativeRPM = 0
+            robotSpeed = speed
+            failsafe = 1        
+            move.omniDirect(robotSpeed, robotDirectionAngle, robotAngularVelocity, throwerRelativeRPM, failsafe)
+        else: 
+            #print(f"orienting with ball!")
+            # orient with ball
+            '''
+            forwardSpeed = (((ballY - FrameY))/FrameY)*speed
+            rotationSpeed = (((ballX - FrameX))/FrameX)*speed
+            #forwardSpeed = 0
+            sideSpeed = 0 # robotSpeedX, robotSpeedY, robotAngularVelocity
+            move.omniPlanar(sideSpeed, forwardSpeed, -rotationSpeed, throwerRelativeRPM, failsafe)
+            '''
+            
+            speed = 10
+            robotSpeed = 0
+            robotDirectionAngle = 0
+            robotAngularVelocity = (((ballX - (FrameX/2)))/(FrameX/2))*speed
+            print(f"\t\tangular velocity: {robotAngularVelocity}")
+            throwerRelativeRPM = 0
+            failsafe = 0 
+            move.omniDirect(robotSpeed, robotDirectionAngle, robotAngularVelocity, throwerRelativeRPM, failsafe)
+
+    elif keypointCount <= 0 or None:
+        #move.allStop()
+        return State.FIND
+
+    return State.DRIVE
+
+################################################################################################################################################
+################################################################################################################################################
+
+def Aim(keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistance):
+    
+    basketInFrame = (basketCenterX == None)
+    failsafe = 0 
+    speed = 30
+    #move.allStop()
+    time.sleep(delayTime)
+    
     if basketInFrame: # orbit around ball until basket found
         forwardSpeed = ((ballY - FrameY)/FrameY)*speed
         #sideSpeed = ((ballX - basketCenterX)/FrameX)*speed
         sideSpeed = 0
         rotationSpeed = ((ballX - FrameX)/FrameX)*speed
-        print("\t\tBasket not found, searching for basket.\n")
+        #print("\t\tBasket not found, searching for basket.\n")
         throwerRelativeRPM = 0
         failsafe = 0
         move.omniPlanar(sideSpeed, forwardSpeed, rotationSpeed, throwerRelativeRPM, failsafe)
     
     else: # basket is there, align with basket centre
-        print("\t\tBasket found, aiming.\n")
+        move.allStop()
+        if (290 <= basketCenterX <= 390) and (ballY >= 300) and (300 <= ballX <= 330): 
+            #print(f"\t\t\tAligned with basket, throwing.")
+            #move.allStop()
+            Throw(keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistance)
+            return State.THROW
+        
+        #print("\t\tBasket found, aiming.\n")
         forwardSpeed = ((ballY - FrameY)/FrameY)*speed
         sideSpeed = ((ballX - basketCenterX)/FrameX)*speed
         rotationSpeed = ((ballX - FrameX)/FrameX)*speed
@@ -158,9 +172,8 @@ def Aim(keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistanc
         failsafe = 0
         move.omniPlanar(sideSpeed, forwardSpeed, rotationSpeed, throwerRelativeRPM, failsafe)
         # if ball is close to the robot and if the basket is centered to eyeCam x view, stop then throw the ball at basket 
-        if basketInFrame and 315 <= basketCenterX <= 325 and ballY >= 410: 
-            move.allStop()
-            return State.THROW
+        #time.sleep(delayTime)
+    time.sleep(delayTime)
     return State.AIM
 
 ################################################################################################################################################
@@ -172,57 +185,18 @@ def Throw(keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDista
         
     global throwIterand
     
-    '''
-    basketInFrame = basketCenterX is not None
-
-    if ballX is None :
-        return State.FIND
-
-    speed = 10
-    if not basketInFrame: # orbit around ball until basket found
-        forwardSpeed = ((ballY - FrameY/2)/FrameY)*speed
-        #forwardSpeed = 0
-        sideSpeed = ((ballX - basketCenterX/2)/FrameX)*speed
-        rotationSpeed = ((ballX - FrameX/2)/FrameX)*speed
-        print("Basket not found, searching.\n")
-    
-    else: # basket is there, align with basket centre
-
-        print("Basket found, aiming.\n")
-        forwardSpeed = ((ballY - FrameY/2)/FrameY)*speed
-        sideSpeed = ((ballX - basketCenterX/2)/FrameX)*speed
-        rotationSpeed = ((ballX - FrameX/2)/FrameX)*speed
-    '''
-
+    failsafe = 0 
     if throwIterand >= 15: # revert to state find ball after throwing
         throwIterand = 0
         return State.FIND
-    '''
-    if keypointCount >= 1: # if balls are found, align with basket again
-        
-        basketInFrame = basketCenterX is not None
+    
+    #if keypointCount <= 0:
 
-        if not basketInFrame:
-            forwardSpeed = ((ballY - FrameY/2)/FrameY)*speed # could be 0 but this keeps ball at fixed distance ideally
-            sideSpeed = ((ballX - basketCenterX/2)/FrameX)*speed
-            rotationSpeed = ((ballX - FrameX/2)/FrameX)*speed
-            print("Basket not found, searching.\n")
-        
-        else:
-            print("Basket found, aiming.\n")
-            forwardSpeed = ((ballY - FrameY/2)/FrameY)*speed
-            sideSpeed = ((ballX - basketCenterX/2)/FrameX)*speed
-            rotationSpeed = ((ballX - FrameX/2)/FrameX)*speed
-
-        move.omniPlanar(sideSpeed, forwardSpeed, rotationSpeed, throwerRelativeRPM, failsafe)
-    '''
-    if keypointCount <= 0:
-
-        throwerRelativeRPM = throw.throwerSpeedFromDistanceToBasket(basketDistance)
-        
-        move.omniPlanar(0, 15, 0, throwerRelativeRPM) # move forward and throw ball
-        
-        throwIterand += 1
+    # get thrower speed for throw
+    throwerRelativeRPM = throw.throwerSpeedFromDistanceToBasket(basketDistance)
+    print(f"\t\tTHROWING iteration: {throwIterand} with thrower at: {throwerRelativeRPM}")   
+    move.omniPlanar(0, 15, 0, throwerRelativeRPM, failsafe) # move forward and throw ball
+    throwIterand += 1
     
     return State.THROW
 
@@ -261,7 +235,7 @@ def ManualOverride(): # use GUI to manually start/stop game logic using toggle b
         
         elif gameStart == True and currentState == State.IDLE: # unless game start signal is received
             currentState = State.FIND
-            print("State = FIND")
+            #print("State = FIND")
     
     except Exception as e:
         
@@ -269,7 +243,7 @@ def ManualOverride(): # use GUI to manually start/stop game logic using toggle b
         
         print(e)
 
-bufferSize = 10 # this controls how many variable the buffer stores
+bufferSize = 5 # this controls how many variable the buffer stores
 bufferDict = {
     "keypointCount": [],
     "ballX": [],
@@ -331,11 +305,11 @@ def GameLogic(stateSwitch):
             #print("GameLogicRunning")
             ManualOverride()
 
-            #keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistance = sight.ProcessFrame(eyeCam.pipeline, eyeCam.cameraX, eyeCam.cameraY, show=True)
-            #keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistance = sanityBuffer(keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistance)
+            keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistance = sight.ProcessFrame(eyeCam.pipeline, eyeCam.cameraX, eyeCam.cameraY, show=True)
+            keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistance = sanityBuffer(keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistance)
             
             # test this solution: ...if it fails, use the above code... if buffer fcn fails, bypass it until fixed
-            keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistance = sanityBuffer(sight.ProcessFrame(eyeCam.pipeline, eyeCam.cameraX, eyeCam.cameraY, show=True))
+            #keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistance = sanityBuffer(sight.ProcessFrame(eyeCam.pipeline, eyeCam.cameraX, eyeCam.cameraY, show=True))
             
             '''
             # may perhaps consider adding an encapsulation layer for the returned values to neatify the code a bit...
@@ -351,12 +325,21 @@ def GameLogic(stateSwitch):
             #print(f"\nHow many balls? {keypointCount}\n")
             #print(f"\nRobot state: {currentState}\n")
             
-            print(f"ballX: {ballX} ballY: {ballY}\n")
-            
+            #print(f"ballX: {ballX} ballY: {ballY}\n")
+            #print(f"basketCenterX: {basketCenterX} basketDistance: {basketDistance}\n")
             currentState = stateSwitch.get(currentState)(keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistance)
             
-            print(f"{currentState}")
-            
+            #print(f"{currentState}")
+            print(f"half of frame X: {FrameX/2} == middle of entire frameX: {FrameX}?")
+            print(f"BallX  = {ballX}")
+            if ballX != None:
+                print(f"BallX  == middle of FrameX? {((FrameX/2)-30) <= ballX <= ((FrameX/2)+30)}")
+                print(f"BallX - middle of FrameX = {(FrameX/2) - ballX}")
+                print(f"BallX - middle of FrameX / FrameX = {((FrameX/2) - ballX)/FrameX}")
+                print(f"BallX - middle of FrameX / FrameX = {(((FrameX/2) - ballX)/FrameX)*20}") # this bring
+                # difference ballX to mid frame to zero and calculates what the speed should be
+                # can apply it to ballY as well!
+
             if cv2.waitKey(1) & 0xFF == ord('q'): # q ==> stop all    
                 move.allStop()
                 break
@@ -370,7 +353,8 @@ def GameLogic(stateSwitch):
                 end = time.time()
                 fps = 30 / (end - startTime)
                 startTime = end
-                #print(f"\nFPS: {fps}, framecount: {frameCount}\n")
+                #print(f"\nFPS: {fps}\n")
+                frameCount = 0
 
 
             # how many times per second does this game logic iterate thru

@@ -21,8 +21,6 @@ def wheelLinearVelocity(robotSpeed, robotDirectionAngle, wheelAngle, wheelDistan
 
     return wheelLinearVelocity # mainboard units [~ m/s ~]
 
-
-
 ################################################################################################################################################
 ################################################################################################################################################
 
@@ -121,6 +119,24 @@ def omniDirect(robotSpeed, robotDirectionAngle, robotAngularVelocity, throwerRel
     # send allMotorSpeeds to new class instance that writes motor speeds to mainboard to execute
     com.SendCmd2Mbd(allMotorSpeeds[0], allMotorSpeeds[1], allMotorSpeeds[2], allMotorSpeeds[3], failsafe)
 
+
+################################################################################################################################################
+################################################################################################################################################
+
+def Baller(robotSpeed, throwerRelativeRPM, failsafe):
+    failsafe = 1
+    #robotSpeed = 10
+    allMotorSpeeds = [robotSpeed, -robotSpeed, 0, throwerRelativeRPM] # forward
+    com.SendCmd2Mbd(allMotorSpeeds[0], allMotorSpeeds[1], allMotorSpeeds[2], allMotorSpeeds[3], failsafe)
+
+################################################################################################################################################
+################################################################################################################################################
+
+def MoveHoldBall(robotSpeed, failsafe):
+    failsafe = 1
+    #robotSpeed = 10
+    allMotorSpeeds = [robotSpeed, -robotSpeed, 0, 80] # index 0 = motor 1, index 1 = m2, 2 = m3, 3 = thrower motor
+    com.SendCmd2Mbd(allMotorSpeeds[0], allMotorSpeeds[1], allMotorSpeeds[2], allMotorSpeeds[3], failsafe)
 
 ################################################################################################################################################
 ################################################################################################################################################
