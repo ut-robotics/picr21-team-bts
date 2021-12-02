@@ -29,7 +29,7 @@ def throwerSpeedFromDistanceToBasket(distanceToBasket): # single input variable:
     dutyCycle = 0 # default to zero [%], float
 
     ########################################################################
-    maxRampRange100DC = 2.8 # derived from testing installed ramp geometry at max thrower speed, [m], float
+    maxRampRange100DC = 2.6 # derived from testing installed ramp geometry at max thrower speed, [m], float
     ########################################################################
 
     maxDutyCycle = 100 # constant [%], float
@@ -40,7 +40,7 @@ def throwerSpeedFromDistanceToBasket(distanceToBasket): # single input variable:
 
     # thrower speed = (  calculated duty cycle * maximum possible thrower speed  ) / maximum possible duty cycle
     throwerSpeed = int((dutyCycle * maxThrowerSpeed) / maxDutyCycle) #using int() to ensure saved value is int
-
+    throwerSpeed = distanceToBasket*300 + 360
     # return computed thrower speed integer
     return throwerSpeed # bon voyage, little green ball!
 

@@ -23,7 +23,7 @@ def wheelLinearVelocity(robotSpeed, robotDirectionAngle, wheelAngle, wheelDistan
 
 ################################################################################################################################################
 ################################################################################################################################################
-
+# WIP
 def calculateRelativeSpeed(deltaFactor, maxDeltaVal, minDeltaVal, maxDeltaSpeed, minAllowedSpeed, maxAllowedSpeed):
 
     absoluteDelta = abs(deltaFactor)
@@ -69,7 +69,7 @@ def omniPlanar(robotSpeedX, robotSpeedY, robotAngularVelocity, throwerRelativeRP
 
     robotSpeed = np.hypot(robotSpeedX, robotSpeedY) # hypotenuse of x and y speeds
 
-    robotDirectionAngle = np.arctan2(np.radians(robotSpeedY), np.radians(robotSpeedX)) # arc tangens of x and y speed is the desired travel direction
+    robotDirectionAngle = np.degrees(np.arctan2(robotSpeedY, robotSpeedX)) # arc tangens of x and y speed is the desired travel direction
 
     allMotorSpeeds = [0, 0, 0, 0] # index 0 = motor 1, index 1 = m2, 2 = m3, 3 = thrower motor
 

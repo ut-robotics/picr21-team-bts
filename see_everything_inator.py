@@ -116,21 +116,39 @@ class frameProcessor():
                 cv2.rectangle(frame,(x1,y1),(x1+w,y1+h),(0,255,0),3)
                 basketCenterX = int(x1 + (w/2))
                 basketCenterY = int(y1 + (h/2))
+                #basketCenterY = int(y1)
+                #print(basketCenterY)
                 basketDistance = depthFrame.get_distance(basketCenterX, basketCenterY)
+        
 
+        keypoints = self.detector.detect(ballThreshold)
+        keypoints = sorted(keypoints, key=lambda kp:-kp.pt[1], reverse=True)
+        # add get distance from balls, select nearest ball not based on size but based on distance
+        if len(keypoints) >= 1:
+            ballX = keypoints[-1].pt[0]
+            ballY = keypoints[-1].pt[1] 
+        '''
+        # WIP: draw circle around closest ball to plot in debug frame
+        if ballX != None:
+            _, ballContours = cv2.findContours(ballThreshold, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+            ballCenters = [None]*len(ballContours)
+            for i, c in enumerate(ballContours):
+                contours_poly[i] = cv2.approxPolyDP(c, 3, True)
+                ballCenters[i], radius[i] = cv2.minEnclosingCircle(contours_poly[i])
+            
+            for i in range(len(ballContours)):
+                color = (69, 229, 33)
+                cv2.drawContours(frame, contours_poly, i, color)
+                cv2.circle(frame, (int(ballCenters[i][0]), int(ballCenters[i][1])), radius=int(radius[i]), color=color, thickness=2)
+        '''
+        
+        keypointCount = len(keypoints)
+        
         if show == True:
             #cv2.imshow("Ball Threshold", ballThreshold)
             cv2.imshow('Frame', frame)
             #cv2.imshow('Basket with Threshold', basketWithThreshold)
 
-        keypoints = self.detector.detect(ballThreshold)
-        keypoints = sorted(keypoints, key=lambda kp:kp.size, reverse=True)
-
-        if len(keypoints) >= 1:
-            ballX = keypoints[0].pt[0]
-            ballY = keypoints[0].pt[1]
-
-        keypointCount = len(keypoints)
         return keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistance
 
 ################################################################################################################################################
