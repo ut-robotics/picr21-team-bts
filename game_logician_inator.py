@@ -88,6 +88,16 @@ def Find(keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistan
 
 def Drive(keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistance):
 
+    '''
+    start by confirming that balls are there
+    then check if can go straight to aim state
+    if not, check if are aligned with ball already
+    if are, go straight to it
+    otherwise, align with ball first
+    if you lost sight of the ball, 
+    go and find another ==> state.find   
+
+    '''
     speed = 30
     throwerRelativeRPM = 0
     failsafe = 0
@@ -115,7 +125,7 @@ def Drive(keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDista
             speed = 150
             #forwardSpeed = ((450 - ballY)/FrameY)*speed
             forwardSpeed = 0
-            sideSpeed = 0#((320 - ballX)/FrameX)*speed
+            sideSpeed = 0 # ((320 - ballX)/FrameX)*speed # << try this
             rotationSpeed = ((320 - ballX)/FrameX)*speed#* np.sign(((320 - ballX)/FrameX)*speed)
             #rotationSpeed = 0
             throwerRelativeRPM = 0
@@ -124,7 +134,6 @@ def Drive(keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDista
 
     elif keypointCount <= 0 or None:
         print("I LOST THE BALL, GOING TO FIND IT AGAIN")
-        #move.allStop()
         return State.FIND
 
 ################################################################################################################################################
@@ -132,12 +141,21 @@ def Drive(keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDista
 
 def Aim(keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistance):
     
+    '''
+    start by confirming you are aligned with ball (again)
+    then check if basket is in frame
+    if it is not, orbit the ball at a fixed distance until basket is in frame.
+    if basket IS in frame, check for alignment to throw first,
+    if ready for throwing, ==> state Throw...
+    if not aligned, align: align for distance from ball
+    align ball with robot mid axis
+    or default to aligning with basket
+    if in initial check for ball alignment ball is misaligned
+    then align again with ball
+    '''
 
     failsafe = 0
     speed = 90
-    #move.allStop()
-    #time.sleep(delayTime)
-    speed = 50
     forwardSpeed = 0
     rotationSpeed = 0
     sideSpeed = 0
@@ -156,10 +174,9 @@ def Aim(keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistanc
             move.omniPlanar(sideSpeed, forwardSpeed, rotationSpeed, throwerRelativeRPM, failsafe)
 
         else: # basket is there, align with basket centre
-            move.allStop()
             print("I AM ABOUT TO THROW THE BALL")       
             if (300 <= basketCenterX <= 340) and (ballY >= 300) and (290 <= ballX <= 350):
-                print("Throw")
+                #print("Throw")
                 Throw(keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistance)
                 return State.THROW       
             
@@ -183,7 +200,7 @@ def Aim(keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistanc
     
     else: #allign ball to the middle
         speed = 60
-        forwardSpeed = 0 #small -
+        forwardSpeed = 0 #small
         sideSpeed = 0
         rotationSpeed = ((200 * np.sign(320 - ballX))/FrameX)*speed
         throwerRelativeRPM = 0
@@ -208,9 +225,12 @@ def Throw(keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDista
         failsafe = 0
         #if keypointCount <= 0:
         # get thrower speed for throw
-        throwerRelativeRPM = throw.throwerSpeedFromDistanceToBasket(basketDistance)
-        print(f"\t\tTHROWING iteration: {throwIterand} with thrower at: {throwerRelativeRPM}")
+        throwerRelativeRPM = throw.throwerSpeedFromDistanceToBasket(basketDistance) # change this function
+        print(f"THROWING iteration: {throwIterand} with thrower at: {throwerRelativeRPM}")
+        
+        # using 91 as the robot was not going exactly straight
         move.omniDirect(20, 91, 0, throwerRelativeRPM, failsafe) # move forward and throw ball
+
         throwIterand += 1
 
     return State.THROW
@@ -257,8 +277,9 @@ def ManualOverride(): # use GUI to manually start/stop game logic using toggle b
         print("\nAn error has occurred:\n")
 
         print(e)
-
-bufferSize = 120 # this controls how many variable the buffer stores
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+bufferSize = 120 # this controls how many variable the buffer stores, 120 ~= 2[s]
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 bufferDict = {
     "keypointCount": [],
     "ballX": [],
@@ -266,7 +287,7 @@ bufferDict = {
     "basketCenterX": [],
     "basketCenterY": [],
     "basketDistance": []
-} # buffer dictionary
+} # rolling buffer dictionary
 # if you add output values from image processing, don't forget to add them to either dict as well!
 def sanityBuffer(keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistance):
     outputDict = {
@@ -319,7 +340,7 @@ def GameLogic(stateSwitch):
 
             #print("GameLogicRunning")
             ManualOverride()
-
+            print(f"\t\t\t\t\t{currentState}")
             keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistance = sight.ProcessFrame(eyeCam.pipeline, eyeCam.cameraX, eyeCam.cameraY, show=True)
             keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistance = sanityBuffer(keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistance)
 
