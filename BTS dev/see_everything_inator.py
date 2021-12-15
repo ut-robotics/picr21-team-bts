@@ -152,6 +152,7 @@ class frameProcessor():
             cv2.imshow('Frame', frame)
             #cv2.imshow('Basket with Threshold', basketWithThreshold)
         '''
+        #Usage of new image processing library and mapping results to existing output
         processedData = processor.process_frame()
         keypointCount = len(processedData.balls)
         if(keypointCount>0):
