@@ -4,6 +4,7 @@ import time
 import json
 from types import SimpleNamespace
 import threading
+#Shared data is common object for multiple threads. Thus, it chenges affects all processes.
 def wsConnection(sharedData, connectionString = "ws://172.19.154.87:2300/"):
     global shared_data
     shared_data = sharedData
@@ -14,6 +15,7 @@ def wsConnection(sharedData, connectionString = "ws://172.19.154.87:2300/"):
             #print(message)
             x = json.loads(message, object_hook=lambda d: SimpleNamespace(**d))
             #print(x.signal)
+            #Print can be renived easly. Shared data is checked in other code parts to perform smthing.
             if(x.signal == "start"):
                 print(x.targets)
                 print(x.baskets)
@@ -42,6 +44,7 @@ def wsConnection(sharedData, connectionString = "ws://172.19.154.87:2300/"):
     def on_close(ws, close_status_code, close_msg):
         print("### closed ###")
         
+    #Fancy exit on connection loss. 
     def threadEnd(sharedData,ws):
         global shared_data
         while(True):
