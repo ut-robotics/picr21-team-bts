@@ -151,7 +151,9 @@ def Drive(keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDista
 ################################################################################################################################################
 
 def Aim(keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistance):
-    
+    #Base code is ok, but it may occure that distX of ball is 290 and dist of basket is 330 and both will pass. With lower limits aiming is prety good but slow
+    #In Kobis approach movement is faster but aiming may miss in situations when both ball and basket are on the side (far from cameraX)
+    #Anyway robot movemnents on ultra slow speed must be improved. 
     '''
     start by confirming you are aligned with ball (again)
     then check if basket is in frame
