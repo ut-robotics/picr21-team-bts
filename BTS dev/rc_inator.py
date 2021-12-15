@@ -32,7 +32,7 @@ def BTSControlPanel():
     global gameLogicStart, failsafe, targetColor, ws_thread, ws_thread_stop, shared_data
     
     def keyInput(event):
-        #e2 = Text(rootWindow, text = "Log")   
+        #Log was only input but now new field for ws connection exists. 
         if(rootWindow.focus_get() == cmdLog or rootWindow.focus_get()==rootWindow):
             delayTime = 0.005
             throwerRelativeRPM = 0
@@ -200,7 +200,8 @@ def BTSControlPanel():
             cmdLog.insert(0.0, msg)
             print(msg)
             #chokeGameButton["state"] = "disabled"
-            shared_data['gameState'] = 0
+            #Common memory for gameLogic
+            shared_data['gameState'] = 0            
             game.runGameLogic(shared_data, gameLogicStart)
 
 
@@ -221,7 +222,8 @@ def BTSControlPanel():
             msg = "Target: Blue Basket\n"
             cmdLog.insert(0.0, msg)
             basketColor(targetColor)
-    
+            
+    #Creates or ends connection with thread. TODO am not sure if name is changed to disconnected on disconection from server 
     def toggleWSButton():
         global targetColor, ws_thread    
         if(startWSButton['text'] == "Connect"):
@@ -259,6 +261,7 @@ def BTSControlPanel():
             #chokeGameButton["state"] = "disabled"
 
     # Function for closing window
+    # May miss disconect for ws
     def closeAll():
         msg = "Shutting down.\n"
         cmdLog.insert(0.0, msg)
