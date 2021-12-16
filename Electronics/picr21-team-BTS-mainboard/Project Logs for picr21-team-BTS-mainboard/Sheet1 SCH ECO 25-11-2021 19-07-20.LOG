@@ -1,0 +1,112 @@
+Change Component Parameter Comment in C1 Old= New=CAP 10uF 25V 1206(3216)
+Change Component Parameter Comment in C2 Old= New=06035C104J4Z2A
+Change Component Parameter Comment in C3 Old= New=06035C104J4Z2A
+Change Component Parameter Comment in C4 Old= New=06035C104J4Z2A
+Change Component Parameter Comment in C5 Old= New=06035C104J4Z2A
+Change Component Parameter Comment in C6 Old= New=06035C104J4Z2A
+Change Component Parameter Comment in C7 Old= New=CAP 10uF 25V 1206(3216)
+Change Component Parameter Comment in C8 Old= New=06035C104J4Z2A
+Change Component Parameter Comment in C9 Old= New=06035C104J4Z2A
+Change Component Parameter Comment in C10 Old= New=06035C104J4Z2A
+Change Component Parameter Comment in C11 Old= New=CAP 10uF 25V 1206(3216)
+Change Component Parameter Comment in C12 Old= New=06035C104J4Z2A
+Change Component Parameter Comment in C13 Old= New=06035C104J4Z2A
+Change Component Parameter Comment in C14 Old= New=06035C104J4Z2A
+Change Component Parameter Comment in C15 Old= New=06035C104J4Z2A
+Change Component Parameter Comment in C16 Old= New=06035C104J4Z2A
+Change Component Parameter Comment in J1 Old= New=Encoder connectors
+Change Component Parameter Description in J1 Old=Thrower ESC connector
+ New=
+Change Component Parameter Comment in J2 Old= New=Encoder connectors
+Change Component Parameter Description in J2 Old=Encoder connectors
+ New=
+Change Component Parameter Comment in J3 Old= New=Encoder connectors
+Change Component Parameter Description in J3 Old=Encoder connectors
+ New=
+Change Component Parameter Comment in J4 Old= New=Encoder connectors
+Change Component Parameter Description in J4 Old=Encoder connectors
+ New=
+Change Component Parameter Comment in J5 Old= New=J
+Change Component Parameter Comment in J6 Old= New=J
+Change Component Parameter Comment in J7 Old= New=J
+Change Component Parameter Comment in J8 Old= New=J
+Change Component Parameter Comment in J10 Old= New=J
+Change Component Parameter Comment in J11 Old= New=USB connector
+Change Component Parameter Description in J11 Old=USB connector New=
+Change Component Parameter Comment in J12 Old= New=J
+Change Component Parameter Comment in J13 Old= New=J
+Change Component Parameter Comment in J14 Old= New=J
+Change Component Parameter Comment in J Old= New=USB protection
+Change Component Parameter Description in J Old=USB protection
+ New=
+Change Value of Parameter Resistance in Part R1 Old=10k New=10KOhm
+Change Value of Parameter Resistance in Part R2 Old=10k New=10KOhm
+Change Component Parameter Comment in R3 Old= New=ERA3AEB332V
+Change Component Parameter Comment in R4 Old= New=ERA3AEB104V
+Change Value of Parameter Resistance in Part R5 Old=10k New=10KOhm
+Change Value of Parameter Resistance in Part R6 Old=10k New=10KOhm
+Change Component Parameter Comment in R7 Old= New=ERA3AEB332V
+Change Component Parameter Comment in R8 Old= New=ERA3AEB104V
+Change Value of Parameter Resistance in Part R9 Old=10k New=10KOhm
+Change Value of Parameter Resistance in Part R10 Old=10k New=10KOhm
+Change Component Parameter Comment in R11 Old= New=ERA3AEB104V
+Change Component Parameter Comment in R12 Old= New=ERA3AEB332V
+Change Component Parameter Comment in U1 Old= New=Motor driver
+Change Component Parameter Comment in U2 Old= New=Motor driver
+Change Component Parameter Comment in U3 Old= New=Motor driver
+Change Component Parameter Comment in U5 Old= New=Isolater
+Change Component Parameter Description in U5 Old=Isolator. Signals between the microcontroller and motor drivers should go through isolator(s). New=Signals between the microcontroller and motor drivers should go through isolator(s).
+Change Component Parameter Comment in U6 Old= New=Isolater
+Change Component Parameter Description in U6 Old=Isolator. Signals between the microcontroller and motor drivers should go through isolator(s). New=Signals between the microcontroller and motor drivers should go through isolator(s).
+Replace Symbol from C1 CAP in C:\Users\ACER\Documents\Altium\PROJECTS\picr21-team-BTS-mainboard\Sheet1.SchDoc with CAP from Altium Content Vault
+Replace Symbol from C2 CAP in C:\Users\ACER\Documents\Altium\PROJECTS\picr21-team-BTS-mainboard\Sheet1.SchDoc with CAP from Altium Content Vault
+Replace Symbol from C3 CAP in C:\Users\ACER\Documents\Altium\PROJECTS\picr21-team-BTS-mainboard\Sheet1.SchDoc with CAP from Altium Content Vault
+Replace Symbol from C4 CAP in C:\Users\ACER\Documents\Altium\PROJECTS\picr21-team-BTS-mainboard\Sheet1.SchDoc with CAP from Altium Content Vault
+Replace Symbol from C5 CAP in C:\Users\ACER\Documents\Altium\PROJECTS\picr21-team-BTS-mainboard\Sheet1.SchDoc with CAP from Altium Content Vault
+Replace Symbol from C6 CAP in C:\Users\ACER\Documents\Altium\PROJECTS\picr21-team-BTS-mainboard\Sheet1.SchDoc with CAP from Altium Content Vault
+Replace Symbol from C7 CAP in C:\Users\ACER\Documents\Altium\PROJECTS\picr21-team-BTS-mainboard\Sheet1.SchDoc with CAP from Altium Content Vault
+Replace Symbol from C8 CAP in C:\Users\ACER\Documents\Altium\PROJECTS\picr21-team-BTS-mainboard\Sheet1.SchDoc with CAP from Altium Content Vault
+Replace Symbol from C9 CAP in C:\Users\ACER\Documents\Altium\PROJECTS\picr21-team-BTS-mainboard\Sheet1.SchDoc with CAP from Altium Content Vault
+Replace Symbol from C10 CAP in C:\Users\ACER\Documents\Altium\PROJECTS\picr21-team-BTS-mainboard\Sheet1.SchDoc with CAP from Altium Content Vault
+Replace Symbol from C11 CAP in C:\Users\ACER\Documents\Altium\PROJECTS\picr21-team-BTS-mainboard\Sheet1.SchDoc with CAP from Altium Content Vault
+Replace Symbol from C12 CAP in C:\Users\ACER\Documents\Altium\PROJECTS\picr21-team-BTS-mainboard\Sheet1.SchDoc with CAP from Altium Content Vault
+Replace Symbol from C13 CAP in C:\Users\ACER\Documents\Altium\PROJECTS\picr21-team-BTS-mainboard\Sheet1.SchDoc with CAP from Altium Content Vault
+Replace Symbol from C14 CAP in C:\Users\ACER\Documents\Altium\PROJECTS\picr21-team-BTS-mainboard\Sheet1.SchDoc with CAP from Altium Content Vault
+Replace Symbol from C15 CAP in C:\Users\ACER\Documents\Altium\PROJECTS\picr21-team-BTS-mainboard\Sheet1.SchDoc with CAP from Altium Content Vault
+Replace Symbol from C16 CAP in C:\Users\ACER\Documents\Altium\PROJECTS\picr21-team-BTS-mainboard\Sheet1.SchDoc with CAP from Altium Content Vault
+Replace Symbol from J CM1223-02SO TVS diode array in C:\Users\ACER\Documents\Altium\PROJECTS\picr21-team-BTS-mainboard\Sheet1.SchDoc with CM1223-02SO TVS diode array from Schlib1.SchLib
+Replace Symbol from J1 Micro-MaTch 215079-4_1 in C:\Users\ACER\Documents\Altium\PROJECTS\picr21-team-BTS-mainboard\Sheet1.SchDoc with Micro-MaTch 215079-4_1 from Schlib1.SchLib
+Replace Symbol from J2 Micro-MaTch 215079-4_1 in C:\Users\ACER\Documents\Altium\PROJECTS\picr21-team-BTS-mainboard\Sheet1.SchDoc with Micro-MaTch 215079-4_1 from Schlib1.SchLib
+Replace Symbol from J3 Micro-MaTch 215079-4_1 in C:\Users\ACER\Documents\Altium\PROJECTS\picr21-team-BTS-mainboard\Sheet1.SchDoc with Micro-MaTch 215079-4_1 from Schlib1.SchLib
+Replace Symbol from J4 Micro-MaTch 215079-4_1 in C:\Users\ACER\Documents\Altium\PROJECTS\picr21-team-BTS-mainboard\Sheet1.SchDoc with Micro-MaTch 215079-4_1 from Schlib1.SchLib
+Replace Symbol from J5 J in C:\Users\ACER\Documents\Altium\PROJECTS\picr21-team-BTS-mainboard\Sheet1.SchDoc with J from Schlib1.SchLib
+Replace Symbol from J6 J in C:\Users\ACER\Documents\Altium\PROJECTS\picr21-team-BTS-mainboard\Sheet1.SchDoc with J from Schlib1.SchLib
+Replace Symbol from J7 J in C:\Users\ACER\Documents\Altium\PROJECTS\picr21-team-BTS-mainboard\Sheet1.SchDoc with J from Schlib1.SchLib
+Replace Symbol from J8 J in C:\Users\ACER\Documents\Altium\PROJECTS\picr21-team-BTS-mainboard\Sheet1.SchDoc with J from Schlib1.SchLib
+Replace Symbol from J9 Samtec FTSH-105-01-L-DV-K in C:\Users\ACER\Documents\Altium\PROJECTS\picr21-team-BTS-mainboard\Sheet1.SchDoc with Samtec FTSH-105-01-L-DV-K from Schlib1.SchLib
+Replace Symbol from J10 J in C:\Users\ACER\Documents\Altium\PROJECTS\picr21-team-BTS-mainboard\Sheet1.SchDoc with J from Schlib1.SchLib
+Replace Symbol from J11 Amphenol 10118193-0001LF in C:\Users\ACER\Documents\Altium\PROJECTS\picr21-team-BTS-mainboard\Sheet1.SchDoc with Amphenol 10118193-0001LF from Schlib1.SchLib
+Replace Symbol from J12 J in C:\Users\ACER\Documents\Altium\PROJECTS\picr21-team-BTS-mainboard\Sheet1.SchDoc with J from Schlib1.SchLib
+Replace Symbol from J13 J in C:\Users\ACER\Documents\Altium\PROJECTS\picr21-team-BTS-mainboard\Sheet1.SchDoc with J from Schlib1.SchLib
+Replace Symbol from J14 J in C:\Users\ACER\Documents\Altium\PROJECTS\picr21-team-BTS-mainboard\Sheet1.SchDoc with J from Schlib1.SchLib
+Replace Symbol from Q1 BUK6Y10-30P in C:\Users\ACER\Documents\Altium\PROJECTS\picr21-team-BTS-mainboard\Sheet1.SchDoc with BUK6Y10-30P from Schlib1.SchLib
+Replace Symbol from R1 RES-2 in C:\Users\ACER\Documents\Altium\PROJECTS\picr21-team-BTS-mainboard\Sheet1.SchDoc with RES-2 from Altium Content Vault
+Replace Symbol from R2 RES-2 in C:\Users\ACER\Documents\Altium\PROJECTS\picr21-team-BTS-mainboard\Sheet1.SchDoc with RES-2 from Altium Content Vault
+Replace Symbol from R3 RES in C:\Users\ACER\Documents\Altium\PROJECTS\picr21-team-BTS-mainboard\Sheet1.SchDoc with RES from Altium Content Vault
+Replace Symbol from R4 RES in C:\Users\ACER\Documents\Altium\PROJECTS\picr21-team-BTS-mainboard\Sheet1.SchDoc with RES from Altium Content Vault
+Replace Symbol from R5 RES-2 in C:\Users\ACER\Documents\Altium\PROJECTS\picr21-team-BTS-mainboard\Sheet1.SchDoc with RES-2 from Altium Content Vault
+Replace Symbol from R6 RES-2 in C:\Users\ACER\Documents\Altium\PROJECTS\picr21-team-BTS-mainboard\Sheet1.SchDoc with RES-2 from Altium Content Vault
+Replace Symbol from R7 RES in C:\Users\ACER\Documents\Altium\PROJECTS\picr21-team-BTS-mainboard\Sheet1.SchDoc with RES from Altium Content Vault
+Replace Symbol from R8 RES in C:\Users\ACER\Documents\Altium\PROJECTS\picr21-team-BTS-mainboard\Sheet1.SchDoc with RES from Altium Content Vault
+Replace Symbol from R9 RES-2 in C:\Users\ACER\Documents\Altium\PROJECTS\picr21-team-BTS-mainboard\Sheet1.SchDoc with RES-2 from Altium Content Vault
+Replace Symbol from R10 RES-2 in C:\Users\ACER\Documents\Altium\PROJECTS\picr21-team-BTS-mainboard\Sheet1.SchDoc with RES-2 from Altium Content Vault
+Replace Symbol from R11 RES in C:\Users\ACER\Documents\Altium\PROJECTS\picr21-team-BTS-mainboard\Sheet1.SchDoc with RES from Altium Content Vault
+Replace Symbol from R12 RES in C:\Users\ACER\Documents\Altium\PROJECTS\picr21-team-BTS-mainboard\Sheet1.SchDoc with RES from Altium Content Vault
+Replace Symbol from U1 DRV8243 in C:\Users\ACER\Documents\Altium\PROJECTS\picr21-team-BTS-mainboard\Sheet1.SchDoc with DRV8243 from Schlib1.SchLib
+Replace Symbol from U2 DRV8243 in C:\Users\ACER\Documents\Altium\PROJECTS\picr21-team-BTS-mainboard\Sheet1.SchDoc with DRV8243 from Schlib1.SchLib
+Replace Symbol from U3 DRV8243 in C:\Users\ACER\Documents\Altium\PROJECTS\picr21-team-BTS-mainboard\Sheet1.SchDoc with DRV8243 from Schlib1.SchLib
+Replace Symbol from U4 STM32G441KBT3 in C:\Users\ACER\Documents\Altium\PROJECTS\picr21-team-BTS-mainboard\Sheet1.SchDoc with STM32G441KBT3 from Schlib1.SchLib
+Replace Symbol from U5 MAX14930DASE+ in C:\Users\ACER\Documents\Altium\PROJECTS\picr21-team-BTS-mainboard\Sheet1.SchDoc with MAX14930DASE+ from Schlib1.SchLib
+Replace Symbol from U6 MAX14930DASE+ in C:\Users\ACER\Documents\Altium\PROJECTS\picr21-team-BTS-mainboard\Sheet1.SchDoc with MAX14930DASE+ from Schlib1.SchLib
+Replace Symbol from U7 NCP164CSN330T1G in C:\Users\ACER\Documents\Altium\PROJECTS\picr21-team-BTS-mainboard\Sheet1.SchDoc with NCP164CSN330T1G from Schlib1.SchLib
+Replace Symbol from U8 NCV8730ASN500T1G in C:\Users\ACER\Documents\Altium\PROJECTS\picr21-team-BTS-mainboard\Sheet1.SchDoc with NCV8730ASN500T1G from Schlib1.SchLib
