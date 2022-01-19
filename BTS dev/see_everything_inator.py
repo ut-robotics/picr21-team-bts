@@ -157,14 +157,14 @@ class frameProcessor():
         processedData = processor.process_frame()
         keypointCount = len(processedData.balls)
         if(keypointCount>0):
-            min_distance = processedData.balls[0].distance
+        #    min_distance = processedData.balls[0].distance
             ballX = processedData.balls[0].x
             ballY = processedData.balls[0].y
-            for i in range(1,len(processedData.balls)):
-                if(min_distance< processedData.balls[i].distance):
-                    min_distance = processedData.balls[i].distance
-                    ballX = processedData.balls[i].x
-                    ballY = processedData.balls[i].y
+        #    for i in range(1,len(processedData.balls)):
+        #        if(min_distance< processedData.balls[i].distance):
+        #            min_distance = processedData.balls[i].distance
+        #            ballX = processedData.balls[i].x
+        #            ballY = processedData.balls[i].y
         if self.setTarget == "blue":
             basketCenterX = processedData.basket_b.x
             basketCenterY = processedData.basket_b.y
@@ -175,8 +175,8 @@ class frameProcessor():
             basketCenterY = processedData.basket_m.y
             if( processedData.basket_m.x != -1):
                 basketDistance = processedData.depth_frame[basketCenterY-1,basketCenterX-1]#basket_m.distance
-                print( processedData.depth_frame[basketCenterY-1,basketCenterX-1])
-                print(basketDistance)
+                #print( processedData.depth_frame[basketCenterY-1,basketCenterX-1])
+                #print(basketDistance)
         #print(np.shape(processedData.debug_frame))
         #print(processedData.debug_frame)
         return keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistance, processedData.debug_frame
