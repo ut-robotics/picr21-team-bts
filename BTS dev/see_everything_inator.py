@@ -4,6 +4,7 @@ import numpy as np
 import pyrealsense2 as rs
 import image_processor
 import camera
+import time
 
 '''
 This is the Image Processing module for the B T S test robot. W.I.P.!
@@ -57,9 +58,9 @@ class frameProcessor():
         self.frame = None
 
 
-    def selectTarget(self, getTarget):
-
-        self.setTarget = getTarget
+    def selectTarget(self, target):
+        if(self.setTarget != target):
+            self.setTarget = target
 
     def ProcessFrame(self,processor):
 
@@ -176,8 +177,9 @@ class frameProcessor():
                 basketDistance = processedData.depth_frame[basketCenterY-1,basketCenterX-1]#basket_m.distance
                 print( processedData.depth_frame[basketCenterY-1,basketCenterX-1])
                 print(basketDistance)
-        cv2.imshow('Frame', processedData.debug_frame)
-        return keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistance
+        #print(np.shape(processedData.debug_frame))
+        #print(processedData.debug_frame)
+        return keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistance, processedData.debug_frame
 
 ################################################################################################################################################
 ################################################################################################################################################
