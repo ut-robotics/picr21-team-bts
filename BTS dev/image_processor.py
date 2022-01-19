@@ -4,6 +4,14 @@ import _pickle as pickle
 import numpy as np
 import cv2
 import Color as c
+import ctypes
+from numpy.ctypeslib import ndpointer 
+
+ # Or full path to file 
+# Now whenever argument
+# will be passed to the function                                                       
+# ctypes will check it.
+           
 
 
 class Object():
@@ -12,7 +20,7 @@ class Object():
         self.y = y
         self.size = size
         self.distance = distance
-        self.exists = exists
+        self.exists = exists     
 
     def __str__(self) -> str:
         return "[Object: x={}; y={}; size={}; distance={}; exists={}]".format(self.x, self.y, self.size, self.distance, self.exists)
@@ -63,6 +71,13 @@ class ImageProcessor():
 
         self.debug = debug
         self.debug_frame = np.zeros((self.camera.rgb_height, self.camera.rgb_width), dtype=np.uint8)
+        
+        self.utils = ctypes.CDLL("./utils.so")
+        self.utils.processBorders.argtypes = [ndpointer(np.uint8, flags="C_CONTIGUOUS"),
+                ctypes.c_size_t,
+                ndpointer(np.uint32, flags="C_CONTIGUOUS"),
+                ctypes.c_size_t]
+        self.utils.processBorders.restype = None
 
     def set_segmentation_table(self, table):
         segment.set_table(table)
@@ -77,13 +92,13 @@ class ImageProcessor():
         contours, hierarchy = cv2.findContours(t_balls, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
         balls = []
-
+        balls_array = np.empty((0,4),dtype=np.uint32)
         for contour in contours:
 
             # ball filtering logic goes here. Example includes filtering by size and an example how to get pixels from
             # the bottom center of the fram to the ball
 
-            size = cv2.contourArea(contour)
+            size = int(cv2.contourArea(contour))
 
             if size < 15:
                 continue
@@ -100,19 +115,46 @@ class ImageProcessor():
 
             obj_x = int(x + (w/2))
             obj_y = int(y + (h))
-            obj_dst = obj_y
-            
-
+            #if self.debug:
+                    #self.debug_frame[ys, xs] = [0, 0, 0]
+                    #cv2.circle(self.debug_frame,(obj_x, obj_y), 10, (0,255,0), 2)
+                    #print("Hello World")
+            #obj_dst = obj_y*obj_y + (obj_x - self.camera.rgb_width //2)*(obj_x - self.camera.rgb_width //2) #Remove math              
+            balls_array = np.append(balls_array, np.array([[np.uint32(obj_x), np.uint32(obj_y), np.uint32(size), np.uint32(True)]]), axis=0)       
+        #print(balls)
+        #print(balls_array.astype(np.uint8))
+        #print(fragments.astype(np.uint8))
+        #balls_array = balls_array.astype(np.uint8)
+        self.utils.processBorders(fragments, fragments.size, balls_array, balls_array.size)
+        #print(balls_array)
+        for ball in balls_array:            
+            if(ball[3] == 1):
+                #print(ball)
+                balls.append(Object(x = int(ball[0]), y = int(ball[1]), size = int(ball[2]),
+                    distance = int((self.camera.rgb_height - ball[1])*(self.camera.rgb_width - ball[1]) + (ball[0] - self.camera.rgb_width //2)*(ball[0] - self.camera.rgb_width //2)*0.2),
+                    exists = True))
+                if self.debug:
+                    #self.debug_frame[ys, xs] = [0, 0, 0]
+                    cv2.circle(self.debug_frame,(ball[0], ball[1]), 10, (0,255,0), 2)
+                    #print("Hello World")
+        balls.sort(key= lambda x: x.distance) #distance is inversed!!!
+        #print(balls)
+        #print(fragments)
+        '''
+        color_image = np.asanyarray(color_frame.get_data(),ctypes.c_int)
+        
+        
+        print(balls)
+        balls = [x for x in balls if x.exists]
+        print(fragments)
+        print(balls)
+        for ball in balls:
             if self.debug:
                 #self.debug_frame[ys, xs] = [0, 0, 0]
                 cv2.circle(self.debug_frame,(obj_x, obj_y), 10, (0,255,0), 2)
                 #print("Hello World")
-            
-
-            balls.append(Object(x = obj_x, y = obj_y, size = size, distance = obj_dst, exists = True))
-
-        balls.sort(key= lambda x: -x.distance)
-
+        '''   
+        
         return balls
 
     def analyze_baskets(self, t_basket, debug_color = (0, 255, 255)) -> list:
