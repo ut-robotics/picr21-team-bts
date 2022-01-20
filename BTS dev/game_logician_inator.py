@@ -91,7 +91,7 @@ class GameLogic:
         if in initial check for ball alignment ball is misaligned
         then align again with ball
         '''
-        
+        '''
         failsafe = 0
         speed = 90
         forwardSpeed = 0
@@ -180,7 +180,43 @@ class GameLogic:
             self.currentState = State.FIND
             return
         else:
-            curBasketCenterX = self.basketCenterX 
+            curBasketCenterX = self.basketCenterX       
+        base_speed_rotation = 100 
+        front_speed = (430 - curBallY)/self.eyeCam.cameraY * base_speed_rotation
+        if self.basketCenterX is None or self.basketCenterX == -1:
+            base_speed = 40
+            side_speed = -(self.eyeCam.cameraX)/self.eyeCam.cameraX * base_speed       
+        else:
+            base_speed = 30
+            print("Basket center X", self.basketCenterX)
+            side_speed = (curBasketCenterX - curBallX)/self.eyeCam.cameraX * base_speed#
+            if(abs(side_speed)<3):
+                side_speed = np.sign(side_speed)*3
+            #if(side_speed<0):
+            #    side_speed = 0
+            print((curBasketCenterX -  curBallX)/self.eyeCam.cameraX * base_speed)    
+        rot_spd = (curBallX - self.eyeCam.cameraX/2)/self.eyeCam.cameraX * base_speed_rotation * 2
+        move.omniPlanar(-side_speed, front_speed, -rot_spd, 0, 0)
+        #print(side_speed, front_speed, rot_spd)
+        #print(curBallY)
+        curBasketDist = self.basketDistance
+        min_throw_error = 8
+        max_throw_distance = 5.25
+        basket_error_x = curBallX - curBasketCenterX
+        
+        if(curBasketDist != None):
+            throw_error = max_throw_distance / curBasketDist * min_throw_error/1000
+            is_basket_too_far = curBasketDist > 3000
+            is_basket_too_close = curBasketDist < 500
+            if throw_error < min_throw_error:
+                    throw_error = min_throw_error
+            is_basket_error_x_small_enough = abs(basket_error_x) < min_throw_error
+            print(basket_error_x, throw_error)
+            if is_basket_error_x_small_enough:
+                print("Throw")
+                self.currentState = State.THROW
+                return
+        '''
         if curBasketCenterX == -1:
             delta_x = self.eyeCam.cameraX
         else:
@@ -190,14 +226,14 @@ class GameLogic:
         front_speed = 0
         side_speed = 0
         #front_speed = self.calc_speed(delta_y, self.eyeCam.cameraY, 5, 3, 100, 30)
-        side_speed = self.calc_speed(delta_x*0.4, self.eyeCam.cameraX, 5, 4, 100, 20)
+        side_speed = self.calc_speed(delta_x, self.eyeCam.cameraX, 5, 4, 100, 20)
         print(delta_x)
         print(curBallX)
         print(rot_delta_x)
         rot_spd = self.calc_speed(rot_delta_x, self.eyeCam.cameraX, 5, 5, 100, 40)
         print(side_speed)
         print(rot_spd)
-        move.omniPlanar(side_speed, front_speed, rot_spd, 0, 0)
+        move.omniPlanar(-side_speed, front_speed, -rot_spd, 0, 0)
         min_throw_error = 1.5
         max_throw_distance = 5.25
         basket_error_x = curBallX - curBasketCenterX#state_data.basket_x - camera.camera_x
@@ -213,10 +249,10 @@ class GameLogic:
                 print("Throw")
                 self.currentState = State.THROW
                 return
-        '''  
+          
         #END OF STOLEN
         #self.currentState = State.AIM
-        
+        '''
         
     def Find(self):
         #if keypointCount >= 1:
@@ -273,7 +309,7 @@ class GameLogic:
             else:
                 print(f"I AM ALIGNING WITH THE BALL NOW")
                 # orient with ball
-                speed = 40
+                speed = 60
                 forwardSpeed = ((450 - self.ballY)/self.FrameY)*speed
                 #forwardSpeed = 0
                 sideSpeed = ((320 - self.ballX)/self.FrameX)*speed # << try this
