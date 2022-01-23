@@ -1,7 +1,0 @@
-Change Component Comment : Designator=C12 Old Comment=100nF New Comment=1uF
-Change Component Comment : Designator=C13 Old Comment=100nF New Comment=1uF
-Change Component Comment : Designator=C15 Old Comment=100nF New Comment=1uF
-Change Component Comment : Designator=C16 Old Comment=100nF New Comment=1uF
-Added Pin To Net: NetName=PGND Pin=C16-2
-Added Pin To Net: NetName=GND Pin=U4-16
-Added Pin To Net: NetName=GND Pin=U4-32

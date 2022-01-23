@@ -1,7 +1,0 @@
-Added Component: Designator=Q1(BUK6Y10-30P)
-Added Pin To Net: NetName=NetJ12_1 Pin=Q1-D
-Added Pin To Net: NetName=PGND Pin=Q1-G
-Added Pin To Net: NetName=+16 Pin=Q1-S
-Added Pin To Net: NetName=+16 Pin=Q1-S
-Added Pin To Net: NetName=+16 Pin=Q1-S
-Added Member To Class: ClassName=Sheet1 Member=Component Q1 BUK6Y10-30P
