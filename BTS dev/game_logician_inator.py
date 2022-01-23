@@ -111,21 +111,16 @@ class GameLogic:
         if self.ballY is None:
             self.currentState = State.FIND
             return
-        else:
-            curBallY = self.ballY         
-        if self.ballX is None:
-            self.currentState = State.FIND
-            return
-        else:
-            curBallX = self.ballX 
+        curBallY = self.ballY
+        curBallX = self.ballX 
         curBasketCenterX = self.basketCenterX       
         base_speed = 30
         base_speed_rotation = 100 
         front_speed = (430 - curBallY)/self.eyeCam.cameraY * base_speed_rotation
         if self.basketCenterX is None or self.basketCenterX == -1:            
-            side_speed = -(self.eyeCam.cameraX)/self.eyeCam.cameraX * base_speed       
+            side_speed = -base_speed       
         else:
-            side_speed = (curBasketCenterX - curBallX)/self.eyeCam.cameraX * base_speed#
+            side_speed = (curBasketCenterX - curBallX)/self.eyeCam.cameraX * base_speed
             if(abs(side_speed)<3):
                 side_speed = np.sign(side_speed)*3
         rot_spd = (curBallX - self.eyeCam.cameraX/2)/self.eyeCam.cameraX * base_speed_rotation * 3
