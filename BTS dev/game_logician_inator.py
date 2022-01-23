@@ -275,7 +275,7 @@ class GameLogic:
         curBasketCenterX = self.eyeCam.cameraX/2
         curBallX = self.eyeCam.cameraX/2
         curBallY = 430
-        for i in range(40):
+        for i in range(150):
             #print(self.basketDistance)
             if self.basketDistance != None:
                 throwerRelativeRPM = throw.throwerSpeedFromDistanceToBasket(self.basketDistance) #Is potentially ok      
@@ -292,7 +292,7 @@ class GameLogic:
                 rot_spd = (curBasketCenterX - self.eyeCam.cameraX/2)/self.eyeCam.cameraX * base_speed_rotation
             print(f"THROWING iteration: {i} with thrower at: {throwerRelativeRPM}")    
             move.omniPlanar(-side_speed, front_speed, -rot_spd, throwerRelativeRPM, failsafe) # move forward and throw ball
-            time.sleep(0.05) #parallel !!!!
+            time.sleep(0.01) #parallel !!!!
         self.currentState = State.FIND
 
 ################################################################################################################################################
