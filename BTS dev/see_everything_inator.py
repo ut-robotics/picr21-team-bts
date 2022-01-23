@@ -56,6 +56,8 @@ class frameProcessor():
         self.detector = createBlobDetector()
 
         self.frame = None
+        
+        self.is_obstacle_close = False
 
 
     def selectTarget(self, target):
@@ -179,7 +181,7 @@ class frameProcessor():
                 #print(basketDistance)
         #print(np.shape(processedData.debug_frame))
         #print(processedData.debug_frame)
-        return keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistance, processedData.debug_frame
+        return keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistance, processedData.debug_frame, processedData.is_obstacle_close
 
 ################################################################################################################################################
 ################################################################################################################################################

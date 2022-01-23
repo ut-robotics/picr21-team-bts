@@ -11,8 +11,6 @@ from numpy.ctypeslib import ndpointer
 # Now whenever argument
 # will be passed to the function                                                       
 # ctypes will check it.
-           
-
 
 class Object():
     def __init__(self, x = -1, y = -1, size = -1, distance = -1, exists = False):
@@ -39,7 +37,8 @@ class ProcessedResults():
                 color_frame = [],
                 depth_frame = [],
                 fragmented = [],
-                debug_frame = []) -> None:
+                debug_frame = [],
+                is_obstacle_close = False) -> None:
 
 
         self.balls = balls
@@ -48,7 +47,7 @@ class ProcessedResults():
         self.color_frame = color_frame
         self.depth_frame = depth_frame
         self.fragmented = fragmented
-
+        self.is_obstacle_close = is_obstacle_close
         # can be used to illustrate things in a separate frame buffer
         self.debug_frame = debug_frame
 
@@ -78,6 +77,10 @@ class ImageProcessor():
                 ndpointer(np.uint32, flags="C_CONTIGUOUS"),
                 ctypes.c_size_t]
         self.utils.processBorders.restype = None
+        #self.utils = ctypes.CDLL("./utils.so")
+        self.utils.isObstacle.argtypes = [ndpointer(np.uint8, flags="C_CONTIGUOUS"),
+                ctypes.c_size_t]
+        self.utils.isObstacle.restype = np.uint8
 
     def set_segmentation_table(self, table):
         segment.set_table(table)
@@ -187,6 +190,11 @@ class ImageProcessor():
                 cv2.circle(self.debug_frame,(basket.x, basket.y), 20, debug_color, -1)
 
         return basket
+        
+    def analyze_obstacle(self, fragments):
+        
+        
+        return 
 
     def get_frame_data(self, aligned_depth = False):
         if self.camera.has_depth_capability():
@@ -205,11 +213,12 @@ class ImageProcessor():
         balls = self.analyze_balls(self.t_balls, self.fragmented)
         basket_b = self.analyze_baskets(self.t_basket_b, debug_color=c.Color.BLUE.color.tolist())
         basket_m = self.analyze_baskets(self.t_basket_m, debug_color=c.Color.MAGENTA.color.tolist())
-
+        is_obstacle_close = bool(self.utils.isObstacle(self.fragmented, self.fragmented.size))
         return ProcessedResults(balls = balls, 
                                 basket_b = basket_b, 
                                 basket_m = basket_m, 
                                 color_frame=color_frame, 
                                 depth_frame=depth_frame, 
                                 fragmented=self.fragmented, 
-                                debug_frame=self.debug_frame)
+                                debug_frame=self.debug_frame,
+                                is_obstacle_close = is_obstacle_close)

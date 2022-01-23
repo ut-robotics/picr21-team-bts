@@ -83,6 +83,24 @@ class GameLogic:
             else:                
                 rot_spd = (self.basketCenterX - self.eyeCam.cameraX/2)/self.eyeCam.cameraX * base_speed_rotation
             move.omniPlanar(0, front_speed, -rot_spd, 0, 0)
+        '''
+        potentially can implement a hold ball feature
+        idea: find... ball seen ==> drive... drive to ball
+        ==> hold... collect ball (hold)
+        ==> aim... rotate to align with basket target
+        ==> throw... throw short then execute full throw...
+
+        ?? is this faster than:
+        find... ball seen ==> drive... drive to ball
+        ==> aim... orbit ball until aligned with basket
+        ==> throw... throw ball to basket
+
+        depends on how accurate the orbiting is
+        depends on how precise the aiming is
+        depends on how fast the robot can move
+        depends on whether or not the mini throw before the main throw is even possible...
+        having to execute aiming multiple times may improve overall results
+        '''
         
     def Avoid(self):
         #print("State AVOID")
@@ -95,6 +113,14 @@ class GameLogic:
             move.omniDirect(robotSpeed, robotDirectionAngle, robotAngularVelocity, throwerRelativeRPM, failsafe)
             self.currentState = State.AVOID
         else:
+            #print(self.is_obstacle_close)
+            #print("Free PATH")
+            #for i in range(5):
+            #    if (self.is_obstacle_close):
+            #        self.currentState = State.AVOID
+            #        return
+            #    move.omniPlanar(0, 0, 60, 0, 0) # move forward and throw ball
+            #    time.sleep(0.05) #parallel !!!!
             for i in range(20):
                 if (self.is_obstacle_close):
                     self.currentState = State.AVOID
@@ -108,6 +134,50 @@ class GameLogic:
         #Base code is ok, but it may occure that distX of ball is 290 and dist of basket is 330 and both will pass. With lower limits aiming is prety good but slow
         #Is inspired by KOBI code with some ajustment too formulas
         #Anyway robot movemnents on ultra slow speed must be improved. 
+        '''
+        if self.ballY is None:
+            self.currentState = State.FIND
+            return
+        else:
+            curBallY = self.ballY 
+        if self.ballX is None:
+            self.currentState = State.FIND
+            return
+        else:
+            curBallX = self.ballX        
+        base_speed_side = 30
+        base_speed_forward = 100
+        base_speed_rotation = 200 
+        front_speed = (430 - curBallY)/self.eyeCam.cameraY * base_speed_forward
+        if self.basketCenterX == -1:            
+            side_speed = -(self.eyeCam.cameraX)/self.eyeCam.cameraX * base_speed_side       
+        else:           
+            side_speed = (self.basketCenterX - curBallX)/self.eyeCam.cameraX * base_speed_side
+            if(abs(side_speed)<3):
+                side_speed = np.sign(side_speed)*3
+        basket_error_x = curBallX - self.basketCenterX
+        rot_spd = (curBallX - self.eyeCam.cameraX/2)/self.eyeCam.cameraX * base_speed_rotation
+        move.omniPlanar(-side_speed, front_speed, -rot_spd, 0, 0)
+        curBasketDist = self.basketDistance
+        min_throw_error = 8 #add dependance on curBasketDist
+        #max_throw_distance = 5.25
+       
+        
+        if(curBasketDist != None):
+            self.lastBasketDist = curBasketDist
+            is_basket_error_x_small_enough = abs(basket_error_x) < min_throw_error
+            print(basket_error_x, min_throw_error)
+            if is_basket_error_x_small_enough:
+                if(curBasketDist < 500): #too close                    
+                    print("Borrow ball and move backward")
+                    self.currentState = State.CATCH
+                elif(curBasketDist > 3000):
+                    print("Borrow ball and move forward")
+                    self.currentState = State.CATCH
+                else:
+                    print("Throw")
+                    self.currentState = State.THROW             
+        '''
         if self.ballY is None:
             self.currentState = State.FIND
             return
@@ -118,7 +188,11 @@ class GameLogic:
             return
         else:
             curBallX = self.ballX 
-        curBasketCenterX = self.basketCenterX       
+        if self.basketCenterX is None:
+            self.currentState = State.FIND
+            return
+        else:
+            curBasketCenterX = self.basketCenterX       
         base_speed = 30
         base_speed_rotation = 100 
         front_speed = (430 - curBallY)/self.eyeCam.cameraY * base_speed_rotation
@@ -208,6 +282,19 @@ class GameLogic:
                 print("I AM GOING TO AIM NOW")
                 self.currentState = State.AIM
                 #self.currentState = State.FIND
+                ''''
+                elif (250 <= self.ballX <= 390):
+                    # when aligned, go to ball
+                    print(f"ALIGNED WITH BALL, CLOSING IN NOW")
+                    speed = 65
+                    robotDirectionAngle = 90
+                    robotAngularVelocity = 0
+                    throwerRelativeRPM = 0
+                    #robotSpeed = (((ballY - (FrameY/2)))/(FrameY))*speed
+                    robotSpeed = ((450 - self.ballY)/(self.frameY))*speed
+                    failsafe = 0
+                    move.omniDirect(robotSpeed, robotDirectionAngle, robotAngularVelocity, throwerRelativeRPM, failsafe)
+                '''
             else:
                 print(f"I AM ALIGNING WITH THE BALL NOW")
                 # orient with ball
