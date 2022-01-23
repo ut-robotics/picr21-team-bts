@@ -26,18 +26,18 @@ def wheelLinearVelocity(robotSpeed, robotDirectionAngle, wheelAngle, wheelDistan
 # WIP
 def calculateRelativeSpeed(deltaFactor, maxDeltaVal, minDeltaVal, maxDeltaSpeed, minAllowedSpeed, maxAllowedSpeed):
 
-    absoluteDelta = abs(deltaFactor)
+    absoluteDelta = abs(deltaFactor) #base valuce like 450-self.basketX
 
-    if absoluteDelta < minDeltaVal:
+    if absoluteDelta < minDeltaVal: #min base value
         return 0
 
-    deltaFrac = deltaFactor / maxDeltaVal
-    absoluteDeltaFrac = abs(deltaFrac)
+    deltaFrac = deltaFactor / maxDeltaVal #relative coff like /self.frameY
+    absoluteDeltaFrac = abs(deltaFrac) 
 
     sign = np.sign(deltaFrac)
-    normalizedDeltaFrac = sign * np.power(absoluteDeltaFrac, 2)
+    normalizedDeltaFrac = sign * np.power(absoluteDeltaFrac, 2) #why squared?
 
-    relativeSpeed = int(normalizedDeltaFrac * maxDeltaSpeed)
+    relativeSpeed = int(normalizedDeltaFrac * maxDeltaSpeed) #like *speed
     absoluteSpeed = abs(relativeSpeed)
 
     if absoluteSpeed >= minAllowedSpeed and absoluteSpeed <= maxAllowedSpeed:
