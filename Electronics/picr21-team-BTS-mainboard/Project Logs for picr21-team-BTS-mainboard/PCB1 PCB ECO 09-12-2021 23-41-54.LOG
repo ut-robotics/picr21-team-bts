@@ -1,0 +1,8 @@
+Removed Pin From Net: NetName=M3_DIR_Control Pin=U4-5
+Removed Pin From Net: NetName=M3_PWM_Control Pin=U4-6
+Removed Pin From Net: NetName=M1_DIR_Control Pin=U4-9
+Removed Pin From Net: NetName=M1_PWM_Control Pin=U4-10
+Added Pin To Net: NetName=M1_DIR_Control Pin=U4-5
+Added Pin To Net: NetName=M1_PWM_Control Pin=U4-6
+Added Pin To Net: NetName=M3_DIR_Control Pin=U4-9
+Added Pin To Net: NetName=M3_PWM_Control Pin=U4-10

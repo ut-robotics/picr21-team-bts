@@ -1,0 +1,387 @@
+Change Component Comment : Designator=J13 Old Comment= New Comment=M1_1
+Change Component Comment : Designator=J10 Old Comment= New Comment=M1_2
+Change Component Comment : Designator=J8 Old Comment= New Comment=M2_1
+Change Component Comment : Designator=J7 Old Comment= New Comment=M2_2
+Change Component Comment : Designator=J6 Old Comment= New Comment=M3_1
+Change Component Comment : Designator=J5 Old Comment= New Comment=M3_3
+Added Component: Designator=C17(CAPC1206(3216)190_N)
+Add component (AddParameter): Name = "Case-EIA"; Value = "1206"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Case-Metric"; Value = "3216"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Max Thickness"; Value = "1.9 mm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Rated Voltage"; Value = "25 V"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Technology"; Value = "SMT"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Tolerance"; Value = "-20% to +80%"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = "10uF"; VariantName = "[No Variations]"
+Added Component: Designator=C18(CAPC1206(3216)190_N)
+Add component (AddParameter): Name = "Case-EIA"; Value = "1206"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Case-Metric"; Value = "3216"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Max Thickness"; Value = "1.9 mm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Rated Voltage"; Value = "25 V"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Technology"; Value = "SMT"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Tolerance"; Value = "-20% to +80%"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = "10uF"; VariantName = "[No Variations]"
+Added Component: Designator=C19(CAPC1206(3216)190_N)
+Add component (AddParameter): Name = "Case-EIA"; Value = "1206"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Case-Metric"; Value = "3216"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Max Thickness"; Value = "1.9 mm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Rated Voltage"; Value = "25 V"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Technology"; Value = "SMT"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Tolerance"; Value = "-20% to +80%"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = "10uF"; VariantName = "[No Variations]"
+Added Component: Designator=C20(CAPC1206(3216)190_N)
+Add component (AddParameter): Name = "Case-EIA"; Value = "1206"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Case-Metric"; Value = "3216"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Max Thickness"; Value = "1.9 mm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Rated Voltage"; Value = "25 V"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Technology"; Value = "SMT"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Tolerance"; Value = "-20% to +80%"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = "10uF"; VariantName = "[No Variations]"
+Added Component: Designator=C21(CAPC1206(3216)190_N)
+Add component (AddParameter): Name = "Case-EIA"; Value = "1206"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Case-Metric"; Value = "3216"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Max Thickness"; Value = "1.9 mm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Rated Voltage"; Value = "25 V"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Technology"; Value = "SMT"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Tolerance"; Value = "-20% to +80%"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = "10uF"; VariantName = "[No Variations]"
+Added Component: Designator=C22(CAPC1206(3216)190_N)
+Add component (AddParameter): Name = "Case-EIA"; Value = "1206"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Case-Metric"; Value = "3216"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Max Thickness"; Value = "1.9 mm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Rated Voltage"; Value = "25 V"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Technology"; Value = "SMT"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Tolerance"; Value = "-20% to +80%"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = "10uF"; VariantName = "[No Variations]"
+Added Component: Designator=C23(CAPC1206(3216)190_N)
+Add component (AddParameter): Name = "Case-EIA"; Value = "1206"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Case-Metric"; Value = "3216"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Max Thickness"; Value = "1.9 mm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Rated Voltage"; Value = "25 V"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Technology"; Value = "SMT"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Tolerance"; Value = "-20% to +80%"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = "10uF"; VariantName = "[No Variations]"
+Added Component: Designator=C24(CAPC1206(3216)190_N)
+Add component (AddParameter): Name = "Case-EIA"; Value = "1206"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Case-Metric"; Value = "3216"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Max Thickness"; Value = "1.9 mm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Rated Voltage"; Value = "25 V"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Technology"; Value = "SMT"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Tolerance"; Value = "-20% to +80%"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = "10uF"; VariantName = "[No Variations]"
+Added Component: Designator=C25(CAPC1206(3216)190_N)
+Add component (AddParameter): Name = "Case-EIA"; Value = "1206"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Case-Metric"; Value = "3216"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Max Thickness"; Value = "1.9 mm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Rated Voltage"; Value = "25 V"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Technology"; Value = "SMT"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Tolerance"; Value = "-20% to +80%"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = "10uF"; VariantName = "[No Variations]"
+Added Component: Designator=C26(CAPC1206(3216)190_N)
+Add component (AddParameter): Name = "Case-EIA"; Value = "1206"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Case-Metric"; Value = "3216"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Max Thickness"; Value = "1.9 mm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Rated Voltage"; Value = "25 V"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Technology"; Value = "SMT"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Tolerance"; Value = "-20% to +80%"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = "10uF"; VariantName = "[No Variations]"
+Added Component: Designator=C27(CAPC1206(3216)190_N)
+Add component (AddParameter): Name = "Case-EIA"; Value = "1206"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Case-Metric"; Value = "3216"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Max Thickness"; Value = "1.9 mm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Rated Voltage"; Value = "25 V"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Technology"; Value = "SMT"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Tolerance"; Value = "-20% to +80%"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = "10uF"; VariantName = "[No Variations]"
+Added Component: Designator=C28(CAPC1206(3216)190_N)
+Add component (AddParameter): Name = "Case-EIA"; Value = "1206"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Case-Metric"; Value = "3216"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Max Thickness"; Value = "1.9 mm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Rated Voltage"; Value = "25 V"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Technology"; Value = "SMT"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Tolerance"; Value = "-20% to +80%"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = "10uF"; VariantName = "[No Variations]"
+Added Component: Designator=C29(CAPC1206(3216)190_N)
+Add component (AddParameter): Name = "Case-EIA"; Value = "1206"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Case-Metric"; Value = "3216"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Max Thickness"; Value = "1.9 mm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Rated Voltage"; Value = "25 V"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Technology"; Value = "SMT"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Tolerance"; Value = "-20% to +80%"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = "10uF"; VariantName = "[No Variations]"
+Added Component: Designator=C30(CAPC1206(3216)190_N)
+Add component (AddParameter): Name = "Case-EIA"; Value = "1206"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Case-Metric"; Value = "3216"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Max Thickness"; Value = "1.9 mm"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Rated Voltage"; Value = "25 V"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Technology"; Value = "SMT"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Tolerance"; Value = "-20% to +80%"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = "10uF"; VariantName = "[No Variations]"
+Added Pin To Net: NetName=PGND Pin=C1-1
+Added Pin To Net: NetName=+16 Pin=C1-2
+Added Pin To Net: NetName=+3.3 Pin=C2-1
+Added Pin To Net: NetName=GND Pin=C2-2
+Added Pin To Net: NetName=PGND Pin=C3-1
+Added Pin To Net: NetName=+16 Pin=C3-2
+Added Pin To Net: NetName=+3.3 Pin=C4-1
+Added Pin To Net: NetName=GND Pin=C4-2
+Added Pin To Net: NetName=PGND Pin=C5-1
+Added Pin To Net: NetName=+5 Pin=C5-2
+Added Pin To Net: NetName=GND Pin=C6-1
+Added Pin To Net: NetName=+3.3 Pin=C6-2
+Added Pin To Net: NetName=+16 Pin=C7-1
+Added Pin To Net: NetName=PGND Pin=C7-2
+Added Pin To Net: NetName=+3.3 Pin=C8-1
+Added Pin To Net: NetName=GND Pin=C8-2
+Added Pin To Net: NetName=PGND Pin=C9-1
+Added Pin To Net: NetName=+5 Pin=C9-2
+Added Pin To Net: NetName=PGND Pin=C10-1
+Added Pin To Net: NetName=+16 Pin=C10-2
+Added Pin To Net: NetName=+16 Pin=C11-1
+Added Pin To Net: NetName=PGND Pin=C11-2
+Added Pin To Net: NetName=+5 Pin=C12-1
+Added Pin To Net: NetName=GND Pin=C12-2
+Added Pin To Net: NetName=+3.3 Pin=C13-1
+Added Pin To Net: NetName=GND Pin=C13-2
+Added Pin To Net: NetName=PGND Pin=C14-1
+Added Pin To Net: NetName=+16 Pin=C14-2
+Added Pin To Net: NetName=+16 Pin=C15-1
+Added Pin To Net: NetName=PGND Pin=C15-2
+Added Pin To Net: NetName=+5 Pin=C16-1
+Added Pin To Net: NetName=PGND Pin=C17-1
+Added Pin To Net: NetName=+16 Pin=C17-2
+Added Pin To Net: NetName=PGND Pin=C18-1
+Added Pin To Net: NetName=+16 Pin=C18-2
+Added Pin To Net: NetName=PGND Pin=C19-1
+Added Pin To Net: NetName=+16 Pin=C19-2
+Added Pin To Net: NetName=PGND Pin=C20-1
+Added Pin To Net: NetName=+16 Pin=C20-2
+Added Pin To Net: NetName=PGND Pin=C21-1
+Added Pin To Net: NetName=+16 Pin=C21-2
+Added Pin To Net: NetName=PGND Pin=C22-1
+Added Pin To Net: NetName=+16 Pin=C22-2
+Added Pin To Net: NetName=PGND Pin=C23-1
+Added Pin To Net: NetName=+16 Pin=C23-2
+Added Pin To Net: NetName=PGND Pin=C24-1
+Added Pin To Net: NetName=+16 Pin=C24-2
+Added Pin To Net: NetName=PGND Pin=C25-1
+Added Pin To Net: NetName=+16 Pin=C25-2
+Added Pin To Net: NetName=PGND Pin=C26-1
+Added Pin To Net: NetName=+16 Pin=C26-2
+Added Pin To Net: NetName=PGND Pin=C27-1
+Added Pin To Net: NetName=+16 Pin=C27-2
+Added Pin To Net: NetName=PGND Pin=C28-1
+Added Pin To Net: NetName=+16 Pin=C28-2
+Added Pin To Net: NetName=PGND Pin=C29-1
+Added Pin To Net: NetName=+16 Pin=C29-2
+Added Pin To Net: NetName=PGND Pin=C30-1
+Added Pin To Net: NetName=+16 Pin=C30-2
+Added Pin To Net: NetName=GND Pin=J1-1
+Added Pin To Net: NetName=THROWER_PW Pin=J1-3
+Added Pin To Net: NetName=GND Pin=J2-1
+Added Pin To Net: NetName=+3.3 Pin=J2-2
+Added Pin To Net: NetName=TIM1_CH1 Pin=J2-3
+Added Pin To Net: NetName=TIM1_CH2 Pin=J2-4
+Added Pin To Net: NetName=GND Pin=J3-1
+Added Pin To Net: NetName=+3.3 Pin=J3-2
+Added Pin To Net: NetName=TIM2_CH1 Pin=J3-3
+Added Pin To Net: NetName=TIM2_CH2 Pin=J3-4
+Added Pin To Net: NetName=GND Pin=J4-1
+Added Pin To Net: NetName=+3.3 Pin=J4-2
+Added Pin To Net: NetName=TIM3_CH1 Pin=J4-3
+Added Pin To Net: NetName=TIM3_CH2 Pin=J4-4
+Added Pin To Net: NetName=+3.3 Pin=J9-01
+Added Pin To Net: NetName=SWDIO Pin=J9-02
+Added Pin To Net: NetName=GND Pin=J9-03
+Added Pin To Net: NetName=SWCLK Pin=J9-04
+Added Pin To Net: NetName=GND Pin=J9-05
+Added Pin To Net: NetName=GND Pin=J9-09
+Added Pin To Net: NetName=NRST Pin=J9-10
+Added Pin To Net: NetName=+5 Pin=J11-1
+Added Pin To Net: NetName=USB_DM Pin=J11-2
+Added Pin To Net: NetName=USB_DP Pin=J11-3
+Added Pin To Net: NetName=NetJ11_5 Pin=J11-5
+Added Pin To Net: NetName=GND Pin=J11-S1
+Added Pin To Net: NetName=GND Pin=J11-S2
+Added Pin To Net: NetName=GND Pin=J11-S3
+Added Pin To Net: NetName=GND Pin=J11-S4
+Added Pin To Net: NetName=GND Pin=J11-S5
+Added Pin To Net: NetName=GND Pin=J11-S6
+Added Pin To Net: NetName=NetJ11_5 Pin=J-2
+Added Pin To Net: NetName=USB_DP Pin=J-3
+Added Pin To Net: NetName=USB_DM Pin=J-4
+Added Pin To Net: NetName=+5 Pin=J-5
+Added Pin To Net: NetName=NetJ12 Pin=Q1-1
+Added Pin To Net: NetName=PGND Pin=Q1-2
+Added Pin To Net: NetName=+16 Pin=Q1-3
+Added Pin To Net: NetName=+5 Pin=R1-1
+Added Pin To Net: NetName=NetR1_2 Pin=R1-2
+Added Pin To Net: NetName=PGND Pin=R2-1
+Added Pin To Net: NetName=NetR2_2 Pin=R2-2
+Added Pin To Net: NetName=PGND Pin=R3-1
+Added Pin To Net: NetName=PGND Pin=R4-1
+Added Pin To Net: NetName=NetR4_2 Pin=R4-2
+Added Pin To Net: NetName=PGND Pin=R5-1
+Added Pin To Net: NetName=NetR5_2 Pin=R5-2
+Added Pin To Net: NetName=+5 Pin=R6-1
+Added Pin To Net: NetName=NetR6_2 Pin=R6-2
+Added Pin To Net: NetName=PGND Pin=R7-1
+Added Pin To Net: NetName=NetR7_2 Pin=R7-2
+Added Pin To Net: NetName=PGND Pin=R8-1
+Added Pin To Net: NetName=NetR8_2 Pin=R8-2
+Added Pin To Net: NetName=PGND Pin=R9-1
+Added Pin To Net: NetName=NetR9_2 Pin=R9-2
+Added Pin To Net: NetName=+5 Pin=R10-1
+Added Pin To Net: NetName=NetR10_2 Pin=R10-2
+Added Pin To Net: NetName=PGND Pin=R11-1
+Added Pin To Net: NetName=NetR11_2 Pin=R11-2
+Added Pin To Net: NetName=PGND Pin=R12-1
+Added Pin To Net: NetName=NetR12_2 Pin=R12-2
+Added Pin To Net: NetName=NetR12_2 Pin=U1-2
+Added Pin To Net: NetName=NetR10_2 Pin=U1-3
+Added Pin To Net: NetName=+16 Pin=U1-4
+Added Pin To Net: NetName=NetJ10 Pin=U1-5
+Added Pin To Net: NetName=PGND Pin=U1-6
+Added Pin To Net: NetName=NetJ13 Pin=U1-7
+Added Pin To Net: NetName=NetR9_2 Pin=U1-8
+Added Pin To Net: NetName=M1_PWM Pin=U1-9
+Added Pin To Net: NetName=M1_DIR Pin=U1-10
+Added Pin To Net: NetName=PGND Pin=U1-11
+Added Pin To Net: NetName=NetR11_2 Pin=U1-12
+Added Pin To Net: NetName=PGND Pin=U1-14
+Added Pin To Net: NetName=NetR7_2 Pin=U2-2
+Added Pin To Net: NetName=NetR6_2 Pin=U2-3
+Added Pin To Net: NetName=+16 Pin=U2-4
+Added Pin To Net: NetName=NetJ7 Pin=U2-5
+Added Pin To Net: NetName=PGND Pin=U2-6
+Added Pin To Net: NetName=NetJ8 Pin=U2-7
+Added Pin To Net: NetName=NetR5_2 Pin=U2-8
+Added Pin To Net: NetName=M2_PWM Pin=U2-9
+Added Pin To Net: NetName=M2_DIR Pin=U2-10
+Added Pin To Net: NetName=PGND Pin=U2-11
+Added Pin To Net: NetName=NetR8_2 Pin=U2-12
+Added Pin To Net: NetName=PGND Pin=U2-14
+Added Pin To Net: NetName=NetR1_2 Pin=U3-3
+Added Pin To Net: NetName=+16 Pin=U3-4
+Added Pin To Net: NetName=NetJ5 Pin=U3-5
+Added Pin To Net: NetName=PGND Pin=U3-6
+Added Pin To Net: NetName=NetJ6 Pin=U3-7
+Added Pin To Net: NetName=NetR2_2 Pin=U3-8
+Added Pin To Net: NetName=M3_PWM Pin=U3-9
+Added Pin To Net: NetName=M3_DIR Pin=U3-10
+Added Pin To Net: NetName=PGND Pin=U3-11
+Added Pin To Net: NetName=NetR4_2 Pin=U3-12
+Added Pin To Net: NetName=PGND Pin=U3-14
+Added Pin To Net: NetName=+3.3 Pin=U4-1
+Added Pin To Net: NetName=NRST Pin=U4-4
+Added Pin To Net: NetName=M1_PWM_Control Pin=U4-5
+Added Pin To Net: NetName=M2_PWM_Control Pin=U4-6
+Added Pin To Net: NetName=M3_PWM_Control Pin=U4-7
+Added Pin To Net: NetName=THROWER_PW Pin=U4-8
+Added Pin To Net: NetName=M1_DIR_Control Pin=U4-9
+Added Pin To Net: NetName=M2_DIR_Control Pin=U4-10
+Added Pin To Net: NetName=M3_DIR_Control Pin=U4-11
+Added Pin To Net: NetName=+3.3 Pin=U4-17
+Added Pin To Net: NetName=TIM1_CH1 Pin=U4-18
+Added Pin To Net: NetName=TIM1_CH2 Pin=U4-19
+Added Pin To Net: NetName=USB_DM Pin=U4-21
+Added Pin To Net: NetName=USB_DP Pin=U4-22
+Added Pin To Net: NetName=SWDIO Pin=U4-23
+Added Pin To Net: NetName=SWCLK Pin=U4-24
+Added Pin To Net: NetName=TIM2_CH1 Pin=U4-27
+Added Pin To Net: NetName=TIM2_CH2 Pin=U4-28
+Added Pin To Net: NetName=TIM3_CH1 Pin=U4-29
+Added Pin To Net: NetName=TIM3_CH2 Pin=U4-30
+Added Pin To Net: NetName=+3.3 Pin=U5-1
+Added Pin To Net: NetName=M3_PWM_Control Pin=U5-3
+Added Pin To Net: NetName=M3_DIR_Control Pin=U5-4
+Added Pin To Net: NetName=GND Pin=U5-8
+Added Pin To Net: NetName=PGND Pin=U5-9
+Added Pin To Net: NetName=M3_DIR Pin=U5-13
+Added Pin To Net: NetName=M3_PWM Pin=U5-14
+Added Pin To Net: NetName=+5 Pin=U5-16
+Added Pin To Net: NetName=+3.3 Pin=U6-1
+Added Pin To Net: NetName=M1_PWM_Control Pin=U6-3
+Added Pin To Net: NetName=M1_DIR_Control Pin=U6-4
+Added Pin To Net: NetName=M2_PWM_Control Pin=U6-5
+Added Pin To Net: NetName=M2_DIR_Control Pin=U6-6
+Added Pin To Net: NetName=GND Pin=U6-8
+Added Pin To Net: NetName=PGND Pin=U6-9
+Added Pin To Net: NetName=M2_DIR Pin=U6-11
+Added Pin To Net: NetName=M2_PWM Pin=U6-12
+Added Pin To Net: NetName=M1_DIR Pin=U6-13
+Added Pin To Net: NetName=M1_PWM Pin=U6-14
+Added Pin To Net: NetName=+5 Pin=U6-16
+Added Pin To Net: NetName=+5 Pin=U7-1
+Added Pin To Net: NetName=GND Pin=U7-2
+Added Pin To Net: NetName=+5 Pin=U7-3
+Added Pin To Net: NetName=+3.3 Pin=U7-5
+Added Pin To Net: NetName=+16 Pin=U8-1
+Added Pin To Net: NetName=PGND Pin=U8-2
+Added Pin To Net: NetName=+16 Pin=U8-3
+Added Pin To Net: NetName=+5 Pin=U8-5
+Added Member To Class: ClassName=Sheet1 Member=Component C1 CAP 10uF
+Added Member To Class: ClassName=Sheet1 Member=Component C2 100nF
+Added Member To Class: ClassName=Sheet1 Member=Component C3 100nF
+Added Member To Class: ClassName=Sheet1 Member=Component C4 100nF
+Added Member To Class: ClassName=Sheet1 Member=Component C5 100nF
+Added Member To Class: ClassName=Sheet1 Member=Component C6 100nF
+Added Member To Class: ClassName=Sheet1 Member=Component C7 CAP 10uF
+Added Member To Class: ClassName=Sheet1 Member=Component C8 100nF
+Added Member To Class: ClassName=Sheet1 Member=Component C9 100nF
+Added Member To Class: ClassName=Sheet1 Member=Component C10 100nF
+Added Member To Class: ClassName=Sheet1 Member=Component C11 CAP 10uF
+Added Member To Class: ClassName=Sheet1 Member=Component C12 100nF
+Added Member To Class: ClassName=Sheet1 Member=Component C13 100nF
+Added Member To Class: ClassName=Sheet1 Member=Component C14 100nF
+Added Member To Class: ClassName=Sheet1 Member=Component C15 100nF
+Added Member To Class: ClassName=Sheet1 Member=Component C16 100nF
+Added Member To Class: ClassName=Sheet1 Member=Component C17 CAP 10uF
+Added Member To Class: ClassName=Sheet1 Member=Component C18 CAP 10uF
+Added Member To Class: ClassName=Sheet1 Member=Component C19 CAP 10uF
+Added Member To Class: ClassName=Sheet1 Member=Component C20 CAP 10uF
+Added Member To Class: ClassName=Sheet1 Member=Component C21 CAP 10uF
+Added Member To Class: ClassName=Sheet1 Member=Component C22 CAP 10uF
+Added Member To Class: ClassName=Sheet1 Member=Component C23 CAP 10uF
+Added Member To Class: ClassName=Sheet1 Member=Component C24 CAP 10uF
+Added Member To Class: ClassName=Sheet1 Member=Component C25 CAP 10uF
+Added Member To Class: ClassName=Sheet1 Member=Component C26 CAP 10uF
+Added Member To Class: ClassName=Sheet1 Member=Component C27 CAP 10uF
+Added Member To Class: ClassName=Sheet1 Member=Component C28 CAP 10uF
+Added Member To Class: ClassName=Sheet1 Member=Component C29 CAP 10uF
+Added Member To Class: ClassName=Sheet1 Member=Component C30 CAP 10uF
+Added Member To Class: ClassName=Sheet1 Member=Component J1 215079-4
+Added Member To Class: ClassName=Sheet1 Member=Component J2 215079-4
+Added Member To Class: ClassName=Sheet1 Member=Component J3 215079-4
+Added Member To Class: ClassName=Sheet1 Member=Component J4 215079-4
+Added Member To Class: ClassName=Sheet1 Member=Component J5 M3_3
+Added Member To Class: ClassName=Sheet1 Member=Component J6 M3_1
+Added Member To Class: ClassName=Sheet1 Member=Component J7 M2_2
+Added Member To Class: ClassName=Sheet1 Member=Component J8 M2_1
+Added Member To Class: ClassName=Sheet1 Member=Component J9 Samtec FTSH-105-01-L-DV-K
+Added Member To Class: ClassName=Sheet1 Member=Component J10 M1_2
+Added Member To Class: ClassName=Sheet1 Member=Component J11 10118193-0001LF
+Added Member To Class: ClassName=Sheet1 Member=Component J12
+Added Member To Class: ClassName=Sheet1 Member=Component J13 M1_1
+Added Member To Class: ClassName=Sheet1 Member=Component J14
+Added Member To Class: ClassName=Sheet1 Member=Component J SOT23-5
+Added Member To Class: ClassName=Sheet1 Member=Component Q1 BUK6Y10-30P
+Added Member To Class: ClassName=Sheet1 Member=Component R1 ERJ3EKF1002V
+Added Member To Class: ClassName=Sheet1 Member=Component R2 ERJ3EKF1002V
+Added Member To Class: ClassName=Sheet1 Member=Component R3 3.3k
+Added Member To Class: ClassName=Sheet1 Member=Component R4 100k
+Added Member To Class: ClassName=Sheet1 Member=Component R5 ERJ3EKF1002V
+Added Member To Class: ClassName=Sheet1 Member=Component R6 ERJ3EKF1002V
+Added Member To Class: ClassName=Sheet1 Member=Component R7 3.3k
+Added Member To Class: ClassName=Sheet1 Member=Component R8 100k
+Added Member To Class: ClassName=Sheet1 Member=Component R9 ERJ3EKF1002V
+Added Member To Class: ClassName=Sheet1 Member=Component R10 ERJ3EKF1002V
+Added Member To Class: ClassName=Sheet1 Member=Component R11 100k
+Added Member To Class: ClassName=Sheet1 Member=Component R12 3.3k
+Added Member To Class: ClassName=Sheet1 Member=Component U1 DRV8243
+Added Member To Class: ClassName=Sheet1 Member=Component U2 DRV8243
+Added Member To Class: ClassName=Sheet1 Member=Component U3 DRV8243
+Added Member To Class: ClassName=Sheet1 Member=Component U4 Microcontroller
+Added Member To Class: ClassName=Sheet1 Member=Component U5 MAX14930DASE+
+Added Member To Class: ClassName=Sheet1 Member=Component U6 MAX14930DASE+
+Added Member To Class: ClassName=Sheet1 Member=Component U7 NCP164CSN330T1G
+Added Member To Class: ClassName=Sheet1 Member=Component U8 NCV8730ASN500T1G

@@ -1,0 +1,11 @@
+Added Pin To Net: NetName=nSleepMCU Pin=U4-13
+Added Pin To Net: NetName=nSleepMCU Pin=U5-6
+Added Net: Name=nSleepMCU
+Added Pin To Net: NetName=nSleep Pin=R1-2
+Added Pin To Net: NetName=nSleep Pin=R6-2
+Added Pin To Net: NetName=nSleep Pin=R10-2
+Added Pin To Net: NetName=nSleep Pin=U1-3
+Added Pin To Net: NetName=nSleep Pin=U2-3
+Added Pin To Net: NetName=nSleep Pin=U3-3
+Added Pin To Net: NetName=nSleep Pin=U5-11
+Added Net: Name=nSleep
