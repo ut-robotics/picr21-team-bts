@@ -1,3 +1,6 @@
+#B_T_S Final Code#
+#January 26th 2022#
+
 import serial_comms_inator as serial
 import math
 import numpy as np
@@ -35,7 +38,7 @@ def calculateRelativeSpeed(deltaFactor, maxDeltaVal, minDeltaVal, maxDeltaSpeed,
         return 0
 
     deltaFrac = deltaFactor / maxDeltaVal #relative coff like /self.frameY
-    absoluteDeltaFrac = abs(deltaFrac) 
+    absoluteDeltaFrac = abs(deltaFrac)
 
     sign = np.sign(deltaFrac)
     normalizedDeltaFrac = sign * np.power(absoluteDeltaFrac, 2) #why squared?
@@ -143,4 +146,3 @@ def MoveHoldBall(robotSpeed, failsafe):
 
 ################################################################################################################################################
 ################################################################################################################################################
-

@@ -1,3 +1,6 @@
+#B_T_S Final Code#
+#January 26th 2022#
+
 import camera
 import segment
 import _pickle as pickle
@@ -5,11 +8,11 @@ import numpy as np
 import cv2
 import Color as c
 import ctypes
-from numpy.ctypeslib import ndpointer 
+from numpy.ctypeslib import ndpointer
 
- # Or full path to file 
+ # Or full path to file
 # Now whenever argument
-# will be passed to the function                                                       
+# will be passed to the function
 # ctypes will check it.
 
 class Object():
@@ -18,7 +21,7 @@ class Object():
         self.y = y
         self.size = size
         self.distance = distance
-        self.exists = exists     
+        self.exists = exists
 
     def __str__(self) -> str:
         return "[Object: x={}; y={}; size={}; distance={}; exists={}]".format(self.x, self.y, self.size, self.distance, self.exists)
@@ -30,10 +33,10 @@ class Object():
 # results object of image processing. contains coordinates of objects and frame data used for these results
 class ProcessedResults():
 
-    def __init__(self, 
-                balls=[], 
-                basket_b = Object(exists = False), 
-                basket_m = Object(exists = False), 
+    def __init__(self,
+                balls=[],
+                basket_b = Object(exists = False),
+                basket_m = Object(exists = False),
                 color_frame = [],
                 depth_frame = [],
                 fragmented = [],
@@ -70,7 +73,7 @@ class ImageProcessor():
 
         self.debug = debug
         self.debug_frame = np.zeros((self.camera.rgb_height, self.camera.rgb_width), dtype=np.uint8)
-        
+
         self.utils = ctypes.CDLL("./utils.so")
         self.utils.processBorders.argtypes = [ndpointer(np.uint8, flags="C_CONTIGUOUS"),
                 ctypes.c_size_t,
@@ -122,15 +125,15 @@ class ImageProcessor():
                     #self.debug_frame[ys, xs] = [0, 0, 0]
                     #cv2.circle(self.debug_frame,(obj_x, obj_y), 10, (0,255,0), 2)
                     #print("Hello World")
-            #obj_dst = obj_y*obj_y + (obj_x - self.camera.rgb_width //2)*(obj_x - self.camera.rgb_width //2) #Remove math              
-            balls_array = np.append(balls_array, np.array([[np.uint32(obj_x), np.uint32(obj_y), np.uint32(size), np.uint32(True)]]), axis=0)       
+            #obj_dst = obj_y*obj_y + (obj_x - self.camera.rgb_width //2)*(obj_x - self.camera.rgb_width //2) #Remove math
+            balls_array = np.append(balls_array, np.array([[np.uint32(obj_x), np.uint32(obj_y), np.uint32(size), np.uint32(True)]]), axis=0)
         #print(balls)
         #print(balls_array.astype(np.uint8))
         #print(fragments.astype(np.uint8))
         #balls_array = balls_array.astype(np.uint8)
         self.utils.processBorders(fragments, fragments.size, balls_array, balls_array.size)
         #print(balls_array)
-        for ball in balls_array:            
+        for ball in balls_array:
             if(ball[3] == 1):
                 #print(ball)
                 balls.append(Object(x = int(ball[0]), y = int(ball[1]), size = int(ball[2]),
@@ -145,8 +148,8 @@ class ImageProcessor():
         #print(fragments)
         '''
         color_image = np.asanyarray(color_frame.get_data(),ctypes.c_int)
-        
-        
+
+
         print(balls)
         balls = [x for x in balls if x.exists]
         print(fragments)
@@ -156,8 +159,8 @@ class ImageProcessor():
                 #self.debug_frame[ys, xs] = [0, 0, 0]
                 cv2.circle(self.debug_frame,(obj_x, obj_y), 10, (0,255,0), 2)
                 #print("Hello World")
-        '''   
-        
+        '''
+
         return balls
 
     def analyze_baskets(self, t_basket, depth_frame, debug_color = (0, 255, 255)) -> list:
@@ -192,11 +195,11 @@ class ImageProcessor():
                 cv2.circle(self.debug_frame,(basket.x, basket.y), 20, debug_color, -1)
 
         return basket
-        
+
     def analyze_obstacle(self, fragments):
-        
-        
-        return 
+
+
+        return
 
     def get_frame_data(self, aligned_depth = False):
         if self.camera.has_depth_capability():
@@ -216,11 +219,11 @@ class ImageProcessor():
         basket_b = self.analyze_baskets(self.t_basket_b, depth_frame, debug_color=c.Color.BLUE.color.tolist())
         basket_m = self.analyze_baskets(self.t_basket_m, depth_frame, debug_color=c.Color.MAGENTA.color.tolist())
         is_obstacle_close = int(self.utils.isObstacle(self.fragmented, self.fragmented.size))
-        return ProcessedResults(balls = balls, 
-                                basket_b = basket_b, 
-                                basket_m = basket_m, 
-                                color_frame=color_frame, 
-                                depth_frame=depth_frame, 
-                                fragmented=self.fragmented, 
+        return ProcessedResults(balls = balls,
+                                basket_b = basket_b,
+                                basket_m = basket_m,
+                                color_frame=color_frame,
+                                depth_frame=depth_frame,
+                                fragmented=self.fragmented,
                                 debug_frame=self.debug_frame,
                                 is_obstacle_close = is_obstacle_close)

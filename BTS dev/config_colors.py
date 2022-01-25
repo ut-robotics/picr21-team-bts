@@ -1,3 +1,6 @@
+#B_T_S Final Code#
+#January 26th 2022#
+
 import cv2
 import numpy as np
 import _pickle as pickle
@@ -75,7 +78,7 @@ while(True):
     rgb = processedData.color_frame
 
     cv2.imshow('rgb', rgb)
-    
+
     fragmented	= colors_lookup[rgb[:,:,0] + rgb[:,:,1] * 0x100 + rgb[:,:,2] * 0x10000]
     frame = np.zeros((cap.rgb_height, cap.rgb_width, 3), dtype=np.uint8)
 
@@ -83,7 +86,7 @@ while(True):
         frame[fragmented == int(color)] = color.color
 
     cv2.imshow('mask', frame)
-    
+
     k = cv2.waitKey(1) & 0xff
 
     if k == ord('q'):

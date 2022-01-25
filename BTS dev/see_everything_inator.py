@@ -1,3 +1,6 @@
+#B_T_S Final Code#
+#January 26th 2022#
+
 from enum import Enum
 import cv2
 import numpy as np
@@ -56,7 +59,7 @@ class frameProcessor():
         self.detector = createBlobDetector()
 
         self.frame = None
-        
+
         self.is_obstacle_close = False
 
 
@@ -124,16 +127,16 @@ class frameProcessor():
                 #basketCenterY = int(y1)
                 #print(basketCenterY)
                 basketDistance = depthFrame.get_distance(basketCenterX, basketCenterY)
-        
+
 
         keypoints = self.detector.detect(ballThreshold)
         keypoints = sorted(keypoints, key=lambda kp:-kp.pt[1], reverse=True)
         # add get distance from balls, select nearest ball not based on size but based on distance
         if len(keypoints) >= 1:
             ballX = keypoints[-1].pt[0]
-            ballY = keypoints[-1].pt[1] 
+            ballY = keypoints[-1].pt[1]
         print(keypoints)
-        
+
         # WIP: draw circle around closest ball to plot in debug frame
         if ballX != None:
             _, ballContours = cv2.findContours(ballThreshold, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
@@ -141,15 +144,15 @@ class frameProcessor():
             for i, c in enumerate(ballContours):
                 contours_poly[i] = cv2.approxPolyDP(c, 3, True)
                 ballCenters[i], radius[i] = cv2.minEnclosingCircle(contours_poly[i])
-            
+
             for i in range(len(ballContours)):
                 color = (69, 229, 33)
                 cv2.drawContours(frame, contours_poly, i, color)
                 cv2.circle(frame, (int(ballCenters[i][0]), int(ballCenters[i][1])), radius=int(radius[i]), color=color, thickness=2)
-        
-        
+
+
         keypointCount = len(keypoints)
-        
+
         if show == True:
             #cv2.imshow("Ball Threshold", ballThreshold)
             cv2.imshow('Frame', frame)
@@ -173,7 +176,7 @@ class frameProcessor():
             #print(basketCenterX)
             #print(basketCenterY)
             #print(processedData.debug_frame[basketCenterY, basketCenterX])
-            if( processedData.basket_b.x != -1): 
+            if( processedData.basket_b.x != -1):
                 basketDistance = processedData.basket_b.distance
         elif self.setTarget == "magenta":
             basketCenterX = processedData.basket_m.x
@@ -202,7 +205,7 @@ class frameProcessor():
 class RealSenseCameraManager():
 
     def __init__(self): # class constructor, initialization on instance call
-        
+
         self.cameraX = 640 # camera ballX px size
         self.cameraY = 480 # camera ballY px size
         '''
@@ -227,10 +230,10 @@ class RealSenseCameraManager():
         self.color_sensor.set_option(rs.option.exposure, 50)
         print("\nCamera successfully initialized!\n")
         '''
-        cam = camera.RealsenseCamera(rgb_height=480, rgb_width=640,rgb_framerate=60)        
-        self.processor = image_processor.ImageProcessor(cam, debug=True)        
+        cam = camera.RealsenseCamera(rgb_height=480, rgb_width=640,rgb_framerate=60)
+        self.processor = image_processor.ImageProcessor(cam, debug=True)
         self.processor.start()
-        
+
     def stopAllStreams(self):
         # https://intelrealsense.github.io/librealsense/doxygen/classrs2_1_1pipeline.html#a142ee1adb798f9a03f86eb90895dd8a5
         #self.pipeline.stop() # stop delivering samples
@@ -292,4 +295,3 @@ def readThresholdValues(filename):
 
 ################################################################################################################################################
 ################################################################################################################################################
-

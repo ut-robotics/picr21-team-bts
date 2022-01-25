@@ -1,3 +1,6 @@
+#B_T_S Final Code#
+#January 26th 2022#
+
 # Run tkinter code in another thread
 
 import tkinter as tk

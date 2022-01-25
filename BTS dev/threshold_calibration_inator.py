@@ -1,3 +1,6 @@
+#B_T_S Final Code#
+#January 26th 2022#
+
 import cv2
 import json
 from functools import partial
@@ -49,8 +52,8 @@ cv2.createTrackbar("v_max", "MASK", filters["max"][2], 255, partial(update_range
 
 
 # realsense camera setup stack
-cameraX = 640 
-cameraY = 480   
+cameraX = 640
+cameraY = 480
 pipeline = rs.pipeline() # create realsense pipeline
 config = rs.config() # https://intelrealsense.github.io/librealsense/doxygen/classrs2_1_1config.html
 config.enable_stream(rs.stream.color, cameraX, cameraY, rs.format.bgr8, 60) # color camera
@@ -76,23 +79,23 @@ frame = None
 #cap = cv2.VideoCapture(4)
 
 #while cap.isOpened():
-while True:   
+while True:
     # 1. OpenCV gives you a BGR image
-    
+
     #_, bgr = cap.read()
     #cv2.imshow("bgr", bgr)
     frames = pipeline.wait_for_frames()
-    
+
     alignedFrame = rs.align(rs.stream.color).process(frames)
     colorFrame = alignedFrame.get_color_frame()
-    
+
     frame = np.asanyarray(colorFrame.get_data()) # using asanyarray from numpy to create save frame correctly every time
-    
+
     # sanity check: what is seen?
     cv2.imshow("FRAME", frame)
-    
+
     depthFrame = alignedFrame.get_depth_frame()
-    
+
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV) # need to convert colorspace to hsv
     # sanity check: what is seen?
     #cv2.imshow("HSV", hsv)
@@ -100,7 +103,7 @@ while True:
     # 2. Convert BGR to HSV
     #hsv = cv2.cvtColor(bgr, cv2.COLOR_BGR2HSV)
     #cv2.imshow("hsv", hsv)
-    
+
 
 
     ### add robot code here? ###
@@ -123,46 +126,46 @@ cv2.destroyAllWindows()
 
 '''
 def ProcessFrame(self, pipeline, cameraX, cameraY, show):
-    
+
     keypointCount = None
     ballY = None
     ballX = None
     basketCenterX = None
     basketCenterY = None
     basketDistance = None
-    
+
 
     frames = pipeline.wait_for_frames()
     alignedFrame = rs.align(rs.stream.color).process(frames)
     colorFrame = alignedFrame.get_color_frame()
-    
+
     frame = np.asanyarray(colorFrame.get_data()) # using asanyarray from numpy to create save frame correctly every time
-    
+
     depthFrame = alignedFrame.get_depth_frame()
-    
+
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV) # need to convert colorspace to hsv
-    
+
     lowerLimits = np.array([lowerLimitHueBall, lowerLimitSaturationBall, lowerLimitValueBall])
     upperLimits = np.array([upperLimitHueBall, upperLimitSaturationBall, upperLimitValueBall])
-    
+
     ballThreshold = cv2.inRange(hsv, lowerLimits, upperLimits)
     ballThreshold = cv2.bitwise_not(ballThreshold)
     ballThreshold = cv2.erode(ballThreshold,kernel, iterations=1)
-    
 
-    if setTarget == "blue": 
+
+    if setTarget == "blue":
         basketlowerLimits = np.array([lowerLimitHueBlue, lowerLimitSaturationBlue, lowerLimitValueBlue])
         basketupperLimits = np.array([upperLimitHueBlue, upperLimitSaturationBlue, upperLimitValueBlue])
         basketWithThreshold = cv2.inRange(hsv, basketlowerLimits, basketupperLimits)
         contours, hierarchy = cv2.findContours(basketWithThreshold, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-    
+
 
     if setTarget == "magenta":
         basketlowerLimits = np.array([lowerLimitHueMagenta, lowerLimitSaturationMagenta, lowerLimitValueMagenta])
         basketupperLimits = np.array([upperLimitHueMagenta, upperLimitSaturationMagenta, upperLimitValueMagenta])
         basketWithThreshold = cv2.inRange(hsv, basketlowerLimits, basketupperLimits)
         contours, hierarchy = cv2.findContours(basketWithThreshold, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-    
+
     contours, hierarchy = cv2.findContours(basketWithThreshold, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     if len(contours) > 0:
         contour = max(contours, key= cv2.contourArea)
@@ -174,7 +177,7 @@ def ProcessFrame(self, pipeline, cameraX, cameraY, show):
             basketCenterY = int(y1 + (h/2))
             basketDistance = depthFrame.get_distance(basketCenterX, basketCenterY)
             print(f"Distance to basket: {basketDistance}\n")
-    
+
 
     if show == True:
         cv2.imshow("Ball Threshold", ballThreshold)
@@ -183,13 +186,13 @@ def ProcessFrame(self, pipeline, cameraX, cameraY, show):
 
     keypoints = detector.detect(ballThreshold)
     keypoints = sorted(keypoints, key=lambda kp:kp.size, reverse=True)
-    
+
 
     if len(keypoints) >= 1:
         ballX = keypoints[0].pt[0]
         ballY = keypoints[0].pt[1]
     keypointCount = len(keypoints)
-    
+
     return keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistance
 
 

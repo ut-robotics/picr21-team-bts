@@ -1,3 +1,6 @@
+#B_T_S Final Code#
+#January 26th 2022#
+
 import serial_comms_inator
 import maneuver_inator as move
 import math
@@ -69,4 +72,3 @@ speedScaleFunction = mapping function that describes how the normalized error wi
 you can also add previousSpeed and acceleration parameters to controll the rate of change in speeds
 For simplicity I would skip the speedScaleFunction for now
 '''
-
