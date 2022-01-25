@@ -64,7 +64,7 @@ class frameProcessor():
         if(self.setTarget != target):
             self.setTarget = target
 
-    def ProcessFrame(self,processor):
+    def ProcessFrame(self,processor, align = False):
 
         keypointCount = None
         ballY = None
@@ -156,7 +156,7 @@ class frameProcessor():
             #cv2.imshow('Basket with Threshold', basketWithThreshold)
         '''
         #Usage of new image processing library and mapping results to existing output
-        processedData = processor.process_frame()
+        processedData = processor.process_frame(align)
         keypointCount = len(processedData.balls)
         if(keypointCount>0):
         #    min_distance = processedData.balls[0].distance
