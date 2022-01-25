@@ -37,102 +37,67 @@ class BTSControlPanel:
             robotSpeed = 60
 
             keyPress = event.keysym.lower()
+            msg = ""
             if self.shared_data["gameLogicStart"] == False:
                 
-                if keyPress == 'w':
-                    msg = "Moving forward.\n"
-                    self.cmdLog.insert(0.0, msg)
-                    robotDirectionAngle = 90
-                    robotAngularVelocity = 0
-                        
-                    move.omniDirect(robotSpeed, robotDirectionAngle, robotAngularVelocity, throwerRelativeRPM, self.failsafe)
-                    time.sleep(delayTime)
-
-                elif keyPress == 'd':
-                    msg = "Moving right.\n"
-                    self.cmdLog.insert(0.0, msg)
-                    robotDirectionAngle = 0
-                    robotAngularVelocity = 0
-                        
-                    move.omniDirect(robotSpeed, robotDirectionAngle, robotAngularVelocity, throwerRelativeRPM, self.failsafe)
-                    time.sleep(delayTime)
-
-                elif keyPress == 's':
-                    msg = "Moving back.\n"
-                    self.cmdLog.insert(0.0, msg)
-                    robotDirectionAngle = 270
-                    robotAngularVelocity = 0
-                        
-                    move.omniDirect(robotSpeed, robotDirectionAngle, robotAngularVelocity, throwerRelativeRPM, self.failsafe)
-                    time.sleep(delayTime)
-
-                elif keyPress == 'a':
-                    msg = "Moving left.\n"
-                    self.cmdLog.insert(0.0, msg)
-                    robotDirectionAngle = 180
-                    robotAngularVelocity = 0
-
-                    move.omniDirect(robotSpeed, robotDirectionAngle, robotAngularVelocity, throwerRelativeRPM, self.failsafe)
-                    time.sleep(delayTime)
-
-                elif keyPress == 'e':
-                    msg = "Spinning right.\n"
-                    self.cmdLog.insert(0.0, msg)
-                    robotSpeed = 0
-                    robotDirectionAngle = 0
-                    robotAngularVelocity = -50
-                        
-                    move.omniDirect(robotSpeed, robotDirectionAngle, robotAngularVelocity, throwerRelativeRPM, self.failsafe)
-                    time.sleep(delayTime)
-
-                elif keyPress == 'q':
-                    msg = "Spinning left.\n"
-                    self.cmdLog.insert(0.0, msg)
-                    robotSpeed = 0
-                    robotDirectionAngle = 0
-                    robotAngularVelocity = 50
-                        
-                    move.omniDirect(robotSpeed, robotDirectionAngle, robotAngularVelocity, throwerRelativeRPM, self.failsafe)
-                    time.sleep(delayTime)
-
-                elif keyPress == 'space':
-                    msg = "Stopped.\n"
-                    self.cmdLog.insert(0.0, msg)
-
+                if keyPress == 'space':
+                    msg = "Stopped.\n" 
                     move.allStop()
-                    time.sleep(delayTime)
 
                 elif keyPress == 't':
-                    msg = "Throwing.\n"
-                    self.cmdLog.insert(0.0, msg)
+                    msg = "Throwing.\n"                    
                     throwerRelativeRPM = 1050
-
                     move.Baller(robotSpeed, throwerRelativeRPM, self.failsafe)
-                    time.sleep(delayTime)
 
                 elif keyPress == 'h':
                     msg = "Collecting ball.\n"
-                    self.cmdLog.insert(0.0, msg)
-
                     move.MoveHoldBall(robotSpeed, self.failsafe)
-                    time.sleep(delayTime)
+                    
                 elif keyPress == 'f':
                     msg = "Failsafe toggled.\n"
-                    self.cmdLog.insert(0.0, msg)
-
                     self.toggleFailsafe()
-                    time.sleep(delayTime)
 
                 elif keyPress == 'b':
                     self.toggleTargetBasket()
-                    time.sleep(delayTime)
 
                 elif keyPress == 'g':
                     self.toggleGameLogic()
-                    time.sleep(delayTime)
                 
                 elif keyPress == 'x':
                     self.closeAll()
+                else:
+                    if keyPress == 'w':
+                        msg = "Moving forward.\n"
+                        robotDirectionAngle = 90
+                        robotAngularVelocity = 0
+                    elif keyPress == 'd':
+                        msg = "Moving right.\n"
+                        robotDirectionAngle = 0
+                        robotAngularVelocity = 0
+
+                    elif keyPress == 's':
+                        msg = "Moving back.\n"
+                        robotDirectionAngle = 270
+                        robotAngularVelocity = 0
+
+                    elif keyPress == 'a':
+                        msg = "Moving left.\n"
+                        robotDirectionAngle = 180
+                        robotAngularVelocity = 0
+
+                    elif keyPress == 'e':
+                        msg = "Spinning right.\n"
+                        robotSpeed = 0
+                        robotDirectionAngle = 0
+                        robotAngularVelocity = -120
+
+                    elif keyPress == 'q':
+                        msg = "Spinning left.\n"                        
+                        robotSpeed = 0
+                        robotDirectionAngle = 0
+                        robotAngularVelocity = 120
+                    
+                    move.omniDirect(robotSpeed, robotDirectionAngle, robotAngularVelocity, throwerRelativeRPM, self.failsafe)
 
                 #elif keyPress.isdigit(): # could use this to assign robot motor speed values manually with number keys
                 #    if int(keyPress) in servo_range:
@@ -147,11 +112,13 @@ class BTSControlPanel:
                 
                 elif keyPress == 'g':
                     self.toggleGameLogic()
-                    time.sleep(delayTime)
+                    
                 elif keyPress == 'c':
                     msg = "Stop Running Game.\n"
-                    self.cmdLog.insert(0.0, msg)
                     self.shared_data['gameThreadUp'] = False  
+            
+            self.cmdLog.insert(0.0, msg)
+            time.sleep(delayTime)
                     
         
 
