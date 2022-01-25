@@ -27,10 +27,10 @@ class State(Enum):
     AVOID = 7
 
 class GameLogic:
-    def __init__(self, shared_data):
-        self.shared_data = shared_data
+    def __init__(self, sharedData):
+        self.sharedData = sharedData
         self.eyeCam = eyes.RealSenseCameraManager() # fully preconfigures camera using the class constructor call
-        self.sight = eyes.frameProcessor(shared_data["targetColor"]) # create image core processing instance
+        self.sight = eyes.frameProcessor(sharedData["targetColor"]) # create image core processing instance
         self.currentState = State.IDLE # default starting State
         self.frameX = self.eyeCam.cameraX
         self.frameY = self.eyeCam.cameraY
@@ -43,6 +43,7 @@ class GameLogic:
         self.dataTimeOut = -1
         self.obstacle = False
         self.noBallCounter = 0
+        self.aimRotationSign = -1
         self.StateSwitch = {
             State.IDLE: self.Idle,
             State.FIND: self.Find,
@@ -129,7 +130,7 @@ class GameLogic:
         if(frontSpeed<20):
             frontSpeed = 20
         if self.basketCenterX is None or self.basketCenterX == -1:            
-            sideSpeed = -baseSpeedSide       
+            sideSpeed = self.aimRotationSign*baseSpeedSide       
         else:
             sideSpeed = (curBasketCenterX - curBallX)/self.eyeCam.cameraX * baseSpeedSide
             if(abs(sideSpeed)<10):
@@ -143,9 +144,9 @@ class GameLogic:
         
         if(curBasketDist != None):
             self.lastBasketDist = curBasketDist
-            is_basketErrorX_small_enough = abs(basketErrorX) < minThrowError
+            isBasketErrorXSmallEnough = abs(basketErrorX) < minThrowError
             print(basketErrorX, minThrowError)
-            if is_basketErrorX_small_enough and curBallY>400:
+            if isBasketErrorXSmallEnough and curBallY>400:
                 #if(curBasketDist < 800): #too close                    
                 #    print("Borrow ball and move backward")
                 #    self.currentState = State.CATCH
@@ -319,42 +320,47 @@ class GameLogic:
         self.currentState = State.IDLE
     
     def infiniteGameLoop(self):
-        if(self.shared_data['gameThreadUp'] == False):
-            self.shared_data['gameThreadUp'] = True
+        if(self.sharedData['gameThreadUp'] == False):
+            self.sharedData['gameThreadUp'] = True
             self.currentState = State.FIND
             self.stateAfterAvoid = State.FIND
-            while self.shared_data['gameThreadUp']:
+            while self.sharedData['gameThreadUp']:
                 self.StateSwitch.get(self.currentState)()
                 #print(self.keypointCount)
-                #sight.setTarget(eyes.frameProcessor(shared_data["targetColor"]))
+                #sight.setTarget(eyes.frameProcessor(sharedData["targetColor"]))
                 #self.keypointCount, self.ballX, self.ballY, self.basketCenterX, self.basketCenterY, self.basketDistance = sight.ProcessFrame(eyeCam.processor)
-            self.shared_data['gameState'] = -1
-            self.shared_data['gameThreadUp'] = False
+            self.sharedData['gameState'] = -1
+            self.sharedData['gameThreadUp'] = False
             move.allStop()
             print('Game loop ends')
         
     def infiniteCameraProcessing(self):
-        if( self.shared_data['camThreadUp'] == False):
-            self.shared_data['camThreadUp'] = True
-            while self.shared_data['camThreadUp']:            
-                self.sight.selectTarget(self.shared_data['targetColor'])
-                if(self.currentState = State.AIM or self.currentState = State.THROW):
-                    self.keypointCount, curBallX,curBallY, self.basketCenterX, self.basketCenterY, self.basketDistance, frame, self.isObstacleClose = self.sight.ProcessFrame(self.eyeCam.processor, True)
+        if( self.sharedData['camThreadUp'] == False):
+            self.sharedData['camThreadUp'] = True
+            while self.sharedData['camThreadUp']:            
+                self.sight.selectTarget(self.sharedData['targetColor'])
+                if((self.currentState == State.AIM) or (self.currentState == State.THROW)):
+                    self.keypointCount, curBallX,curBallY, self.basketCenterX, self.basketCenterY, self.basketDistance, frame, self.isObstacleClose, lastBasketX, isLastOponent = self.sight.ProcessFrame(self.eyeCam.processor, True)
                 else:
-                    self.keypointCount, curBallX,curBallY, self.basketCenterX, self.basketCenterY, self.basketDistance, frame, self.isObstacleClose = self.sight.ProcessFrame(self.eyeCam.processor, False)
+                    self.keypointCount, curBallX,curBallY, self.basketCenterX, self.basketCenterY, self.basketDistance, frame, self.isObstacleClose, lastBasketX, isLastOponent = self.sight.ProcessFrame(self.eyeCam.processor, False)
                 if(curBallX is None or curBallY is None): 
                     if(self.currentState != State.HOLD and self.currentState != State.CATCH and self.currentState != State.AVOID):
                         self.currentState = State.FIND
                 else:
                     self.ballX = curBallX
                     self.ballY = curBallY
+                if(lastBasketX != -1):
+                    if(isLastOponent == True):
+                        self.aimRotationSign = np.sign(self.frameX/2 - lastBasketX)
+                    else:
+                        self.aimRotationSign = -np.sign(self.frameX/2 - lastBasketX)
                 #print(self.basketDistance)
                 cv2.imshow('Frame', frame)   
                 if cv2.waitKey(1) == ord('q'):
                     break
                 #end = time.time()
                 #print(1/(end-start))
-            self.shared_data['camThreadUp'] = False
+            self.sharedData['camThreadUp'] = False
             print('Camera loop ends')
             self.eyeCam.stopAllStreams()
         

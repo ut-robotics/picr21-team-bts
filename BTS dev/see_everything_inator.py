@@ -184,7 +184,17 @@ class frameProcessor():
                 #print(basketDistance)
         #print(np.shape(processedData.debug_frame))
         #print(processedData.debug_frame)
-        return keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistance, processedData.debug_frame, processedData.is_obstacle_close
+        lastIsOponent = True
+        lastBasketX = -1
+        if(processedData.basket_b.x != -1):
+            lastBasketX = processedData.basket_b.x
+            if(self.setTarget == "blue"):
+                lastIsOponent = False
+        elif (processedData.basket_m.x != -1):
+            lastBasketX = processedData.basket_m.x
+            if(self.setTarget == "magenta"):
+                lastIsOponent = False
+        return keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistance, processedData.debug_frame, processedData.is_obstacle_close, lastBasketX, lastIsOponent
 
 ################################################################################################################################################
 ################################################################################################################################################
