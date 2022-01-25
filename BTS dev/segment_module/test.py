@@ -1,3 +1,6 @@
+# B_T_S Final Code
+#26th Jan 2022
+
 import segment
 import numpy as np
 import cPickle as pickle
@@ -6,9 +9,9 @@ import cv2
 
 with open('../colors.pkl', 'rb') as fh:
 	colors_lookup = pickle.load(fh)
-	
+
 segment.set_table(colors_lookup)
-		
+
 cap = cv2.VideoCapture(0)
 if not cap.isOpened():
 	print('cam not opened')
