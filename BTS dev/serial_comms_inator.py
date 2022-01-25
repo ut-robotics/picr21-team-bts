@@ -16,7 +16,7 @@ class MainboardComms():
     def __init__(self): # using class constructor to iterate thru all ports and establish connection on correct port or raise error
         
         self.dataSize = struct.calcsize('<hhhH') # preset for send/receive data size
-        self.testData = struct.pack('<hhhHBH', 0, 0, 0, 0, 0, 0xAAAA)
+        self.testData = struct.pack('<hhhHH', 0, 0, 0, 0, 0xAAAA)
         self.ports = serial.tools.list_ports.comports()
         
         for port in self.ports:
@@ -41,7 +41,12 @@ class MainboardComms():
     
         try: # despite already having checked if the port is accessible, use try in case of HW failures
     
-            data = struct.pack('<hhhHBH', speed1, speed2, speed3, thrower_speed, disable_failsafe, 0xAAAA)
+            if(thrower_speed>900):
+                thrower_speed = 900
+            if(thrower_speed<0 and thrower_speed+2000 != 1800):
+                thrower_speed = 0
+                
+            data = struct.pack('<hhhHH', speed2, int(1.15*speed3), int(1.3*speed1), thrower_speed+2000, 0xAAAA)
     
             self.ser.write(data)
     
@@ -59,7 +64,7 @@ class MainboardComms():
 ### find all available ports, check which works for mainboard comms, return that port 
 def port_check():
     speed1 = speed2 = speed3 = thrower_speed = disable_failsafe = 0
-    data = struct.pack('<hhhHBH', speed1, speed2, speed3, thrower_speed, disable_failsafe, 0xAAAA)
+    data = struct.pack('<hhhHH', speed1, speed2, speed3, thrower_speed, disable_failsafe, 0xAAAA)
     ports = serial.tools.list_ports.comports()
     for port in ports:
         try:

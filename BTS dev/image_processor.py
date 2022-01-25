@@ -80,7 +80,7 @@ class ImageProcessor():
         #self.utils = ctypes.CDLL("./utils.so")
         self.utils.isObstacle.argtypes = [ndpointer(np.uint8, flags="C_CONTIGUOUS"),
                 ctypes.c_size_t]
-        self.utils.isObstacle.restype = np.uint8
+        self.utils.isObstacle.restype = np.int8
 
     def set_segmentation_table(self, table):
         segment.set_table(table)
@@ -160,7 +160,7 @@ class ImageProcessor():
         
         return balls
 
-    def analyze_baskets(self, t_basket, debug_color = (0, 255, 255)) -> list:
+    def analyze_baskets(self, t_basket, depth_frame, debug_color = (0, 255, 255)) -> list:
         contours, hierarchy = cv2.findContours(t_basket, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
         baskets = []
@@ -176,8 +176,10 @@ class ImageProcessor():
             x, y, w, h = cv2.boundingRect(contour)
 
             obj_x = int(x + (w/2))
-            obj_y = int(y + (h))
-            obj_dst = obj_y
+            obj_y = int(y + (h/2))
+            obj_dst = None
+            if(obj_x is not None):
+                obj_dst = depth_frame[obj_y-1,obj_x-1]*self.camera.depth_scale
 
             baskets.append(Object(x = obj_x, y = obj_y, size = size, distance = obj_dst, exists = True))
 
@@ -202,7 +204,7 @@ class ImageProcessor():
         else:
             return self.camera.get_color_frame(), np.zeros((self.camera.rgb_height, self.camera.rgb_width), dtype=np.uint8)
 
-    def process_frame(self, aligned_depth = False) -> ProcessedResults:
+    def process_frame(self, aligned_depth = True) -> ProcessedResults:
         color_frame, depth_frame = self.get_frame_data(aligned_depth = aligned_depth)
 
         segment.segment(color_frame, self.fragmented, self.t_balls, self.t_basket_m, self.t_basket_b)
@@ -211,9 +213,9 @@ class ImageProcessor():
             self.debug_frame = np.copy(color_frame)
 
         balls = self.analyze_balls(self.t_balls, self.fragmented)
-        basket_b = self.analyze_baskets(self.t_basket_b, debug_color=c.Color.BLUE.color.tolist())
-        basket_m = self.analyze_baskets(self.t_basket_m, debug_color=c.Color.MAGENTA.color.tolist())
-        is_obstacle_close = bool(self.utils.isObstacle(self.fragmented, self.fragmented.size))
+        basket_b = self.analyze_baskets(self.t_basket_b, depth_frame, debug_color=c.Color.BLUE.color.tolist())
+        basket_m = self.analyze_baskets(self.t_basket_m, depth_frame, debug_color=c.Color.MAGENTA.color.tolist())
+        is_obstacle_close = int(self.utils.isObstacle(self.fragmented, self.fragmented.size))
         return ProcessedResults(balls = balls, 
                                 basket_b = basket_b, 
                                 basket_m = basket_m, 

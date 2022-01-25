@@ -170,13 +170,16 @@ class frameProcessor():
         if self.setTarget == "blue":
             basketCenterX = processedData.basket_b.x
             basketCenterY = processedData.basket_b.y
-            if( processedData.basket_b.x != -1):
+            #print(basketCenterX)
+            #print(basketCenterY)
+            #print(processedData.debug_frame[basketCenterY, basketCenterX])
+            if( processedData.basket_b.x != -1): 
                 basketDistance = processedData.basket_b.distance
         elif self.setTarget == "magenta":
             basketCenterX = processedData.basket_m.x
             basketCenterY = processedData.basket_m.y
             if( processedData.basket_m.x != -1):
-                basketDistance = processedData.depth_frame[basketCenterY-1,basketCenterX-1]#basket_m.distance
+                basketDistance = processedData.basket_m.distance
                 #print( processedData.depth_frame[basketCenterY-1,basketCenterX-1])
                 #print(basketDistance)
         #print(np.shape(processedData.debug_frame))

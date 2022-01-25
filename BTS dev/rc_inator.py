@@ -34,7 +34,7 @@ class BTSControlPanel:
         if(self.rootWindow.focus_get() == self.cmdLog or self.rootWindow.focus_get()==self.rootWindow):
             delayTime = 0.005
             throwerRelativeRPM = 0
-            robotSpeed = 20
+            robotSpeed = 60
 
             keyPress = event.keysym.lower()
             if self.shared_data["gameLogicStart"] == False:
