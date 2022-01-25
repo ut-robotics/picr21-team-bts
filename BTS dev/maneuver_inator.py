@@ -12,6 +12,9 @@ com = serial.MainboardComms()
 
 ################################################################################################################################################
 ################################################################################################################################################
+def initSerial():
+    #com.SendCmd2Mbd(0, 0, 0, 3145-3000, 0)
+    com.SendCmd2Mbd(0, 0, 0, 1800-2000, 0)
 
 def wheelLinearVelocity(robotSpeed, robotDirectionAngle, wheelAngle, wheelDistanceFromCenter, robotAngularVelocity):
 
@@ -101,7 +104,7 @@ def omniDirect(robotSpeed, robotDirectionAngle, robotAngularVelocity, throwerRel
 
     allMotorSpeeds = [0, 0, 0, 0] # index 0 = motor 1, index 1 = m2, 2 = m3, 3 = thrower motor
     wheelAngle = [120, 240, 0]
-    wheelDistanceFromCenter = 0.28 # [m]
+    wheelDistanceFromCenter = 0.20 # [m]
 
     # calculate linear velocities for each of the motors and save to allMotorSpeeds
     # MOTOR 1

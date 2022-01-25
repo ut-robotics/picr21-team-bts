@@ -40,8 +40,12 @@ def throwerSpeedFromDistanceToBasket(distanceToBasket): # single input variable:
 
     # thrower speed = (  calculated duty cycle * maximum possible thrower speed  ) / maximum possible duty cycle
     throwerSpeed = int((dutyCycle * maxThrowerSpeed) / maxDutyCycle) #using int() to ensure saved value is int
-    print(distanceToBasket*3)
-    throwerSpeed = int(distanceToBasket*6*0.027 + 390)
+    #print(distanceToBasket*3)
+    throwerSpeed = int(114,9*distanceToBasket + 237.45)
+    if(throwerSpeed<330):
+        throwerSpeed = 330
+    elif(throwerSpeed>900):
+        throwerSpeed = 900
     print(throwerSpeed)
     # return computed thrower speed integer
     return throwerSpeed # bon voyage, little green ball!

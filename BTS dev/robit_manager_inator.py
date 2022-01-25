@@ -2,6 +2,7 @@ import rc_inator as gui
 import threading
 import ws_client
 import game_logician_inator as game
+import maneuver_inator as move
 
 '''
 This is the Robot Manager module for the B T S test robot.
@@ -20,6 +21,7 @@ shared_data = dict(
 o_ws = ws_client.wsConnectionClass(shared_data)
 o_game = game.GameLogic(shared_data)
 o_gui = gui.BTSControlPanel(shared_data,o_ws,o_game)
+move.initSerial()
 cam_thread = threading.Thread(target = o_game.infiniteCameraProcessing, args = ())
 cam_thread.start()
 threading.Thread(o_gui.startPanel()).start() # start tkinter gui fcn
