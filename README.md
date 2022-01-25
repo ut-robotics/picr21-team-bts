@@ -3,7 +3,7 @@
 ## Repo Structure Overview:
 - > Mechanics [https://a360.co/3uxbIpR Fusion 360]
 - > Electronics [https://github.com/ut-robotics/picr21-team-bts/tree/main/Electronics]
-- > Programming (https://github.com/ut-robotics/picr21-team-bts)
+- > Final Programming files: (https://github.com/ut-robotics/picr21-team-bts/tree/main/BTS%20dev)
 - > Readme TBA
 
 ### picr21-team-bts
