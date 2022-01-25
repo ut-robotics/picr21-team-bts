@@ -6,7 +6,7 @@
 #define STRUCT_SIZE 4
 #define SEQUENCE_SIZE 5
 #define MIN_VALID_SEQUENCE 3
-const char sequence[] = { 4,5,6,4 }; 
+const char sequence[] = { 6,6,4 }; 
 
 
 /*

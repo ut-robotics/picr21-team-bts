@@ -134,7 +134,7 @@ class ImageProcessor():
             if(ball[3] == 1):
                 #print(ball)
                 balls.append(Object(x = int(ball[0]), y = int(ball[1]), size = int(ball[2]),
-                    distance = int((self.camera.rgb_height - ball[1])*(self.camera.rgb_width - ball[1]) + (ball[0] - self.camera.rgb_width //2)*(ball[0] - self.camera.rgb_width //2)*0.2),
+                    distance = int((self.camera.rgb_height - ball[1])*(self.camera.rgb_height - ball[1]) + (ball[0] - self.camera.rgb_width //2)*(ball[0] - self.camera.rgb_width //2)*0.1),
                     exists = True))
                 if self.debug:
                     #self.debug_frame[ys, xs] = [0, 0, 0]
