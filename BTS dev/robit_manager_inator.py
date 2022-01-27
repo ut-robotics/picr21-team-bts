@@ -1,3 +1,6 @@
+#B_T_S Final Code#
+#January 26th 2022#
+
 import rc_inator as gui
 import threading
 import ws_client
@@ -26,5 +29,3 @@ cam_thread = threading.Thread(target = o_game.infiniteCameraProcessing, args = (
 cam_thread.start()
 threading.Thread(o_gui.startPanel()).start() # start tkinter gui fcn
 #threading.Thread(o_game.infiniteCameraProcessing()).start()
-
-

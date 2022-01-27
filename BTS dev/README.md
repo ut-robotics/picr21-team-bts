@@ -25,3 +25,6 @@ python3 main.py
 ```
 
 If you encounter dependency errors, resolve them with pip3
+
+
+Code repositories must include a README describing how to set up and run the code

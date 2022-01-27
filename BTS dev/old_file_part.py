@@ -1,4 +1,5 @@
-
+#B_T_S Final Code#
+#January 26th 2022#
 
 eyeCam = eyes.RealSenseCameraManager() # fully preconfigures camera using the class constructor call
 setTarget = "magenta" #set target basket "blue" or "magenta" (default value)
@@ -30,7 +31,7 @@ def Hold(keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistan
     having to execute aiming multiple times may improve overall results
     '''
     return State.AIM
-#STOLEN FROM KOBI    
+#STOLEN FROM KOBI
 
 #END OF STOLEN
 ################################################################################################################################################
@@ -49,8 +50,8 @@ def Drive(keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDista
     if not, check if are aligned with ball already
     if are, go straight to it
     otherwise, align with ball first
-    if you lost sight of the ball, 
-    go and find another ==> state.find   
+    if you lost sight of the ball,
+    go and find another ==> state.find
 
     '''
     speed = 30
@@ -97,7 +98,7 @@ def Drive(keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDista
 def Aim(keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistance):
     #Base code is ok, but it may occure that distX of ball is 290 and dist of basket is 330 and both will pass. With lower limits aiming is prety good but slow
     #In Kobis approach movement is faster but aiming may miss in situations when both ball and basket are on the side (far from cameraX)
-    #Anyway robot movemnents on ultra slow speed must be improved. 
+    #Anyway robot movemnents on ultra slow speed must be improved.
     '''
     start by confirming you are aligned with ball (again)
     then check if basket is in frame
@@ -116,36 +117,36 @@ def Aim(keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistanc
     forwardSpeed = 0
     rotationSpeed = 0
     sideSpeed = 0
-    
-    if (270 <= ballX <= 370):    
-        
+
+    if (270 <= ballX <= 370):
+
         basketNotInFrame = (basketCenterX == -1)
-        
-        if basketNotInFrame or 290 > basketCenterX: # orbit around ball until basket found            
-            speed = 40      
+
+        if basketNotInFrame or 290 > basketCenterX: # orbit around ball until basket found
+            speed = 40
             sideSpeed = ((40+480 - ballY)/FrameY)*speed
-            rotationSpeed = ((40+480 - ballY)/FrameY)*speed            
+            rotationSpeed = ((40+480 - ballY)/FrameY)*speed
             print("\t\tBasket not found, searching for basket.\n")
             throwerRelativeRPM = 0
             failsafe = 0
             move.omniPlanar(sideSpeed, forwardSpeed, rotationSpeed, throwerRelativeRPM, failsafe)
-        elif 350 < basketCenterX: # orbit around ball until basket found            
-            speed = 40      
+        elif 350 < basketCenterX: # orbit around ball until basket found
+            speed = 40
             sideSpeed = -((40+480 - ballY)/FrameY)*speed
-            rotationSpeed = ((40+480 - ballY)/FrameY)*speed            
+            rotationSpeed = ((40+480 - ballY)/FrameY)*speed
             print("\t\tBasket not found, searching for basket.\n")
             throwerRelativeRPM = 0
             failsafe = 0
             move.omniPlanar(sideSpeed, forwardSpeed, rotationSpeed, throwerRelativeRPM, failsafe)
         else: # basket is there, align with basket centre
-            print("TARGETING")      
-            print(basketCenterX) 
-            print(ballX)                
+            print("TARGETING")
+            print(basketCenterX)
+            print(ballX)
             if (290 <= basketCenterX <= 350) and (ballY >= 400) and (290 <= ballX <= 350):
                 print("Throw")
                 print(basketDistance)
                 Throw(keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistance)
-                return State.THROW       
+                return State.THROW
             elif (290 > ballX < 350):
                 print("Ball not in center")
                 speed =  10
@@ -153,7 +154,7 @@ def Aim(keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistanc
                 forwardSpeed = -5 #small +
                 rotationSpeed = speed * np.sign(320 - basketCenterX) #((480-ballY)/FrameY)*
                 throwerRelativeRPM = 0
-                failsafe = 0 
+                failsafe = 0
                 move.omniPlanar(sideSpeed, forwardSpeed, rotationSpeed, throwerRelativeRPM, failsafe)
             else:
                 print("Ball too far")
@@ -162,10 +163,10 @@ def Aim(keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistanc
                 forwardSpeed = 10 #small +
                 rotationSpeed = 0
                 throwerRelativeRPM = 0
-                failsafe = 0 
+                failsafe = 0
                 move.omniPlanar(sideSpeed, forwardSpeed, rotationSpeed, throwerRelativeRPM, failsafe)
-            
-    
+
+
     else: #allign ball to the middle
         speed = 60
         forwardSpeed = -5 #small
@@ -179,14 +180,14 @@ def Aim(keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistanc
     #    print("Throw")
     #    print(basketDistance)
     #    Throw(keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistance)
-    #    return State.THROW       
-    #STOLEN FROM KOBI    
+    #    return State.THROW
+    #STOLEN FROM KOBI
     if basketCenterX == -1:
         delta_x = eyeCam.cameraX
     else:
         delta_x = ballX - basketCenterX
-    rot_delta_x = ballX - eyeCam.cameraX/2    
-    delta_y = 400 - ballY #400 is ok    
+    rot_delta_x = ballX - eyeCam.cameraX/2
+    delta_y = 400 - ballY #400 is ok
     front_speed = calc_speed(delta_y, eyeCam.cameraY, 5, 3, 100, 30)
     side_speed = calc_speed(delta_x, eyeCam.cameraX, 5, 4, 100, 20)
     rot_spd = calc_speed(rot_delta_x, eyeCam.cameraX, 5, 3, 100, 40)
@@ -205,7 +206,7 @@ def Aim(keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistanc
         if is_basket_error_x_small_enough:
             print("Throw")
             Throw(keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDistance)
-      
+
     #END OF STOLEN
     return State.AIM
 
@@ -230,7 +231,7 @@ def Throw(keypointCount, ballX, ballY, basketCenterX, basketCenterY, basketDista
             #if keypointCount <= 0:
             # get thrower speed for throw
             throwerRelativeRPM = throw.throwerSpeedFromDistanceToBasket(basketDistance) # change this function
-        print(f"THROWING iteration: {i} with thrower at: {throwerRelativeRPM}")        
+        print(f"THROWING iteration: {i} with thrower at: {throwerRelativeRPM}")
         # using 91 as the robot was not going exactly straight
         move.omniDirect(20, 91, 0, throwerRelativeRPM, failsafe) # move forward and throw ball
         time.sleep(0.05)
@@ -315,7 +316,7 @@ def sanityBuffer(keypointCount, ballX, ballY, basketCenterX, basketCenterY, bask
 
 
 
-def gameLogic(sharedMemory,stateSwitch):   
+def gameLogic(sharedMemory,stateSwitch):
     startTime = time.time()
 
     # couple things to help assess code execution performance
@@ -354,7 +355,7 @@ def gameLogic(sharedMemory,stateSwitch):
 
             #print(f"ballX: {ballX} ballY: {ballY}\n")
             #print(f"basketCenterX: {basketCenterX} basketDistance: {basketDistance}\n")
-           
+
 
             #print(f"{currentState}")
             '''
@@ -367,7 +368,7 @@ def gameLogic(sharedMemory,stateSwitch):
                 print(f"BallX - middle of FrameX = {(FrameX/2) - ballX}")
                 print(f"BallX - middle of FrameX / FrameX = {((FrameX/2) - ballX)/FrameX}")
                 print(f"BallX - middle of FrameX / FrameX = {(((FrameX/2) - ballX)/FrameX)*20}")
-            '''              
+            '''
             if (sharedMemory['gameState'] == -1 or (cv2.waitKey(1) & 0xFF == ord('q'))): # q ==> stop all
                 sharedMemory['gameState'] = -1
                 move.allStop()
@@ -418,4 +419,3 @@ def runGameLogic(sharedMemory, gameLogicStart): # start tkinter gui fcn):
     setTarget = shared_data["targetColor"]
     gameStart = shared_data["gameLogicStart"]
     print(setTarget, gameStart)
-

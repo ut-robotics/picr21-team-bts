@@ -1,3 +1,6 @@
+#B_T_S Final Code#
+#January 26th 2022#
+
 import maneuver_inator as move
 #import thrower_inator as throw
 import game_logician_inator as game
@@ -28,9 +31,9 @@ class BTSControlPanel:
         self.failsafe = 0
         self.target_color = shared_data["targetColor"]
         self.running = True
-    
+
     def keyInput(self,event):
-        #Log was only input but now new field for ws connection exists. 
+        #Log was only input but now new field for ws connection exists.
         if(self.rootWindow.focus_get() == self.cmdLog or self.rootWindow.focus_get()==self.rootWindow):
             delayTime = 0.005
             throwerRelativeRPM = 0
@@ -39,20 +42,20 @@ class BTSControlPanel:
             keyPress = event.keysym.lower()
             msg = ""
             if self.shared_data["gameLogicStart"] == False:
-                
+
                 if keyPress == 'space':
-                    msg = "Stopped.\n" 
+                    msg = "Stopped.\n"
                     move.allStop()
 
                 elif keyPress == 't':
-                    msg = "Throwing.\n"                    
+                    msg = "Throwing.\n"
                     throwerRelativeRPM = 1050
                     move.Baller(robotSpeed, throwerRelativeRPM, self.failsafe)
 
                 elif keyPress == 'h':
                     msg = "Collecting ball.\n"
                     move.MoveHoldBall(robotSpeed, self.failsafe)
-                    
+
                 elif keyPress == 'f':
                     msg = "Failsafe toggled.\n"
                     self.toggleFailsafe()
@@ -62,7 +65,7 @@ class BTSControlPanel:
 
                 elif keyPress == 'g':
                     self.toggleGameLogic()
-                
+
                 elif keyPress == 'x':
                     self.closeAll()
                 else:
@@ -92,11 +95,11 @@ class BTSControlPanel:
                         robotAngularVelocity = -120
 
                     elif keyPress == 'q':
-                        msg = "Spinning left.\n"                        
+                        msg = "Spinning left.\n"
                         robotSpeed = 0
                         robotDirectionAngle = 0
                         robotAngularVelocity = 120
-                    
+
                     move.omniDirect(robotSpeed, robotDirectionAngle, robotAngularVelocity, throwerRelativeRPM, self.failsafe)
 
                 #elif keyPress.isdigit(): # could use this to assign robot motor speed values manually with number keys
@@ -105,28 +108,28 @@ class BTSControlPanel:
                 #        self.cmdLog.insert(0.0, msg)
                 #        servo(int(keyPress)*14)
                 #        time.sleep(0.05)
-            
-            elif self.shared_data["gameLogicStart"] == True: # additional safety feature that listens for key x even when game logic is running                
+
+            elif self.shared_data["gameLogicStart"] == True: # additional safety feature that listens for key x even when game logic is running
                 if keyPress == 'x':
                     self.closeAll()
-                
+
                 elif keyPress == 'g':
                     self.toggleGameLogic()
-                    
+
                 elif keyPress == 'c':
                     msg = "Stop Running Game.\n"
-                    self.shared_data['gameThreadUp'] = False  
-            
+                    self.shared_data['gameThreadUp'] = False
+
             self.cmdLog.insert(0.0, msg)
             time.sleep(delayTime)
-                    
-        
+
+
 
     ################################################################################################################################################
     ################################################################################################################################################
 
     def toggleFailsafe(self):
-        
+
         if self.failsafeButton.config('relief')[-1] == 'sunken':
             self.failsafeButton.config(relief="raised")
             self.failsafe = 0
@@ -135,7 +138,7 @@ class BTSControlPanel:
             self.failsafe = 1
 
     def toggleGameLogic(self):
-        
+
 
         if self.gameLogicButton.config('relief')[-1] == 'sunken':
             self.gameLogicButton.config(relief="raised")
@@ -168,7 +171,7 @@ class BTSControlPanel:
             #Common memory for gameLogic
             self.shared_data['gameState'] = 0
             game_thread = threading.Thread(target = self.o_game.infiniteGameLoop, args = ())
-            game_thread.start()            
+            game_thread.start()
             #game.runGameLogic(self.shared_data, self.shared_data["gameLogicStart"])
         elif  self.shared_data["gameThreadUp"] == True:
             msg = "Game Logic Already Running.\n"
@@ -182,7 +185,7 @@ class BTSControlPanel:
             self.shared_data['targetColor'] = "magenta"
             msg = "Target: Magenta Basket\n"
             self.cmdLog.insert(0.0, msg)
-            self.basketColorUpdate()            
+            self.basketColorUpdate()
         else:
             self.targetBasketButton.config(relief="sunken")
             self.target_color = "blue" # target blue basket
@@ -190,10 +193,10 @@ class BTSControlPanel:
             msg = "Target: Blue Basket\n"
             self.cmdLog.insert(0.0, msg)
             self.basketColorUpdate()
-            
-    #Creates or ends connection with thread. TODO am not sure if name is changed to disconnected on disconection from server 
-    def toggleWSButton(self):  
-        if(self.startWSButton['text'] == "Connect"):           
+
+    #Creates or ends connection with thread. TODO am not sure if name is changed to disconnected on disconection from server
+    def toggleWSButton(self):
+        if(self.startWSButton['text'] == "Connect"):
             link = self.wsLog.get(0.0,'end-1c')
             print(link)
             print("Toogle client thread")
@@ -235,9 +238,9 @@ class BTSControlPanel:
         self.shared_data["gameLogicStart"] = False
         #threading.Thread(self.o_game.infiniteCameraProcessing()).start()
         #game.runGameLogic(self.shared_data, self.shared_data["gameLogicStart"])
-        self.shared_data['wsStop'] = True    
+        self.shared_data['wsStop'] = True
         self.shared_data['camThreadUp'] = False
-        self.shared_data['gameThreadUp'] = False        
+        self.shared_data['gameThreadUp'] = False
         self.running = False
 
 
@@ -258,7 +261,7 @@ class BTSControlPanel:
 
         ################################################################################################################################################
         ################################################################################################################################################
-        
+
         instructions = "\n Select target basket then click toggle game logic. \n Press Run game logic.\nw = forward \n d = right \n a = left \n s = back \n q = spin left \n e = spin right \n t = thrower \n space = stop \n f = toggle failsafe \n x = kill programme \n"
 
         #Left Frame and its contents
@@ -281,7 +284,7 @@ class BTSControlPanel:
         rightFrame.grid(row=0, column=1, padx=10, pady=2)
         textFrame = Frame(rightFrame, width=200, height = 300)
         textFrame.grid(row=2, column=0, padx=10, pady=2)
-        
+
         self.cmdLog = Text(textFrame, width = 30, height = 20, takefocus=0)
         self.cmdLog.grid(row=1, column=0, padx=10, pady=2)
 
@@ -302,7 +305,7 @@ class BTSControlPanel:
 
         chokeGameButton = Button(btnFrame, text="Run Game Logic", command=self.runGameLogic)
         chokeGameButton.grid(row=1, column=4, padx=10, pady=2)
-        
+
         self.wsLog = Text(textFrame, width = 20, height = 1, takefocus=1)
         self.wsLog.grid(row=1, column=1, padx=10, pady=2, sticky=N)
         self.startWSButton = Button(textFrame, text="Connect", command=self.toggleWSButton)
@@ -313,7 +316,7 @@ class BTSControlPanel:
         ################################################################################################################################################
         ################################################################################################################################################
         while self.running:
-            time.sleep(0.01)            
+            time.sleep(0.01)
             if (self.shared_data['wsThreadUp'] == True and self.startWSButton['text'] != "Disconnect"):
                 self.startWSButton['text'] = "Disconnect"
             elif (self.shared_data['wsThreadUp'] == False and self.startWSButton['text'] != "Connect"):
@@ -328,7 +331,7 @@ class BTSControlPanel:
                 self.shared_data["gameThreadUp"] = False
             self.rootWindow.update_idletasks()
             self.rootWindow.update()
-            
+
         move.allStop()
         time.sleep(0.05)
         cv2.destroyAllWindows()

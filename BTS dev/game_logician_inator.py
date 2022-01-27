@@ -1,3 +1,6 @@
+#B_T_S Final Code#
+#January 26th 2022#
+
 import time
 import cv2
 import numpy as np
@@ -38,7 +41,7 @@ class GameLogic:
         self.ballX = None
         self.ballY = None
         self.delayTime = 0.005
-        self.throwIterand = 0  
+        self.throwIterand = 0
         self.lastBasketDist = 0
         self.dataTimeOut = -1
         self.obstacle = False
@@ -56,7 +59,7 @@ class GameLogic:
         }
         self.stateAfterAvoid = State.FIND
         self.lastIsObstacleClose = 1
-        
+
     def Hold(self):
         baseSpeedRotation = 200
         if(self.basketDistance is not None):
@@ -66,12 +69,12 @@ class GameLogic:
             self.dataTimeOut -=1
         if(self.isObstacleClose != 0):
             self.stateAfterAvoid = State.HOLD
-            self.currentState = State.AVOID           
+            self.currentState = State.AVOID
         elif((self.lastBasketDist<2.0 and self.lastBasketDist>1) or self.dataTimeOut < 0):
             move.omniPlanar(0, 0, 0, 0, 0)
             time.sleep(0.3)
             for i in range(40):
-                move.omniPlanar(0, 0, 0, 200, 0)             
+                move.omniPlanar(0, 0, 0, 200, 0)
                 time.sleep(0.02) #wait for ball throw
             self.currentState =  State.FIND
             self.dataTimeOut =  -1
@@ -85,7 +88,7 @@ class GameLogic:
             else:                
                 rotationSpeed = (self.basketCenterX-20 - self.eyeCam.cameraX/2 )/self.eyeCam.cameraX * baseSpeedRotation
             move.omniPlanar(0, frontSpeed, -rotationSpeed, 0, 0)
-        
+
     def Avoid(self):
         #print("State AVOID")
         if (self.isObstacleClose != 0):
@@ -115,25 +118,25 @@ class GameLogic:
                 time.sleep(0.02) #parallel !!!!
             self.currentState = self.stateAfterAvoid
         #print("AVOID")
-    
+
     def Aim(self):
         #Base code is ok, but it may occure that distX of ball is 290 and dist of basket is 330 and both will pass. With lower limits aiming is prety good but slow
         #Is inspired by KOBI code with some ajustment too formulas
-        #Anyway robot movemnents on ultra slow speed must be improved. 
+        #Anyway robot movemnents on ultra slow speed must be improved.
         if self.ballY is None:
             self.currentState = State.FIND
             return
         curBallY = self.ballY
-        curBallX = self.ballX 
-        curBasketCenterX = self.basketCenterX       
+        curBallX = self.ballX
+        curBasketCenterX = self.basketCenterX
         baseSpeedSide = 50
         baseSpeedForward = 150 
         baseSpeedRotation = 150 
         frontSpeed = (440 - curBallY)/self.eyeCam.cameraY * baseSpeedForward
         if(frontSpeed<20):
             frontSpeed = 20
-        if self.basketCenterX is None or self.basketCenterX == -1:            
-            sideSpeed = self.aimRotationSign*baseSpeedSide       
+        if self.basketCenterX is None or self.basketCenterX == -1:
+            sideSpeed = self.aimRotationSign*baseSpeedSide
         else:
             sideSpeed = (curBasketCenterX - curBallX)/self.eyeCam.cameraX * baseSpeedSide
             if(abs(sideSpeed)<15):
@@ -162,8 +165,8 @@ class GameLogic:
                 #    self.currentState = State.CATCH
                 #else:
                 print("Throw")
-                self.currentState = State.THROW    
-        
+                self.currentState = State.THROW
+
     def Find(self):
         #if keypointCount >= 1:
         if (self.isObstacleClose != 0):
@@ -195,7 +198,7 @@ class GameLogic:
             self.currentState = State.FIND
             self.noBallCounter +=1
             time.sleep(0.001)
-    
+
     def Drive(self):
 
         '''
@@ -204,8 +207,8 @@ class GameLogic:
         if not, check if are aligned with ball already
         if are, go straight to it
         otherwise, align with ball first
-        if you lost sight of the ball, 
-        go and find another ==> State.find   
+        if you lost sight of the ball,
+        go and find another ==> State.find
 
         '''
         speed = 50
@@ -238,7 +241,7 @@ class GameLogic:
         elif self.keypointCount <= 0 or None:
             print("I LOST THE BALL, GOING TO FIND IT AGAIN")
             self.currentState = State.FIND
-            
+
     def Catch(self):
         #global throwIterand
         #throwIterand = 40
@@ -255,7 +258,7 @@ class GameLogic:
         print("in Throw")
         curBallX = self.eyeCam.cameraX/2
         curBallY = 440
-        for i in range(40):             
+        for i in range(40):
             if self.ballX is not None and self.ballY is not None and self.ballY>400: #if <400 not ball in front
                 curBallX = self.ballX
                 curBallY = self.ballY
@@ -265,7 +268,7 @@ class GameLogic:
             else:
                 sideSpeed = 0
                 rotationSpeed = 0
-            print(f"THROWING iteration: {i} with thrower at: {throwerRelativeRPM}")    
+            print(f"THROWING iteration: {i} with thrower at: {throwerRelativeRPM}")
             move.omniPlanar(-sideSpeed, frontSpeed, -rotationSpeed, throwerRelativeRPM, failsafe) # move forward and throw ball
             time.sleep(0.05) #parallel !!!!
         self.dataTimeOut = 10
@@ -333,7 +336,7 @@ class GameLogic:
         move.allStop()
 
         self.currentState = State.IDLE
-    
+
     def infiniteGameLoop(self):
         if(self.sharedData['gameThreadUp'] == False):
             self.sharedData['gameThreadUp'] = True
@@ -348,7 +351,7 @@ class GameLogic:
             self.sharedData['gameThreadUp'] = False
             move.allStop()
             print('Game loop ends')
-        
+
     def infiniteCameraProcessing(self):
         if( self.sharedData['camThreadUp'] == False):
             self.sharedData['camThreadUp'] = True
@@ -359,7 +362,7 @@ class GameLogic:
                     self.keypointCount, curBallX,curBallY, self.basketCenterX, self.basketCenterY, self.basketDistance, frame, self.isObstacleClose, lastBasketX, isLastOponent = self.sight.ProcessFrame(self.eyeCam.processor, True)
                 else:
                     self.keypointCount, curBallX,curBallY, self.basketCenterX, self.basketCenterY, self.basketDistance, frame, self.isObstacleClose, lastBasketX, isLastOponent = self.sight.ProcessFrame(self.eyeCam.processor, False)
-                if(curBallX is None or curBallY is None): 
+                if(curBallX is None or curBallY is None):
                     if(self.currentState != State.HOLD and self.currentState != State.CATCH and self.currentState != State.AVOID):
                         self.currentState = State.FIND
                 else:
@@ -379,6 +382,3 @@ class GameLogic:
             self.sharedData['camThreadUp'] = False
             print('Camera loop ends')
             self.eyeCam.stopAllStreams()
-        
-    
-    

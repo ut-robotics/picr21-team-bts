@@ -1,3 +1,8 @@
+/*
+#B_T_S Final Code#
+26th Jan 2022
+*/
+
 #include "Python.h"
 #include "numpy/arrayobject.h"
 
@@ -12,7 +17,7 @@ static PyObject* set_table (PyObject * Py_UNUSED(self), PyObject *args) {
 		return NULL;
 
 	lookup = (PyArrayObject*)PyArray_FROM_OTF(arg1, NPY_UINT8, NPY_IN_ARRAY);
-	if (lookup == NULL) 
+	if (lookup == NULL)
 		goto fail;
 
 	long i;
@@ -56,18 +61,18 @@ static PyObject* segment (PyObject *dummy, PyObject *args) {
 			unsigned char *y = (unsigned char*)PyArray_GETPTR3(yuv, i, j, 0);
 			unsigned char *u = (unsigned char*)PyArray_GETPTR3(yuv, i, j, 1);
 			unsigned char *v = (unsigned char*)PyArray_GETPTR3(yuv, i, j, 2);
-			
+
 			unsigned char r = lookup_table[*y + (*u << 8) + (*v << 16)];
-			
+
 			unsigned char *o = (unsigned char*)PyArray_GETPTR2(segmented, i, j);
 			*o = r;
-			
+
 			unsigned char *i_b = (unsigned char*)PyArray_GETPTR2(is_ball, i, j);
 			unsigned char *i_gy = (unsigned char*)PyArray_GETPTR2(is_gatey, i, j);
 			unsigned char *i_gb = (unsigned char*)PyArray_GETPTR2(is_gateb, i, j);
-			
+
 			*i_b	= r ;
-			
+
 			switch (r) {
 				case 1:
 					*i_b	= 255;
