@@ -104,11 +104,14 @@ class GameLogic:
                     return
                 move.omniPlanar(0, 0, np.sign(self.lastIsObstacleClose) * 120, 0, 0) # move forward and throw ball
                 time.sleep(0.02) #parallel !!!!
-            for i in range(30):
+            for i in range(40):
                 if (self.isObstacleClose != 0):
                     self.currentState = State.AVOID
                     return
-                move.omniPlanar(0, 60, 0, 0, 0) # move forward and throw ball
+                if(self.keypointCount > 0):
+                    self.currentState = State.FIND
+                    return
+                move.omniPlanar(0, 90, 0, 0, 0) # move forward and throw ball
                 time.sleep(0.02) #parallel !!!!
             self.currentState = self.stateAfterAvoid
         #print("AVOID")
@@ -126,7 +129,7 @@ class GameLogic:
         baseSpeedSide = 50
         baseSpeedForward = 150 
         baseSpeedRotation = 150 
-        frontSpeed = (450 - curBallY)/self.eyeCam.cameraY * baseSpeedForward
+        frontSpeed = (440 - curBallY)/self.eyeCam.cameraY * baseSpeedForward
         if(frontSpeed<20):
             frontSpeed = 20
         if self.basketCenterX is None or self.basketCenterX == -1:            
@@ -143,12 +146,14 @@ class GameLogic:
         minThrowError = 12
         #max_throw_distance = 5.25
         basketErrorX = curBallX - curBasketCenterX
+        ballErrorX = curBallX - self.eyeCam.cameraX/2
         
         if(curBasketDist != None):
             self.lastBasketDist = curBasketDist
             isBasketErrorXSmallEnough = abs(basketErrorX) < minThrowError
-            print(basketErrorX, minThrowError)
-            if isBasketErrorXSmallEnough and curBallY>400:
+            isBallErrorXSmallEnough = abs(ballErrorX) < minThrowError*3
+            #print(basketErrorX, minThrowError)
+            if isBasketErrorXSmallEnough and isBallErrorXSmallEnough and curBallY>410 or curBallY>475:
                 #if(curBasketDist < 800): #too close                    
                 #    print("Borrow ball and move backward")
                 #    self.currentState = State.CATCH
@@ -175,7 +180,7 @@ class GameLogic:
             #TO DO dealing with oponent
             #print(self.noBallCounter)
             #print(self.noBallCounter > 3000)
-            if( self.noBallCounter > 1000):
+            if( self.noBallCounter > 400):
                 self.noBallCounter = 0
                 self.stateAfterAvoid = State.FIND
                 self.currentState = State.AVOID
@@ -207,24 +212,24 @@ class GameLogic:
         throwerRelativeRPM = 0
         failsafe = 0
         if (self.noBallCounter > 0):
-            self.noBallCounter -= 1
+            self.noBallCounter -= 30
         if (self.isObstacleClose != 0):
             self.noBallCounter = 0
             self.currentState = State.AVOID
             self.stateAfterAvoid = State.FIND
         elif self.keypointCount > 0:
-            if (250-20 <= self.ballX <= 390-20) and (self.ballY > 250): # distance to ball condition for aim to start
-                print("I AM GOING TO AIM NOW")
+            if (270+10 <= self.ballX <= 370+10) and (self.ballY > 280): # distance to ball condition for aim to start
+                #print("I AM GOING TO AIM NOW")
                 self.currentState = State.AIM
                 #self.currentState = State.FIND
             else:
-                print(f"I AM ALIGNING WITH THE BALL NOW")
+                #print(f"I AM ALIGNING WITH THE BALL NOW")
                 # orient with ball
-                speed = 100
-                forwardSpeed =  ((430 - self.ballY)/self.frameY)*speed#move.calculateRelativeSpeed((450 - self.ballY), self.frameY, 5, 200,4,20); #  (deltaFactor, maxDeltaVal, minDeltaVal, maxDeltaSpeed, minAllowedSpeed, maxAllowedSpeed) self.frameY)*speed
+                speed = 130
+                forwardSpeed =  ((480 - self.ballY)/self.frameY)*speed#move.calculateRelativeSpeed((450 - self.ballY), self.frameY, 5, 200,4,20); #  (deltaFactor, maxDeltaVal, minDeltaVal, maxDeltaSpeed, minAllowedSpeed, maxAllowedSpeed) self.frameY)*speed
                 #forwardSpeed = 0
                 sideSpeed = 0#move.calculateRelativeSpeed((320 - self.ballX), self.frameX, 5, 200,4,20)#((320 - self.ballX)/self.frameX)*speed#move.calculateRelativeSpeed((320 - self.ballX), self.frameX, 5, 200,4,20); #((320 - self.ballX)/self.frameX)*speed # << try this
-                rotationSpeed = ((320-20 - self.ballX)/self.frameX)*2*speed#move.calculateRelativeSpeed((320 - self.ballX), self.frameX, 5, 200,4,20); #((320 - self.ballX)/self.frameX)*2*speed#* np.sign(((320 - ballX)/FrameX)*speed)
+                rotationSpeed = ((320 - self.ballX)/self.frameX)*3*speed#move.calculateRelativeSpeed((320 - self.ballX), self.frameX, 5, 200,4,20); #((320 - self.ballX)/self.frameX)*2*speed#* np.sign(((320 - ballX)/FrameX)*speed)
                 #rotationSpeed = 0
                 throwerRelativeRPM = 0
                 failsafe = 0
@@ -287,27 +292,35 @@ class GameLogic:
         curBallX = self.eyeCam.cameraX/2
         curBallY = 440
         i = 0
+        #last_5 = np.array([300,300,300,300,300])
+        indx = 0
         while(i<70 and curBallY < 450):        
             #print(self.basketDistance)
             if self.basketDistance != None and self.basketDistance != -1:
-                throwerRelativeRPM = throw.throwerSpeedFromDistanceToBasket(self.basketDistance) #Is potentially ok      
+                throwerRelativeRPM = throw.throwerSpeedFromDistanceToBasket(self.basketDistance) #Is potentially ok                
+                #indx = (indx + 1)%5
+            #throwerRelativeRPM = np.median(last_5)
             if self.basketCenterX != -1:
                 curBasketCenterX = self.basketCenterX
             if self.ballX is not None and self.ballY is not None and self.ballY>400: #if <400 not ball in front
                 curBallX = self.ballX
                 curBallY = self.ballY
-            i+=1
-            move.omniPlanar(-sideSpeed, frontSpeed, -rotationSpeed, throwerRelativeRPM, failsafe) # move forward and throw ball
-            time.sleep(0.01) #parallel !!!!
-        frontSpeed = 30
-        for i in range(60):
             if(curBallY < 440): #if > 440 ball is very close, no need to take it into account
                 sideSpeed = (curBasketCenterX - curBallX)/self.eyeCam.cameraX * baseSpeedSide
                 rotationSpeed = (curBallX - self.eyeCam.cameraX/2)/self.eyeCam.cameraX * baseSpeedRotation
             else:
                 sideSpeed = 0
                 rotationSpeed = (curBasketCenterX-20 - self.eyeCam.cameraX/2)/self.eyeCam.cameraX * baseSpeedRotation
-            print(f"THROWING iteration: {i} with thrower at: {throwerRelativeRPM}")    
+            i+=1
+            move.omniPlanar(-sideSpeed, frontSpeed, -rotationSpeed, throwerRelativeRPM, failsafe) # move forward and throw ball
+            time.sleep(0.01) #parallel !!!!
+        frontSpeed = 30           
+        for i in range(60):
+            if self.basketDistance != None and self.basketDistance != -1:
+                throwerRelativeRPM = throw.throwerSpeedFromDistanceToBasket(self.basketDistance) #Is potentially ok   
+            sideSpeed = 0
+            rotationSpeed = (curBasketCenterX-20 - self.eyeCam.cameraX/2)/self.eyeCam.cameraX * baseSpeedRotation
+            #print(f"THROWING iteration: {i} with thrower at: {throwerRelativeRPM}")    
             move.omniPlanar(-sideSpeed, frontSpeed, -rotationSpeed, throwerRelativeRPM, failsafe) # move forward and throw ball
             time.sleep(0.01) #parallel !!!!
         self.currentState = State.FIND
@@ -342,7 +355,7 @@ class GameLogic:
             while self.sharedData['camThreadUp']: 
                 #start = time.time()
                 self.sight.selectTarget(self.sharedData['targetColor'])
-                if((self.currentState == State.AIM) or (self.currentState == State.THROW)):
+                if((self.currentState == State.AIM) or (self.currentState == State.THROW) or (self.currentState == State.FIND)):
                     self.keypointCount, curBallX,curBallY, self.basketCenterX, self.basketCenterY, self.basketDistance, frame, self.isObstacleClose, lastBasketX, isLastOponent = self.sight.ProcessFrame(self.eyeCam.processor, True)
                 else:
                     self.keypointCount, curBallX,curBallY, self.basketCenterX, self.basketCenterY, self.basketDistance, frame, self.isObstacleClose, lastBasketX, isLastOponent = self.sight.ProcessFrame(self.eyeCam.processor, False)
