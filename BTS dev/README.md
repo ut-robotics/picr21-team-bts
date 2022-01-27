@@ -1,4 +1,13 @@
-This is an example implementation of a LUT based segmentation module that can be used with Realsense cameras.
+Run code:
+```
+python3 robit_manager_inator.py
+```
+Compile C library
+```
+cc -fPIC -shared -o utils.so utils.c 
+```
+
+This project also contains an example implementation of a LUT based segmentation module that can be used with Realsense cameras.
 
 Designed to use Python 3. Dependencies: numpy, openCV, pyrealsense2
 
